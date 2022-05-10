@@ -1,48 +1,93 @@
-<div class="center">
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Name</mat-label>
-      <input matInput class="inputName" />
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>E-mail</mat-label>
-      <input matInput class="inputName" />
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Phone number</mat-label>
-      <input matInput class="inputName" />
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Reason / Event</mat-label>
-      <input matInput class="inputName" />
-    </mat-form-field>
-  </div>
+<div class="center" style="margin-top: 130px">
+  <div class="card-body">
+    <form [formGroup]="bookingForm">
+      <div class="card">
+        <div>
+          <div>
+            <div>Username :</div>
+            <div class="form-group">
+              <input type="text" class="form-control" formControlName="name" />
+            </div>
+          </div>
 
-  <div>
-    <mat-form-field appearance="fill">
-      <mat-label>Room</mat-label>
-      <mat-select>
-        <mat-option value="one">First option</mat-option>
-        <mat-option value="two">Second option</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field>
-      <input matInput type="datetime-local" placeholder="start date" />
-    </mat-form-field>
-    <mat-form-field class="pl-4">
-        <input matInput type="datetime-local" placeholder="end date" />
-      </mat-form-field>
-  </div>
+          <div>
+            <div>Email :</div>
+            <div class="col-md-5">
+              <div class="form-group">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="email"
+                />
+              </div>
+            </div>
+          </div>
+          <div>
+            <div>Phone :</div>
+         <div class="form-group">
+           <input
+             type="text"
+             class="form-control"
+             formControlName="phoneNumber"
+           />
+         </div>
+        </div>
+          <div>
+            <div>Room :</div>
+            <div class="form-group">
+              <select class="form-control" formControlName="room">
+                <option *ngFor="let room of Room" [value]="room">
+                  {{ room }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <div>Reason :</div>
+            <div class="form-group">
+              <textarea type="text"
+                class="form-control"
+                formControlName="reason">
 
-  <div class = "pt-3">
-    <button mat-raised-button color="primary">SUBMIT</button>
+              </textarea>
+                
+    
+            </div>
+          </div>
+          <div>
+               <div>Start Date :</div>
+          <div>
+            <input
+              type="datetime-local"
+              id="dateStart"
+              name="dateStart"
+              formControlName="dateStart"
+            />
+          </div>
+
+          <div>End Date :</div>
+          <div>
+            <input
+              type="datetime-local"
+              id="dateEnd"
+              name="dateEnd"
+              formControlName="dateEnd"
+            />
+          </div>
+          </div>
+         
+          
+          <div class="pt-3">
+            <button
+              type="button"
+              class="btn btn-primary"
+              (click)="buttonSubmit()"
+            >
+              Done</button
+            >&nbsp;&nbsp;
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </div>
