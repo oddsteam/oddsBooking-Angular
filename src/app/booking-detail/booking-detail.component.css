@@ -3,5 +3,14 @@
   height: fit-content;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items:flex-end;
 }
+.center {
+    margin: auto;
+    width: fit-content;
+    padding-top:150px;
+  }
+  .inputName{
+      height: 30px;
+      width: 300px;
+  }
