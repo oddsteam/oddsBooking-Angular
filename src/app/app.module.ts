@@ -12,6 +12,7 @@ import { AppComponent } from './app.component';
 import { BookingDetailComponent } from './booking-detail/booking-detail.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 @NgModule({
   declarations: [
     AppComponent,
@@ -26,7 +27,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSelectModule,
     MatButtonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    HttpClient
   ],
   providers: [],
   bootstrap: [AppComponent]
