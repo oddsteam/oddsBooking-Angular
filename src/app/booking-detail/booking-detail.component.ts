@@ -1,17 +1,19 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, FormArray, Form } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field'
-import { bookingDetail } from '../booking';
+import { Component, OnInit } from '@angular/core';
+import {
+  FormArray, FormControl,
+  FormGroup
+} from '@angular/forms';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-booking-detail',
   templateUrl: './booking-detail.component.html',
-  styleUrls: ['./booking-detail.component.css']
+  styleUrls: ['./booking-detail.component.css'],
 })
 export class BookingDetailComponent implements OnInit {
+  rooms: string[] = ['All Star', 'Neon'];
 
-  Room: string[] =["All Star", "Neon"];
-  bookingForm = new FormGroup ({
+  bookingForm = new FormGroup({
     name: new FormControl(),
     email: new FormControl(),
     room: new FormControl(),
@@ -19,26 +21,19 @@ export class BookingDetailComponent implements OnInit {
     reason: new FormControl(),
     dateStart: new FormControl(),
     dateEnd: new FormControl(),
-  })
+  });
 
-  constructor() { }
+  constructor(private bookingService: BookingService) {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+  buttonSubmit() {
+    console.log('This is Component.ts');
+    console.log(this.bookingForm.value);
+    console.log('This is Component.ts');
+    this.bookingService
+      .addBooking(this.bookingForm.value)
+      .subscribe((Booking) => {
+        console.log(Booking);
+      });
   }
-buttonSubmit(){
-  console.log(this.bookingForm.value)
-}
-get email(){
-  return this.bookingForm.get('email') as FormArray;
-}
-get name(){
-  return this.bookingForm.get('name') as FormArray;
-}
-get phoneNumber(){
-  return this.bookingForm.get('phoneNumber') as FormArray;
-}
-get reason(){
-  return this.bookingForm.get('reason') as FormArray;
-}
-  
 }
