@@ -19,8 +19,8 @@ export class BookingDetailComponent implements OnInit {
     room: new FormControl(),
     phoneNumber: new FormControl(),
     reason: new FormControl(),
-    dateStart: new FormControl(),
-    dateEnd: new FormControl(),
+    startDate: new FormControl(),
+    endDate: new FormControl(),
   });
 
   constructor(private bookingService: BookingService) {}

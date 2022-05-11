@@ -1,93 +1,35 @@
-<div class="center" style="margin-top: 130px">
-  <div class="card-body">
+<div class="container">
+  <div class="header">
+    ODDS Booking 🧷
+  </div>
+  <div class="form-container">
     <form [formGroup]="bookingForm">
-      <div class="card">
-        <div>
-          <div>
-            <div>Username :</div>
-            <div class="form-group">
-              <input type="text" class="form-control" formControlName="name" />
-            </div>
-          </div>
+      <label class="input-label">Username :</label>
+      <input type="text" class="input input-text" formControlName="name" />
 
-          <div>
-            <div>Email :</div>
-            <div class="col-md-5">
-              <div class="form-group">
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="email"
-                />
-              </div>
-            </div>
-          </div>
-          <div>
-            <div>Phone :</div>
-         <div class="form-group">
-           <input
-             type="text"
-             class="form-control"
-             formControlName="phoneNumber"
-           />
-         </div>
-        </div>
-          <div>
-            <div>Room :</div>
-            <div class="form-group">
-              <select class="form-control" formControlName="room">
-                <option *ngFor="let room of rooms" [value]="room">
-                  {{ room }}
-                </option>
-              </select>
-            </div>
-          </div>
-          <div>
-            <div>Reason :</div>
-            <div class="form-group">
-              <textarea type="text"
-                class="form-control"
-                formControlName="reason">
+      <label class="input-label">Email :</label>
+      <input type="text" class="input input-text" formControlName="email" />
 
-              </textarea>
-                
-    
-            </div>
-          </div>
-          <div>
-               <div>Start Date :</div>
-          <div>
-            <input
-              type="datetime-local"
-              id="dateStart"
-              name="dateStart"
-              formControlName="dateStart"
-            />
-          </div>
+      <label class="input-label">Phone :</label>
+      <input type="text" class="input input-text" formControlName="phoneNumber" />
 
-          <div>End Date :</div>
-          <div>
-            <input
-              type="datetime-local"
-              id="dateEnd"
-              name="dateEnd"
-              formControlName="dateEnd"
-            />
-          </div>
-          </div>
-         
-          
-          <div class="pt-3">
-            <button
-              type="button"
-              class="btn btn-primary"
-              (click)="buttonSubmit()"
-            >
-              Done</button
-            >&nbsp;&nbsp;
-          </div>
-        </div>
-      </div>
+      <label class="input-label">Room :</label>
+      <select class="input input-selector" formControlName="room">
+        <option *ngFor="let room of rooms" [value]="room">
+          {{ room }}
+        </option>
+      </select>
+
+      <label class="input-label">Reason :</label>
+      <textarea type="text" class="input input-text-area" formControlName="reason"></textarea>
+
+      <label class="input-label">Start Date :</label>
+      <input class="input input-datetime" type="datetime-local" name="startDate" formControlName="startDate" />
+
+      <label class="input-label">End Date :</label>
+      <input class="input input-datetime" type="datetime-local" name="endDate" formControlName="endDate" />
+
+      <button class="button-submit" (click)="buttonSubmit()">Done</button>
     </form>
   </div>
 </div>
