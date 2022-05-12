@@ -16,7 +16,7 @@ export class DetailService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  getBooking(booking: String): Observable<BookingDetail> {
-    return this.httpClient.get<BookingDetail>(this.bookingUrl + '/' + booking, this.httpOption);
+  getBooking(bookingID: String): Observable<BookingDetail> {
+    return this.httpClient.get<BookingDetail>(this.bookingUrl + '/' + bookingID, this.httpOption);
   }
 }
