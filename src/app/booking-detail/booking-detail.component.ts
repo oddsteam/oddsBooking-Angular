@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormArray, FormControl,
+  FormControl,
   FormGroup
 } from '@angular/forms';
 import { BookingService } from '../booking.service';
