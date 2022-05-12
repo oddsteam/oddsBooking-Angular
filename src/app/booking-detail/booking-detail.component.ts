@@ -13,7 +13,7 @@ import { DetailService } from '../detail.service';
   styleUrls: ['./booking-detail.component.css'],
 })
 export class BookingDetailComponent implements OnInit {
-  rooms: string[] = ['All Star', 'Neon'];
+  rooms: string[] = ['All Stars', 'Neon'];
   data: any
   @Input() uid!: string;
 
