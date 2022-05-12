@@ -1,5 +1,6 @@
 FROM node:12-alpine AS builder
-WORKDIR /usr/src/app 
+WORKDIR /usr/src/app
+ARG environment
 COPY package.json ./ 
 RUN npm install
 COPY . .
