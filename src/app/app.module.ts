@@ -10,12 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookingDetailComponent } from './booking-detail/booking-detail.component';
+import { DetailComponent } from './detail/detail.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    BookingDetailComponent
+    BookingDetailComponent,
+    DetailComponent
   ],
   imports: [
     BrowserModule,

@@ -3,11 +3,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BookingDetail } from './booking';
 
+import { map } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
   private bookingUrl = 'http://localhost:8080/v1/booking';
+
+  uid: any
   constructor(private httpClient: HttpClient) {}
 
   httpOption = {
@@ -21,6 +24,12 @@ export class BookingService {
       this.bookingUrl,
       booking,
       this.httpOption
-    );
+    ).pipe(map(data => {
+      if (data) {
+        this.uid = data.id;
+      }
+      return this.uid;
+    }));
+    
   }
 }
