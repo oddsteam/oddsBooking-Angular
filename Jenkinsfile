@@ -2,7 +2,6 @@ pipeline{
     //  กำหนด ชื่อ,IP,.. ของ agent --> any : can run any agent
     agent any
 
-    tools{}
 
     // 
     environment{
