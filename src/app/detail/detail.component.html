@@ -1,30 +1,60 @@
 <div class="container" *ngIf="bookingDetail">
-    <div class="header">
-      ODDS Booking Detail 🧷
-    </div>
-    <div class="form-container">
-      <form >
-        <label class="input-label">Username :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.name}}" disabled/>
-  
-        <label class="input-label">Email :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.email}}" disabled />
-  
-        <label class="input-label">Phone :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.phoneNumber}}" disabled  />
-  
-        <label class="input-label">Room :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.room}}" disabled  />
-  
-        <label class="input-label">Reason :</label>
-        <textarea type="text" class="input input-text-area" value= "{{bookingDetail.reason}}" disabled></textarea>
-  
-        <label class="input-label">Start Date :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.startDate}}" disabled  />
-  
-        <label class="input-label">End Date :</label>
-        <input type="text" class="input input-text" value= "{{bookingDetail.endDate}}" disabled  />
-  
-      </form>
-    </div>
+  <div class="container-card">
+  <div class="form-container">
+    <mat-card >
+      <mat-card-title class="header-title">ODDS BOOKING</mat-card-title>
+      <hr>
+      
+    <form >
+      
+      
+      <mat-form-field class="example-full-width " appearance="outline" floatLabel="never" > 
+        <mat-label>Name</mat-label>
+        <input matInput value="{{bookingDetail.name}}" readonly="true">
+        <mat-icon  matSuffix >face</mat-icon>
+      </mat-form-field>
+
+     
+      <mat-form-field class="example-full-width" appearance="outline" floatLabel="never" > 
+        <mat-label>Email</mat-label>
+        <input matInput value="{{bookingDetail.email}}" readonly="true" >
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="outline" floatLabel="never" > 
+        <mat-label>Phone Number</mat-label>
+        <input  matInput value="{{bookingDetail.phoneNumber}}" readonly="true">
+        <mat-icon matSuffix>phone_iphone</mat-icon>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Select Room</mat-label>
+        <mat-icon matSuffix>room</mat-icon>
+        <input matInput value="{{bookingDetail.room}}" readonly="true">
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width"appearance="outline">
+        <mat-label>Reason</mat-label>
+        <textarea matInput value="{{bookingDetail.reason}}" readonly="true"></textarea>
+        <mat-icon matSuffix>event</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width"appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput value="{{bookingDetail.startDate}}" readonly="true">
+        <mat-icon matSuffix>calendar_today</mat-icon>
+      </mat-form-field>
+
+      <mat-form-field class="example-full-width"appearance="outline">
+        <mat-label>End Date</mat-label>
+        <input matInput value="{{bookingDetail.endDate}}" readonly="true">
+        <mat-icon matSuffix>calendar_today</mat-icon>
+      </mat-form-field>
+        
+      
+      
+    </form>
+  </mat-card>
   </div>
+</div>
+</div>

@@ -23,79 +23,125 @@
     padding-top: 35px;
 } */
 
+.example-card {
+  max-width: 400px;
+}
+
+.container-card{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 80%;
+}
+.header-title{
+  padding: 20px;
+}
 .container{
-    width: 100vw;
-    height: auto;
-    /* background-color: bisque; */
-  }
-  
-  .header{
-    background-color: rgb(170, 228, 255);
-    text-align: center;
-    font-size : 40pt;
-    height:fit-content;
-    padding: 3%;
-    margin-bottom: 10px;
-    color: aliceblue;
-    text-shadow: 3px 3px #000000;
-    box-shadow: 2px 2px 3px 3px #8888888c;
-  }
-  
-  .form-container{
-    width: 30%;
-    margin-left: auto;
-    margin-right: auto;
-    /* background-color: aquamarine; */
-    padding: 20px;
-  }
-  
-  .input{
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-    border: #c5c5c5 2px solid;
-    border-radius: 10px;
-    /* background-color: chartreuse; */
-  }
-  
-  .input-text{
-    display: block;
-    /* background-color: coral; */
-    height: 30px;
-  }
-  
-  .input-label{
-    display: block;
-    /* background-color: aqua; */
-  
-  }
-  
-  .input-text-area {
-    display: block;
-    /* background-color: brown; */
-    height: 80px;
-  }
-  
-  .input-selector{
-    display: block;
-    height: 50px;
-  }
-  
-  .input-datetime{
-    display: block;
-    height: 30px;
-  }
-  
-  .button-submit{
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 15px;
-    background-color: rgb(170, 228, 255);
-    border: none;
-  }
-  
-  .button-submit:hover{
-    background-color: rgb(255, 255, 255);
-    color: #000000;
-    box-shadow: 2px 2px 3px 3px #8888888c;
-  }
+  width: 100vw;
+  height: auto;
+  background-color: rgb(170, 228, 255);
+}
+
+.header{
+  background-color: rgb(170, 228, 255);
+  text-align: center;
+  font-size : 40pt;
+  height:fit-content;
+  padding: 3%;
+  margin-bottom: 10px;
+  color: aliceblue;
+  text-shadow: 3px 3px #000000;
+  box-shadow: 2px 2px 3px 3px #8888888c;
+}
+
+.form-container{
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  /* background-color: aquamarine; */
+  padding: 20px;
+}
+
+.input{
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 100%;
+  border: #c5c5c5 2px solid;
+  border-radius: 10px;
+  /* background-color: chartreuse; */
+}
+
+.input-text{
+  display: block;
+  /* background-color: coral; */
+  height: 30px;
+}
+
+.input-label{
+  display: block;
+  /* background-color: aqua; */
+
+}
+
+.input-text-area {
+  display: block;
+  /* background-color: brown; */
+  height: 80px;
+}
+
+.input-selector{
+  display: block;
+  height: 50px;
+}
+
+.input-datetime{
+  display: block;
+  height: 30px;
+}
+
+.button-submit{
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 15px;
+  background-color: rgb(170, 228, 255);
+  border: none;
+}
+
+.button-submit:hover{
+  background-color: rgb(255, 255, 255);
+  color: #000000;
+  box-shadow: 2px 2px 3px 3px #8888888c;
+}.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+.example-button-row .mat-button-base {
+  margin: 16px 16px 16px 0;
+}
+.example-button-row {
+  display: table-cell;
+  width: 100%;
+}
+.icon-color{
+  color: #FFC0CB;
+}
+
+.icon-color:hover{
+  color: #920018;
+}
+
+.button-color:hover{
+  /* background-color: #f38ca4; */
+  background-color: #f9a061;
+}
+
+.button-color{
+  background-color: #547ec4;
+}

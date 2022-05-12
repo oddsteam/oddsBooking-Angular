@@ -1,35 +1,63 @@
 <div class="container">
-  <div class="header">
-    ODDS Booking 🧷
-  </div>
+  <div class="container-card">
   <div class="form-container">
+    <mat-card >
+      <mat-card-title class="header-title">ODDS BOOKING</mat-card-title>
+      <hr>
+      
     <form [formGroup]="bookingForm">
-      <label class="input-label">Username :</label>
-      <input type="text" class="input input-text" formControlName="name" />
+      
+      
+      <mat-form-field class="example-full-width " appearance="outline" floatLabel="never" > 
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name">
+        <mat-icon  matSuffix >face</mat-icon>
+      </mat-form-field>
 
-      <label class="input-label">Email :</label>
-      <input type="text" class="input input-text" formControlName="email" />
+     
+      <mat-form-field class="example-full-width" appearance="outline" floatLabel="never" > 
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email"  >
+        <mat-icon matSuffix>email</mat-icon>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="outline" floatLabel="never" > 
+        <mat-label>Phone Number</mat-label>
+        <input  matInput formControlName="phoneNumber">
+        <mat-icon matSuffix>phone_iphone</mat-icon>
+      </mat-form-field>
+      
+      <mat-form-field class="example-full-width" appearance="outline">
+        <mat-label>Select Room</mat-label>
+        <mat-icon matSuffix>room</mat-icon>
+        <mat-select formControlName="room">
+          <mat-option *ngFor="let room of rooms" [value]="room">
+            {{ room }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
 
-      <label class="input-label">Phone :</label>
-      <input type="text" class="input input-text" formControlName="phoneNumber" />
+      <mat-form-field class="example-full-width"appearance="outline">
+        <mat-label>Reason</mat-label>
+        <textarea matInput formControlName="reason"></textarea>
+        <mat-icon matSuffix>event</mat-icon>
+      </mat-form-field>
 
-      <label class="input-label">Room :</label>
-      <select class="input input-selector" formControlName="room">
-        <option *ngFor="let room of rooms" [value]="room">
-          {{ room }}
-        </option>
-      </select>
-
-      <label class="input-label">Reason :</label>
-      <textarea type="text" class="input input-text-area" formControlName="reason"></textarea>
-
-      <label class="input-label">Start Date :</label>
-      <input class="input input-datetime" type="datetime-local" name="startDate" formControlName="startDate" />
-
-      <label class="input-label">End Date :</label>
-      <input class="input input-datetime" type="datetime-local" name="endDate" formControlName="endDate" />
-
-      <button class="button-submit" (click)="buttonSubmit()">Done</button>
+      <mat-form-field class="example-full-width"appearance="outline">
+        <mat-label>Start Date</mat-label>
+        <input matInput type="datetime-local" formControlName="startDate" >
+      </mat-form-field>
+      <mat-form-field class="example-full-width"appearance="outline" floatLabel="never">
+        <mat-label>End Date</mat-label>
+        <input matInput type="datetime-local" formControlName="endDate">
+      </mat-form-field>
+        <button mat-raised-button color="primary" 
+        (click)="buttonSubmit()" class="example-button-row button-color" >DONE</button>
+      
+      
+      
     </form>
+  </mat-card>
   </div>
+</div>
 </div>

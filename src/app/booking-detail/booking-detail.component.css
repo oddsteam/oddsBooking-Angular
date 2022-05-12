@@ -23,10 +23,25 @@
     padding-top: 35px;
 } */
 
+.example-card {
+  max-width: 400px;
+}
+
+.container-card{
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 80%;
+}
+.header-title{
+  padding: 20px;
+}
 .container{
   width: 100vw;
   height: auto;
-  /* background-color: bisque; */
+  background-color: rgb(170, 228, 255);
 }
 
 .header{
@@ -42,7 +57,7 @@
 }
 
 .form-container{
-  width: 30%;
+  width: 40%;
   margin-left: auto;
   margin-right: auto;
   /* background-color: aquamarine; */
@@ -98,4 +113,35 @@
   background-color: rgb(255, 255, 255);
   color: #000000;
   box-shadow: 2px 2px 3px 3px #8888888c;
+}.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.example-full-width {
+  width: 100%;
+}
+.example-button-row .mat-button-base {
+  margin: 16px 16px 16px 0;
+}
+.example-button-row {
+  display: table-cell;
+  width: 100%;
+}
+.icon-color{
+  color: #FFC0CB;
+}
+
+.icon-color:hover{
+  color: #920018;
+}
+
+.button-color:hover{
+  /* background-color: #f38ca4; */
+  background-color: #f9a061;
+}
+
+.button-color{
+  background-color: #547ec4;
 }
