@@ -1,6 +1,5 @@
-import { Component, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { BookingDetail } from '../booking';
 import { BookingService } from '../booking.service';
 import { DetailService } from '../detail.service';
 

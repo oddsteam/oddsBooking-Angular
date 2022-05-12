@@ -3,10 +3,9 @@ import {
   FormControl,
   FormGroup
 } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BookingService } from '../booking.service';
 import { DetailService } from '../detail.service';
-import { Router } from '@angular/router';
-import { LocalStorage, LocalStorageService } from 'angular-web-storage'
 
 @Component({
   selector: 'app-booking-detail',
@@ -29,7 +28,7 @@ export class BookingDetailComponent implements OnInit {
   });
 
   constructor(private bookingService: BookingService, private detailService : DetailService
-    ,private router: Router, public local: LocalStorageService ) {}
+    ,private router: Router) {}
 
   ngOnInit(): void {}
   buttonSubmit() {

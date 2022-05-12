@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
 import { DetailComponent } from './detail.component';
-import { RouterModule, Routes } from '@angular/router';
 
 describe('DetailComponent', () => {
   let component: DetailComponent;
