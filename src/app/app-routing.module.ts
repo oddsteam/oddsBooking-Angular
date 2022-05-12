@@ -4,6 +4,7 @@ import { BookingDetailComponent } from './booking-detail/booking-detail.componen
 import { DetailComponent } from './detail/detail.component';
 
 const routes: Routes = [
+{path:'',redirectTo:'/booking_detail', pathMatch: 'full'},
 {path : 'booking_detail', component: BookingDetailComponent},
 {path : 'detail/:id', component: DetailComponent}
 ];
