@@ -4,11 +4,12 @@ import { Observable } from 'rxjs';
 import { BookingDetail } from './booking';
 
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
 export class BookingService {
-  private bookingUrl = 'http://localhost:8080/v1/booking';
+  private bookingUrl = `${environment.apiUrl}/v1/booking`;
 
   uid: any
   constructor(private httpClient: HttpClient) {}

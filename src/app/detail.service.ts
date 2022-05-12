@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { BookingDetail } from './booking';
 
 @Injectable({
@@ -9,7 +10,7 @@ import { BookingDetail } from './booking';
 export class DetailService {
 
   uData : any
-  private bookingUrl = 'http://localhost:8080/v1/booking';
+  private bookingUrl = `${environment.apiUrl}/v1/booking`;
   
   constructor(private httpClient: HttpClient) { }
   httpOption = {
