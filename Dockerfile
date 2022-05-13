@@ -1,8 +1,10 @@
-FROM node:12-alpine AS builder
+FROM node:12-alpine AS base
 WORKDIR /usr/src/app
-ARG environment
-COPY package.json ./ 
+COPY package.json ./
 RUN npm install
+
+FROM base AS builder
+ARG environment
 COPY . .
 RUN npm run build
 

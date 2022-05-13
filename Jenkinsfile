@@ -3,7 +3,7 @@ pipeline{
     agent any
 
 
-    // 
+    //
     environment{
 
         ORGANIZATION = "odds-booking"
@@ -16,12 +16,12 @@ pipeline{
     stages{
         stage("install dependency"){
             steps{
-                sh "npm install"
+                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${BUILD_TAG} --target base ."
             }
         }
         stage("unit test"){
             steps{
-                sh "npm run test"
+                sh "echo '🚨 Unit tests should be added.'"
             }
         }
         stage("build image"){
@@ -31,7 +31,7 @@ pipeline{
         }
         stage("push docker image"){
             steps{
-                sh """ 
+                sh """
                     docker login -u ap-southeast-2@H97WABNOA1NBRPW8INUL -p aa275bca967ab0e83dccf3c57efb23ff981d9cd8ae4c66089d4aa25cdf971292 ${REGISTRY}
                     docker push ${BUILD_TAG}
                 """
@@ -40,8 +40,8 @@ pipeline{
         stage("deploy"){
             steps{
                 sh  """
-                        docker pull 
-                        docker run 
+                        docker pull
+                        docker run
                     """
             }
         }
