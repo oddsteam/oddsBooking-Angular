@@ -5,8 +5,8 @@ export interface BookingDetail {
     phoneNumber: string;
     reason: string;
     room: string;
-    dateStart: Date;
-    dateEnd: Date;
+    startDate: Date;
+    endDate: Date;
 }
 
 export interface Detail {
@@ -16,7 +16,7 @@ export interface Detail {
     phoneNumber: string;
     reason: string;
     room: string;
-    dateStart: Date;
-    dateEnd: Date;
+    startDate: Date;
+    endDate: Date;
     status: string;
 }

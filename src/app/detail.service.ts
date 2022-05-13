@@ -12,12 +12,14 @@ export class DetailService {
   uData : any
   private bookingUrl = `${environment.apiUrl}/v1/booking`;
   
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {
+    
+   }
   httpOption = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  getBooking(bookingID: String): Observable<BookingDetail> {
-    return this.httpClient.get<BookingDetail>(this.bookingUrl + '/' + bookingID, this.httpOption);
+  getBooking(id: String): Observable<BookingDetail> {
+    return this.httpClient.get<BookingDetail>(this.bookingUrl + '/' + id, this.httpOption);
   }
 }

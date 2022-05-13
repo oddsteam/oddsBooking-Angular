@@ -34,10 +34,8 @@ export class BookingDetailComponent implements OnInit {
   buttonSubmit() {
     this.bookingService
       .addBooking(this.bookingForm.value)
-      .subscribe((Booking) => {
-        console.log("BD component")
-        console.log(Booking);
-        this.router.navigate([`/detail/${Booking}`])
+      .subscribe((booking) => {
+        this.router.navigate([`/detail/${booking}`])
       });
   }
 }
