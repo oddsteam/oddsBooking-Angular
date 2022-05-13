@@ -18,19 +18,13 @@ export class BookingService {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
-  addBooking(booking: BookingDetail): Observable<BookingDetail> {
+  addBooking(booking: BookingDetail): Observable<string> {
     console.log('This is Service');
     console.log(booking);
     return this.httpClient.post<BookingDetail>(
       this.bookingUrl,
       booking,
       this.httpOption
-    ).pipe(map(data => {
-      if (data) {
-        this.uid = data.id;
-      }
-      return this.uid;
-    }));
-    
+    ).pipe(map(data => data.id ));
   }
 }

@@ -1,5 +1,5 @@
 export interface BookingDetail {
-    id: number;
+    id: string;
     name: string;
     email: string;
     phoneNumber: string;
@@ -10,7 +10,7 @@ export interface BookingDetail {
 }
 
 export interface Detail {
-    id: number;
+    id: string;
     name: string;
     email: string;
     phoneNumber: string;
