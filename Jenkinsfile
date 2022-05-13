@@ -9,14 +9,14 @@ pipeline{
         ORGANIZATION = "odds-booking"
         REGISTRY = "swr.ap-southeast-2.myhuaweicloud.com"
         TAG = "web-oddsbooking:${GIT_COMMIT}"
-        BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
+        WEB_BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
 
     }
 
     stages{
         stage("install dependency"){
             steps{
-                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${BUILD_TAG} --target base ."
+                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} --target base ."
             }
         }
         stage("unit test"){
@@ -26,23 +26,29 @@ pipeline{
         }
         stage("build image"){
             steps{
-                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${BUILD_TAG} ."
+                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} ."
             }
         }
         stage("push docker image"){
             steps{
                 sh """
                     docker login -u ap-southeast-2@H97WABNOA1NBRPW8INUL -p aa275bca967ab0e83dccf3c57efb23ff981d9cd8ae4c66089d4aa25cdf971292 ${REGISTRY}
-                    docker push ${BUILD_TAG}
+                    docker push ${WEB_BUILD_TAG}
                 """
             }
         }
         stage("deploy"){
             steps{
                 sh  """
-                        docker pull
-                        docker run
-                    """
+                  scp docker-compose.yml oddsbooking@159.138.240.167:./docker-compose.yml
+                  ssh -oStrictHostKeyChecking=no -t oddsbooking@159.138.240.167 \"
+                    docker login -u ap-southeast-2@H97WABNOA1NBRPW8INUL -p aa275bca967ab0e83dccf3c57efb23ff981d9cd8ae4c66089d4aa25cdf971292 ${REGISTRY}
+                    export image_web=${WEB_BUILD_TAG}
+                    docker-compose down
+                    docker-compose pull
+                    docker-compose up -d
+                  \"
+                """
             }
         }
     }

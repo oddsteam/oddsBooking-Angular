@@ -66,11 +66,21 @@
                   "maximumWarning": "2kb",
                   "maximumError": "4kb"
                 }
+
               ],
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.ts"
                 }
               ],
               "outputHashing": "all"
@@ -94,6 +104,9 @@
             },
             "dev": {
               "browserTarget": "oddsBooking:build:dev"
+            },
+            "local": {
+              "browserTarget": "oddsBooking:build:local"
             },
             "development": {
               "browserTarget": "oddsBooking:build:development"
