@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl : "https://odds-booking.odds.team/api",
+    apiUrl : "https://api-odds-booking.odds.team",
   };
