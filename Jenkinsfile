@@ -8,7 +8,7 @@ pipeline{
 
         ORGANIZATION = "odds-booking"
         REGISTRY = "swr.ap-southeast-2.myhuaweicloud.com"
-        TAG = "${BRANCH_NAME}:${GIT_COMMIT}"
+        TAG = "web-oddsbooking:${GIT_COMMIT}"
         BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
 
     }
