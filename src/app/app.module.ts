@@ -9,7 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BookingDetailComponent } from './booking-detail/booking-detail.component';
+import { BookingFormComponent } from './booking-form/booking-form.component';
 import { DetailComponent } from './detail/detail.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
@@ -18,7 +18,7 @@ import {MatIconModule} from '@angular/material/icon';
 @NgModule({
   declarations: [
     AppComponent,
-    BookingDetailComponent,
+    BookingFormComponent,
     DetailComponent
   ],
   imports: [

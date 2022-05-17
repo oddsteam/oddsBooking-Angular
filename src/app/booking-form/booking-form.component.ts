@@ -8,11 +8,11 @@ import { BookingService } from '../booking.service';
 import { DetailService } from '../detail.service';
 
 @Component({
-  selector: 'app-booking-detail',
-  templateUrl: './booking-detail.component.html',
-  styleUrls: ['./booking-detail.component.css'],
+  selector: 'app-booking-form',
+  templateUrl: './booking-form.component.html',
+  styleUrls: ['./booking-form.component.css'],
 })
-export class BookingDetailComponent implements OnInit {
+export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
   data: any
   @Input() uid!: string;
