@@ -23,7 +23,7 @@
     padding-top: 35px;
 } */
 
-.example-card {
+.card {
   max-width: 400px;
 }
 
@@ -113,19 +113,21 @@
   background-color: rgb(255, 255, 255);
   color: #000000;
   box-shadow: 2px 2px 3px 3px #8888888c;
-}.example-form {
+}
+
+.form {
   min-width: 150px;
   max-width: 500px;
   width: 100%;
 }
 
-.example-full-width {
+.full-width {
   width: 100%;
 }
-.example-button-row .mat-button-base {
+.button-row .mat-button-base {
   margin: 16px 16px 16px 0;
 }
-.example-button-row {
+.button-row {
   display: table-cell;
   width: 100%;
 }
