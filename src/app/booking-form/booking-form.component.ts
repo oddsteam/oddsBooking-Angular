@@ -14,7 +14,6 @@ import { DetailService } from '../detail.service';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  data: any
   @Input() uid!: string;
 
   bookingForm = new FormGroup({
