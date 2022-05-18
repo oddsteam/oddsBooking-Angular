@@ -22,7 +22,7 @@ pipeline{
         stage("unit test"){
             steps{
                 sh """
-                        chmod +x karma-ci.conf.js
+                        chmod +x karma-ci.conf.js \
                         ./karma-ci.conf.js
                 """
             }
