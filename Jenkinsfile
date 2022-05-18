@@ -21,7 +21,7 @@ pipeline{
         }
         stage("unit test"){
             steps{
-                sh "npm run test"
+                sh "ng test"
             }
         }
         stage("build image"){
