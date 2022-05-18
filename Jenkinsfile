@@ -21,7 +21,7 @@ pipeline{
         }
         stage("unit test"){
             steps{
-                sh "ng test"
+                sh "./karma-ci.conf.js"
             }
         }
         stage("build image"){
