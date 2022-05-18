@@ -21,7 +21,10 @@ pipeline{
         }
         stage("unit test"){
             steps{
-                sh "./karma-ci.conf.js"
+                sh """
+                        chmod +x karma-ci.conf.js
+                        ./karma-ci.conf.js
+                """
             }
         }
         stage("build image"){
