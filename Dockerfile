@@ -6,6 +6,7 @@ RUN npm install
 FROM base AS builder
 ARG environment
 COPY . .
+RUN npm i -D puppeteer karma-chrome-launcher
 RUN npm run test:ci
 RUN npm run build
 
