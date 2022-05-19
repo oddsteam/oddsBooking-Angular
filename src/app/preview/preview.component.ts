@@ -33,6 +33,9 @@ export class PreviewComponent implements OnInit {
   }
 
   buttonReturn(){
+    if(this.isConfirm){
+      this.bookingService.clearCurrentBooking();
+    }
     this.location.back();
   }
 

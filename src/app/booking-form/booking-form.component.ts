@@ -33,7 +33,21 @@ export class BookingFormComponent implements OnInit {
     ,private router: Router) {}
 
   ngOnInit(): void {
-    
+    if(this.bookingService.getCurrentBooking()){
+      var currentBooking = this.bookingService.getCurrentBooking();
+      this.bookingForm.setValue(
+        {
+        name: currentBooking.name,
+        email: currentBooking.email,
+        room: currentBooking.room,
+        phoneNumber: currentBooking.phoneNumber,
+        reason: currentBooking.reason,
+        startDate: currentBooking.startDate,
+        endDate: currentBooking.endDate
+        }
+      );
+      this.inputvalue = this.transform(currentBooking.name);
+    }
   }
   buttonSubmit() {
     this.bookingService
