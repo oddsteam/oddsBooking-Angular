@@ -25,7 +25,7 @@ pipeline{
         }
         stage("build image"){
             steps{
-                sh "docker build --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} ."
+                sh "docker build --rm --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} ."
             }
         }
         stage("push docker image"){
