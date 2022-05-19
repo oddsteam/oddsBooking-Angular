@@ -29,7 +29,7 @@ RUN apk -U --no-cache \
     /usr/lib/node_modules/npm/html \
     /usr/lib/node_modules/npm/scripts
 
-WORKDIR /home/dev/code
+WORKDIR /usr/src/app
 COPY . .
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
