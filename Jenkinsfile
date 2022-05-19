@@ -10,6 +10,7 @@ pipeline{
         REGISTRY = "swr.ap-southeast-2.myhuaweicloud.com"
         TAG = "web-oddsbooking:${BRANCH_NAME}"
         WEB_BUILD_TAG = "${REGISTRY}/${ORGANIZATION}/${TAG}"
+        CHROME_BIN=/usr/bin/google-chrome
 
     }
 
