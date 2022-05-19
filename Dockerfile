@@ -7,7 +7,6 @@ FROM base AS builder
 ARG environment
 COPY . .
 
-ENV CHROME_BIN=/usr/bin/google-chrome
 RUN npm i puppeteer --save
 RUN npm run test:ci
 RUN npm run build
