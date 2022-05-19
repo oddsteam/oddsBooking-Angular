@@ -7,7 +7,6 @@ FROM base AS builder
 ARG environment
 ENV CHROME_BIN=/usr/bin/google-chrome
 COPY . .
-RUN npm i -D puppeteer karma-chrome-launcher
 RUN npm run test:ci
 RUN npm run build
 
