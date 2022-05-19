@@ -1,70 +1,63 @@
-/* .center-form {
-  width: fit-content;
-  height: fit-content;
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
+* {
+  --red-color: #f00b51;
+  --purple-color: #7366ff;
+  --black-color: #333;
+  --green-light: #e6f9e4;
 }
-.center {
-  margin: auto;
-  width: fit-content;
-  padding-top: 150px;
-}
-.inputName {
-  height: 30px;
-  width: 300px;
-}
-
-.pl-4 {
-  padding-left: 20px;
-}
-
-.pt-3 {
-    padding-top: 35px;
-} */
 
 .card {
   max-width: 400px;
 }
 
-.container-card{
+.container-card {
+  /* ! add bg images */
+  background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
+  /* ! add overflow scrolling */
+  overflow-y: auto;
+  overflow-x: hidden;
   width: 100vw;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: 80%;
-}
-.header-title{
-  padding: 20px;
-}
-.container{
-  width: 100vw;
-  height: auto;
-  background-color: rgb(170, 228, 255);
 }
 
-.header{
-  background-color: rgb(170, 228, 255);
+@media only screen and (max-height: 754px) {
+  .container-card {
+    align-items: flex-start;
+  }
+}
+
+.header-title {
+  padding: 12px 0;
+  /* ! center-fontsize-weight title */
   text-align: center;
-  font-size : 40pt;
-  height:fit-content;
-  padding: 3%;
+  font-size: 26px;
+  font-weight: bold;
   margin-bottom: 10px;
-  color: aliceblue;
-  text-shadow: 3px 3px #000000;
-  box-shadow: 2px 2px 3px 3px #8888888c;
+  contain: flex;
 }
 
-.form-container{
-  width: 40%;
+.container {
+  width: 100vw;
+  height: 100vh;
+  /* ! add gradient bg */
+  background: linear-gradient(45deg,
+      var(--red-color) 0%,
+      var(--purple-color) 100%);
+}
+
+.form-container {
+  /* ! responsive container */
+  width: min(90%, 450px);
+  /* ! add padding*/
+  padding: 20px 0px;
   margin-left: auto;
   margin-right: auto;
   /* background-color: aquamarine; */
-  padding: 20px;
 }
 
-.input{
+.input {
   margin-bottom: 10px;
   padding: 10px;
   width: 100%;
@@ -73,13 +66,13 @@
   /* background-color: chartreuse; */
 }
 
-.input-text{
+.input-text {
   display: block;
   /* background-color: coral; */
   height: 30px;
 }
 
-.input-label{
+.input-label {
   display: block;
   /* background-color: aqua; */
 
@@ -91,17 +84,17 @@
   height: 80px;
 }
 
-.input-selector{
+.input-selector {
   display: block;
   height: 50px;
 }
 
-.input-datetime{
+.input-datetime {
   display: block;
   height: 30px;
 }
 
-.button-submit{
+.button-submit {
   margin-top: 20px;
   padding: 15px;
   border-radius: 15px;
@@ -109,7 +102,7 @@
   border: none;
 }
 
-.button-submit:hover{
+.button-submit:hover {
   background-color: rgb(255, 255, 255);
   color: #000000;
   box-shadow: 2px 2px 3px 3px #8888888c;
@@ -124,27 +117,62 @@
 .full-width {
   width: 100%;
 }
+
 .button-row .mat-button-base {
   margin: 16px 16px 16px 0;
 }
+
 .button-row {
   display: table-cell;
   width: 100%;
 }
-.icon-color{
+
+.icon-color {
   color: #FFC0CB;
 }
 
-.icon-color:hover{
+.icon-color:hover {
   color: #920018;
 }
 
-.button-color:hover:not([disabled]){
-  /* background-color: #f38ca4; */
-  background-color: rgba(0, 255, 0, 0.1);
-  color: #000000;  
+.button-color:hover:not([disabled]) {
+  /* background-color: #4433ff; */
+  background-color: var(--green-light);
+  color: #000000;
 }
 
-.button-color{
-  background-color: #547ec4;
+.button-color {
+  background-color: var(--purple-color);
+}
+
+.button-color:focus {
+  background-color: var(--black-color);
+}
+
+/* ! Icon calen size */
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  width: 20px;
+  height: 20px;
+}
+
+/* ! Icon reason at top */
+/* ::ng-deep div.form-field-reason .form-field-reason{
+  align-items:flex-start !important;
+} */
+
+.baseline-to-center {
+  align-items: center;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-style {
+  width: 20px;
+  height: 20px;
+  margin: auto;
+  color: var(--black-color);
+  padding-right: 10.5px;
 }

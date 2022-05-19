@@ -15,6 +15,7 @@ import { DetailService } from '../detail.service';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
+  inputvalue: string = '';
   @Input() uid!: string;
 
   bookingForm = new FormGroup({
@@ -38,6 +39,15 @@ export class BookingFormComponent implements OnInit {
     this.bookingService
       .saveBooking(this.bookingForm.value);
     this.router.navigateByUrl("preview");
+  }
+  transform(term: string): string {
+    let nameFormatter = term.toLowerCase().split(' ');
+    for (let _i = 0; _i < nameFormatter.length; _i++) {
+      nameFormatter[_i] =
+        nameFormatter[_i].charAt(0).toUpperCase() +
+        nameFormatter[_i].substring(1);
+    }
+    return nameFormatter.join(' ');
   }
   // isEnable(){
   //   if(this.name != ""){

@@ -1,60 +1,62 @@
 <div class="container">
   <div class="container-card">
-  <div class="form-container">
-    <mat-card >
-      <mat-card-title class="header-title">ODDS Booking</mat-card-title>
-      <hr>
-      
-    <form [formGroup]="bookingForm">
-      
-      
-      <mat-form-field class="full-width " appearance="outline" floatLabel="never" > 
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" style="text-transform:capitalize">
-        <mat-icon  matSuffix >face</mat-icon>
-      </mat-form-field>
+    <div class="form-container">
+      <mat-card>
+        <div class="header-title">
+          <img src="/assets/images/odds_logo.png" height="20px">
+          Booking
+        </div>
+        <hr>
 
-     
-      <mat-form-field class="full-width" appearance="outline" floatLabel="never" > 
-        <mat-label>Email</mat-label>
-        <input matInput formControlName="email"  >
-        <mat-icon matSuffix>email</mat-icon>
-      </mat-form-field>
-      
-      <mat-form-field class="full-width" appearance="outline" floatLabel="never" > 
-        <mat-label>Phone Number</mat-label>
-        <input  matInput formControlName="phoneNumber">
-        <mat-icon matSuffix>phone_iphone</mat-icon>
-      </mat-form-field>
-      
-      <mat-form-field class="full-width" appearance="outline">
-        <mat-label>Select Room</mat-label>
-        <mat-icon matSuffix>room</mat-icon>
-        <mat-select formControlName="room">
-          <mat-option *ngFor="let room of rooms" [value]="room">
-            {{ room }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+        <form [formGroup]="bookingForm">
 
-      <mat-form-field class="full-width"appearance="outline">
-        <mat-label>Reason</mat-label>
-        <textarea matInput formControlName="reason"></textarea>
-        <mat-icon matSuffix>event</mat-icon>
-      </mat-form-field>
+          <mat-form-field class="full-width " appearance="outline" floatLabel="never">
+            <mat-label>Name</mat-label>
+            <input matInput formControlName="name" [ngModel]="inputvalue"
+              (ngModelChange)="inputvalue = transform($event)">
+            <mat-icon matSuffix>face</mat-icon>
+          </mat-form-field>
 
-      <mat-form-field class="full-width"appearance="outline">
-        <mat-label>Start Date</mat-label>
-        <input matInput type="datetime-local" formControlName="startDate" >
-      </mat-form-field>
-      <mat-form-field class="full-width"appearance="outline" floatLabel="never">
-        <mat-label>End Date</mat-label>
-        <input matInput type="datetime-local" formControlName="endDate">
-      </mat-form-field>
-        <button mat-raised-button color="primary" 
-        (click)="buttonSubmit()" class="button-row button-color" [disabled]="!bookingForm.valid" >DONE</button>
-    </form>
-  </mat-card>
+          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+            <mat-label>Phone Number</mat-label>
+            <input matInput formControlName="phoneNumber">
+            <mat-icon matSuffix>phone_iphone</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Select Room</mat-label>
+            <mat-icon matSuffix>room</mat-icon>
+            <mat-select formControlName="room">
+              <mat-option *ngFor="let room of rooms" [value]="room">
+                {{ room }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field class="full-width form-field-reason" appearance="outline">
+            <mat-label>Reason</mat-label>
+            <textarea matInput formControlName="reason"></textarea>
+            <mat-icon matSuffix>event</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput type="datetime-local" formControlName="startDate">
+          </mat-form-field>
+          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+            <mat-label>End Date</mat-label>
+            <input matInput type="datetime-local" formControlName="endDate">
+          </mat-form-field>
+          <button mat-raised-button color="primary" (click)="buttonSubmit()" class="button-row button-color"
+            [disabled]="!bookingForm.valid">DONE</button>
+        </form>
+      </mat-card>
+    </div>
   </div>
-</div>
 </div>

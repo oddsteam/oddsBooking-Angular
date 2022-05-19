@@ -1,4 +1,18 @@
 /* You can add global styles to this file, and also import other style files */
+* {
+  --red-color: #f00b51;
+  --purple-color: #7366ff;
+  --black-color: #333;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  /* ! add default backgroud color */
+  background: black;
+}
