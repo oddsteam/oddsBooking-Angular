@@ -1,4 +1,4 @@
-FROM node:12-alpine AS base
+FROM node:16-alpine AS base
 WORKDIR /usr/src/app
 COPY package.json ./
 RUN npm install
@@ -6,6 +6,7 @@ RUN npm install
 FROM base AS builder
 ARG environment
 COPY . .
+
 ENV CHROME_BIN=/usr/bin/google-chrome
 RUN npm run test:ci
 RUN npm run build
