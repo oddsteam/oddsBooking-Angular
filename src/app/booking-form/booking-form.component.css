@@ -139,7 +139,7 @@
   color: #920018;
 }
 
-.button-color:hover{
+.button-color:hover:not([disabled]){
   /* background-color: #f38ca4; */
   background-color: rgba(0, 255, 0, 0.1);
   color: #000000;  
