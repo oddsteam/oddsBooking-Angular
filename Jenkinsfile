@@ -20,7 +20,7 @@ pipeline{
         }
         stage("unit test"){
             steps{
-                sh " echo ' 🚨 test'"
+                sh "npm run test:ci"
             }
         }
         stage("build image"){
