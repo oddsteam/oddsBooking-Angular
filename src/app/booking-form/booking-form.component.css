@@ -142,8 +142,10 @@
 .button-color:hover{
   /* background-color: #f38ca4; */
   background-color: rgba(0, 255, 0, 0.1);
+  color: #000000;  
 }
 
 .button-color{
   background-color: #547ec4;
+  color: #000000;
 }
