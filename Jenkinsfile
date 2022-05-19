@@ -18,12 +18,7 @@ pipeline{
                 sh "docker build --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} --target base ."
             }
         }
-        stage("unit test"){
-            steps{
-                sh "echo 'test'"
-            }
-        }
-        stage("build image"){
+        stage("build image and test karma"){
             steps{
                 sh "docker build --rm --build-arg environment=${BRANCH_NAME} -t ${WEB_BUILD_TAG} ."
             }
