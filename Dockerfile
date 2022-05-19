@@ -6,7 +6,9 @@ RUN npm install
 FROM base AS builder
 ARG environment
 COPY . .
+RUN npm run test:ci
 RUN npm run build
+
 
 ### STAGE 2: Run ###
 FROM nginx:1.13.12-alpine
