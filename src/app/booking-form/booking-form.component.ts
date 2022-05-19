@@ -36,10 +36,8 @@ export class BookingFormComponent implements OnInit {
   }
   buttonSubmit() {
     this.bookingService
-      .addBooking(this.bookingForm.value)
-      .subscribe((booking) => {
-        this.router.navigate([`/detail/${booking}`])
-      });
+      .saveBooking(this.bookingForm.value);
+    this.router.navigateByUrl("preview");
   }
   // isEnable(){
   //   if(this.name != ""){

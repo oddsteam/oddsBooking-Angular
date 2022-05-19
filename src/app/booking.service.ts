@@ -12,6 +12,7 @@ export class BookingService {
   private bookingUrl = `${environment.apiUrl}/v1/booking`;
 
   uid: any
+  currentBooking!: BookingDetail;
   constructor(private httpClient: HttpClient) {}
 
   httpOption = {
@@ -26,5 +27,13 @@ export class BookingService {
       booking,
       this.httpOption
     ).pipe(map(data => data.id ));
+  }
+
+  saveBooking(booking: BookingDetail){
+    this.currentBooking = booking;
+  }
+
+  getCurrentBooking(): BookingDetail{
+    return this.currentBooking;
   }
 }

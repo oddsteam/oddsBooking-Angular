@@ -13,13 +13,15 @@ import { BookingFormComponent } from './booking-form/booking-form.component';
 import { DetailComponent } from './detail/detail.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
+import { PreviewComponent } from './preview/preview.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     BookingFormComponent,
-    DetailComponent
+    DetailComponent,
+    PreviewComponent
   ],
   imports: [
     BrowserModule,
