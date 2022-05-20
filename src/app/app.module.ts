@@ -14,6 +14,7 @@ import { DetailComponent } from './detail/detail.component';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
 import { PreviewComponent } from './preview/preview.component';
+import { ThankPageComponent } from './thank-page/thank-page.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PreviewComponent } from './preview/preview.component';
     AppComponent,
     BookingFormComponent,
     DetailComponent,
-    PreviewComponent
+    PreviewComponent,
+    ThankPageComponent
   ],
   imports: [
     BrowserModule,

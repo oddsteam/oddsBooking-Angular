@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookingDetail } from '../booking';
 import { DetailService } from '../detail.service';
 import { Location } from '@angular/common'
@@ -17,8 +17,9 @@ export class PreviewComponent implements OnInit {
 
   constructor(
     private bookingService: BookingService,
-    private location: Location
-  ) {}
+    private location: Location,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
     this.onLoading();
@@ -28,21 +29,19 @@ export class PreviewComponent implements OnInit {
     this.bookingDetail = this.bookingService.getCurrentBooking()!;
   }
 
-  onReturn(){
-    if(this.isConfirm){
+  onReturn() {
+    if (this.isConfirm) {
       this.bookingService.clearCurrentBooking();
     }
     this.location.back();
   }
 
-  onConfirm(){
+  onConfirm() {
     this.bookingService.addBooking(this.bookingDetail).
-    subscribe(data => 
-      {
+      subscribe(data => {
         this.isConfirm = true;
-        alert("ขอบคุณครับ");
+        this.bookingService.clearCurrentBooking();
+        this.router.navigateByUrl('thankyou');
       });
-    
-
   }
 }

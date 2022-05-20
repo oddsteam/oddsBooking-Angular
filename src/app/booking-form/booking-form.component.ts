@@ -65,7 +65,7 @@ export class BookingFormComponent implements OnInit {
       this.checkStartDateNEndDate();
     }
   }
-  buttonSubmit() {
+  onSubmit() {
     this.bookingService.saveBooking(this.bookingForm.value);
     this.router.navigateByUrl('preview');
   }
