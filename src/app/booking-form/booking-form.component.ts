@@ -32,8 +32,9 @@ export class BookingFormComponent implements OnInit {
     , private router: Router) { }
 
   ngOnInit(): void {
-    this.setMinDate();
-
+    //this.setMinDate();
+    this.minDate = this.setMinDate(new Date());
+    console.log(this.minDate);
     this.bookingForm.get('name')?.valueChanges
       .pipe(
         map(v => this.textAutoFormat(v))
@@ -62,7 +63,7 @@ export class BookingFormComponent implements OnInit {
       );
       this.inputvalue = this.textAutoFormat(currentBooking.name);
 
-      this.checkStartDateNEndDate();
+      //this.checkStartDateNEndDate();
     }
   }
   onSubmit() {
@@ -80,36 +81,48 @@ export class BookingFormComponent implements OnInit {
     return nameFormatter.join(' ');
   }
 
-  setMinDate() {
-    var currentDateTime: Date = new Date();
-    var date = currentDateTime.getDate() < 10 ? "0" + currentDateTime.getDate() : currentDateTime.getDate();
-    var month = currentDateTime.getMonth() < 10 ? "0" + (currentDateTime.getMonth() + 1) : (currentDateTime.getMonth() + 1);
-    var year = currentDateTime.getFullYear();
-    var hours = currentDateTime.getHours() < 10 ? "0" + (currentDateTime.getHours()) : (currentDateTime.getHours());
-    var minutes = currentDateTime.getMinutes() < 10 ? "0" + currentDateTime.getMinutes() : currentDateTime.getMinutes();
+  setMinDate(date : Date): string {
+    var next2WeekDate = new Date();
+    next2WeekDate.setDate(date.getDate() + 14);
 
-    this.minDate = year + "-" + month + "-" + date + "T" + hours + ":" + minutes;
+    var next2WeekDateString = "";
+    var strDate = next2WeekDate.getDate() < 10 ? "0" + next2WeekDate.getDate() : next2WeekDate.getDate();
+    var strMonth = next2WeekDate.getMonth() < 10 ? "0" + (next2WeekDate.getMonth() + 1) : (next2WeekDate.getMonth() + 1);
+    var strYear = next2WeekDate.getFullYear();
+    var strHours = next2WeekDate.getHours() < 10 ? "0" + (next2WeekDate.getHours()) : (next2WeekDate.getHours());
+    var strMinutes = next2WeekDate.getMinutes() < 10 ? "0" + next2WeekDate.getMinutes() : next2WeekDate.getMinutes();
 
-    console.log(this.minDate);
+    next2WeekDateString = strYear + "-" + strMonth + "-" + strDate + "T" + strHours + ":" + strMinutes;
+
+    return next2WeekDateString;
+    // var date = currentDateTime.getDate() < 10 ? "0" + currentDateTime.getDate() : currentDateTime.getDate();
+    // var month = currentDateTime.getMonth() < 10 ? "0" + (currentDateTime.getMonth() + 1) : (currentDateTime.getMonth() + 1);
+    // var year = currentDateTime.getFullYear();
+    // var hours = currentDateTime.getHours() < 10 ? "0" + (currentDateTime.getHours()) : (currentDateTime.getHours());
+    // var minutes = currentDateTime.getMinutes() < 10 ? "0" + currentDateTime.getMinutes() : currentDateTime.getMinutes();
+
+    // this.minDate = year + "-" + month + "-" + date + "T" + hours + ":" + minutes;
+
+    // console.log(this.minDate);
 
   }
 
-  checkStartDateNEndDate() {
-    this.setMinDate();
-    var startDate: Date = this.bookingForm.get('startDate')?.value;
-    var endDate: Date = this.bookingForm.get('endDate')?.value;
+  // checkStartDateNEndDate() {
+  //   this.setMinDate();
+  //   var startDate: Date = this.bookingForm.get('startDate')?.value;
+  //   var endDate: Date = this.bookingForm.get('endDate')?.value;
 
-    var currentDateTime = new Date();
-    var selectStartDateTime = new Date(startDate);
-    var selectEndDateTime = new Date(endDate);
+  //   var currentDateTime = new Date();
+  //   var selectStartDateTime = new Date(startDate);
+  //   var selectEndDateTime = new Date(endDate);
 
-    if (selectStartDateTime >= currentDateTime &&
-      selectEndDateTime >= currentDateTime &&
-      startDate < endDate &&
-      this.bookingForm.valid) {
-      this.isRealValid = true;
-    } else {
-      this.isRealValid = false;
-    }
-  }
+  //   if (selectStartDateTime >= currentDateTime &&
+  //     selectEndDateTime >= currentDateTime &&
+  //     startDate < endDate &&
+  //     this.bookingForm.valid) {
+  //     this.isRealValid = true;
+  //   } else {
+  //     this.isRealValid = false;
+  //   }
+  // }
 }
