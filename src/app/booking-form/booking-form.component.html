@@ -47,14 +47,14 @@
 
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Start Date</mat-label>
-            <input matInput type="datetime-local" formControlName="startDate">
+            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}" formControlName="startDate">
           </mat-form-field>
           <mat-form-field class="full-width" appearance="outline" floatLabel="never">
             <mat-label>End Date</mat-label>
-            <input matInput type="datetime-local" formControlName="endDate">
+            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}" formControlName="endDate">
           </mat-form-field>
           <button mat-raised-button color="primary" (click)="buttonSubmit()" class="button-row button-color"
-            [disabled]="!bookingForm.valid">DONE</button>
+            [disabled]="!isRealValid">DONE</button>
         </form>
       </mat-card>
     </div>
