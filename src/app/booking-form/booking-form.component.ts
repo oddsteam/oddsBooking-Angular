@@ -1,9 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map } from 'rxjs';
 import { BookingService } from '../booking.service';
@@ -16,7 +12,7 @@ import { DetailService } from '../detail.service';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  minDate: string = "";
+  minDate: string = '';
   inputvalue: string = '';
   isRealValid: boolean = false;
   @Input() uid!: string;
@@ -40,7 +36,7 @@ export class BookingFormComponent implements OnInit {
 
     this.bookingForm.get('name')?.valueChanges
       .pipe(
-        map(v => this.transform(v))
+        map(v => this.textAutoFormat(v))
       ).subscribe(
         v => this.bookingForm.get('name')?.setValue(v, { emitEvent: false })
       );
@@ -64,17 +60,17 @@ export class BookingFormComponent implements OnInit {
           endDate: currentBooking.endDate
         }
       );
-      this.inputvalue = this.transform(currentBooking.name);
+      this.inputvalue = this.textAutoFormat(currentBooking.name);
 
       this.checkStartDateNEndDate();
     }
   }
   buttonSubmit() {
-    this.bookingService
-      .saveBooking(this.bookingForm.value);
-    this.router.navigateByUrl("preview");
+    this.bookingService.saveBooking(this.bookingForm.value);
+    this.router.navigateByUrl('preview');
   }
-  transform(term: string): string {
+
+  textAutoFormat(term: string): string {
     let nameFormatter = term.toLowerCase().split(' ');
     for (let _i = 0; _i < nameFormatter.length; _i++) {
       nameFormatter[_i] =

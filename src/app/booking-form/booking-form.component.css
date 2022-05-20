@@ -11,7 +11,8 @@
 
 .container-card {
   /* ! add bg images */
-  background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
+  background: url("/assets/images/pattern.png") center center / cover no-repeat
+    fixed transparent;
   /* ! add overflow scrolling */
   overflow-y: auto;
   overflow-x: hidden;
@@ -42,9 +43,11 @@
   width: 100vw;
   height: 100vh;
   /* ! add gradient bg */
-  background: linear-gradient(45deg,
-      var(--red-color) 0%,
-      var(--purple-color) 100%);
+  background: linear-gradient(
+    45deg,
+    var(--red-color) 0%,
+    var(--purple-color) 100%
+  );
 }
 
 .form-container {
@@ -63,24 +66,19 @@
   width: 100%;
   border: #c5c5c5 2px solid;
   border-radius: 10px;
-  /* background-color: chartreuse; */
 }
 
 .input-text {
   display: block;
-  /* background-color: coral; */
   height: 30px;
 }
 
 .input-label {
   display: block;
-  /* background-color: aqua; */
-
 }
 
 .input-text-area {
   display: block;
-  /* background-color: brown; */
   height: 80px;
 }
 
@@ -128,7 +126,7 @@
 }
 
 .icon-color {
-  color: #FFC0CB;
+  color: #ffc0cb;
 }
 
 .icon-color:hover {
@@ -136,7 +134,6 @@
 }
 
 .button-color:hover:not([disabled]) {
-  /* background-color: #4433ff; */
   background-color: var(--green-light);
   color: #000000;
 }
@@ -175,4 +172,17 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   margin: auto;
   color: var(--black-color);
   padding-right: 10.5px;
+}
+
+/* ! Hide Arrows From Input Number */
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }
