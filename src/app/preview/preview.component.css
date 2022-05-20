@@ -134,7 +134,7 @@
 
 
 
-.button-confirm-color:hover {
+.button-confirm-color:hover:not([disabled]){
   background-color: var(--green-light);
   color: #000000;
 }
