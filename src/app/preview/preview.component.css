@@ -166,3 +166,11 @@ input[type="datetime-local"]::-webkit-calendar-picker-indicator {
   color: var(--black-color);
   padding-right: 10.5px;
 }
+
+input:disabled {
+  color: #000000;
+}
+
+textarea:disabled {
+  color: #000000;
+}
