@@ -125,20 +125,14 @@
   color: #920018;
 }
 
-.button-return-color {
-  background-color: darkgrey;
-  color: white;
+.button-return-color{
+  background-color: #ffe043;
+}
+.button-confirm-color{
+  background-color: #9cf091;
 }
 
-.button-return-color:hover {
-  background-color: var(--green-light);
-  color: #000000;
-}
 
-.button-confirm-color {
-  background-color: var(--purple-color);
-  color: white;
-}
 
 .button-confirm-color:hover {
   background-color: var(--green-light);
