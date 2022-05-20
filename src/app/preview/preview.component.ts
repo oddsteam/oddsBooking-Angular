@@ -40,7 +40,6 @@ export class PreviewComponent implements OnInit {
     subscribe(data => 
       {
         this.isConfirm = true;
-        console.log(data);
         alert("ขอบคุณครับ");
       });
     

@@ -38,8 +38,6 @@ export class BookingFormComponent implements OnInit {
   ngOnInit(): void {
     this.setMinDate();
 
-    console.log(this.bookingForm.get('name'));
-
     this.bookingForm.get('name')?.valueChanges
       .pipe(
         map(v => this.transform(v))
