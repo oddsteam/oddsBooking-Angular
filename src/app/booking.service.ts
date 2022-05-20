@@ -33,8 +33,8 @@ export class BookingService {
     this.currentBooking = booking;
   }
 
-  getCurrentBooking(): BookingDetail{
-    return this.currentBooking!;
+  getCurrentBooking(): BookingDetail | undefined{
+    return this.currentBooking;
   }
 
   clearCurrentBooking(){

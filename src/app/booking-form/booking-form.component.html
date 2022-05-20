@@ -12,10 +12,13 @@
 
           <mat-form-field class="full-width " appearance="outline" floatLabel="never">
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name" [ngModel]="inputvalue"
-              (ngModelChange)="inputvalue = transform($event)">
+            <input matInput formControlName="name">
             <mat-icon matSuffix>face</mat-icon>
           </mat-form-field>
+          {{bookingForm.get('name')?.errors | json}}
+          {{bookingForm.get('name')?.valid}}
+          {{bookingForm.valid}}
+          {{bookingForm.invalid}}
 
           <mat-form-field class="full-width" appearance="outline" floatLabel="never">
             <mat-label>Email</mat-label>
@@ -47,14 +50,16 @@
 
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Start Date</mat-label>
-            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}" formControlName="startDate">
+            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}"
+              formControlName="startDate">
           </mat-form-field>
           <mat-form-field class="full-width" appearance="outline" floatLabel="never">
             <mat-label>End Date</mat-label>
-            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}" formControlName="endDate">
+            <input matInput type="datetime-local" (change)="checkStartDateNEndDate()" min="{{minDate}}"
+              formControlName="endDate">
           </mat-form-field>
           <button mat-raised-button color="primary" (click)="buttonSubmit()" class="button-row button-color"
-            [disabled]="!isRealValid">DONE</button>
+            [disabled]="bookingForm.invalid">DONE</button>
         </form>
       </mat-card>
     </div>

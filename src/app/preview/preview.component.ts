@@ -25,21 +25,17 @@ export class PreviewComponent implements OnInit {
   }
 
   onLoading() {
-    try {
-      this.bookingDetail = this.bookingService.getCurrentBooking();
-    } catch (err) {
-      console.log(err);
-    }
+    this.bookingDetail = this.bookingService.getCurrentBooking()!;
   }
 
-  buttonReturn(){
+  onReturn(){
     if(this.isConfirm){
       this.bookingService.clearCurrentBooking();
     }
     this.location.back();
   }
 
-  buttonConfirm(){
+  onConfirm(){
     this.bookingService.addBooking(this.bookingDetail).
     subscribe(data => 
       {
