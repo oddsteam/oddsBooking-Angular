@@ -24,8 +24,7 @@
 
           <mat-form-field class="full-width" appearance="outline" floatLabel="never">
             <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" maxlength="10" onkeypress="return event.charCode >= 48 && event.charCode <= 57" pattern="[0-9]*" 
-            >
+            <input matInput formControlName="phoneNumber" maxlength="10">
             <mat-icon matSuffix>phone_iphone</mat-icon>
           </mat-form-field>
 
@@ -47,13 +46,11 @@
 
           <mat-form-field class="full-width" appearance="outline">
             <mat-label>Start Date</mat-label>
-            <input matInput type="datetime-local"  min="{{minDate}}"
-              formControlName="startDate">
+            <input matInput type="datetime-local" min="{{minDate}}" formControlName="startDate">
           </mat-form-field>
           <mat-form-field class="full-width" appearance="outline" floatLabel="never">
             <mat-label>End Date</mat-label>
-            <input matInput type="datetime-local"  min="{{minDate}}"
-              formControlName="endDate">
+            <input matInput type="datetime-local" min="{{minDate}}" formControlName="endDate">
           </mat-form-field>
           <button mat-raised-button color="primary" (click)="onSubmit()" class="button-row button-color"
             [disabled]="bookingForm.invalid">PREVIEW</button>

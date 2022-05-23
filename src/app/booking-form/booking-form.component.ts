@@ -14,6 +14,7 @@ export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
   minDate: string = '';
   inputvalue: string = '';
+  inputPhoneNumber: string = '';
   isRealValid: boolean = false;
   @Input() uid!: string;
 
@@ -27,13 +28,13 @@ export class BookingFormComponent implements OnInit {
     endDate: new FormControl('', [Validators.required]),
   }, Validators.required);
 
-  name = ""
   constructor(private bookingService: BookingService, private detailService: DetailService
     , private router: Router) { }
 
   ngOnInit(): void {
     //this.setMinDate();
     this.minDate = this.setMinDate(new Date());
+
     console.log(this.minDate);
     this.bookingForm.get('name')?.valueChanges
       .pipe(
@@ -41,6 +42,9 @@ export class BookingFormComponent implements OnInit {
       ).subscribe(
         v => this.bookingForm.get('name')?.setValue(v, { emitEvent: false })
       );
+
+    this.bookingForm.get('phoneNumber')?.valueChanges.pipe(map(v => this.checkPhoneNumberInput(v)))
+    .subscribe(v => this.bookingForm.get("phoneNumber")?.setValue(v, { emitEvent: false }))
 
     // this.bookingForm.get('name')?.valueChanges
     //   .subscribe(
@@ -62,7 +66,7 @@ export class BookingFormComponent implements OnInit {
         }
       );
       this.inputvalue = this.textAutoFormat(currentBooking.name);
-
+      this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber);
       //this.checkStartDateNEndDate();
     }
   }
@@ -81,7 +85,16 @@ export class BookingFormComponent implements OnInit {
     return nameFormatter.join(' ');
   }
 
-  setMinDate(date : Date): string {
+  checkPhoneNumberInput(term: string): string {
+    const pattern = /^[0-9]*$/;
+    let phoneNumberFormatted = term;
+    if (!pattern.test(phoneNumberFormatted)) {
+      phoneNumberFormatted = phoneNumberFormatted.replace(/[^0-9]/g, "");
+    }
+    return phoneNumberFormatted;
+  }
+
+  setMinDate(date: Date): string {
     var next2WeekDate = new Date();
     next2WeekDate.setDate(date.getDate() + 14);
 
