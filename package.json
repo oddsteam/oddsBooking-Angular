@@ -23,6 +23,8 @@
     "@angular/platform-browser-dynamic": "~13.3.0",
     "@angular/router": "~13.3.0",
     "angular-web-storage": "^13.0.0",
+    "dayjs": "^1.11.2",
+    "ng-zorro-antd": "^13.2.2",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

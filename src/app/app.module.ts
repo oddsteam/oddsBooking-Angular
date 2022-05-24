@@ -11,11 +11,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BookingFormComponent } from './booking-form/booking-form.component';
 import { DetailComponent } from './detail/detail.component';
-import {MatCardModule} from '@angular/material/card';
-import {MatIconModule} from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { PreviewComponent } from './preview/preview.component';
 import { ThankPageComponent } from './thank-page/thank-page.component';
+import { NZ_I18N } from 'ng-zorro-antd/i18n';
+import { en_US } from 'ng-zorro-antd/i18n';
+import { registerLocaleData } from '@angular/common';
+import en from '@angular/common/locales/en';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 
+registerLocaleData(en);
 
 @NgModule({
   declarations: [
@@ -23,7 +29,7 @@ import { ThankPageComponent } from './thank-page/thank-page.component';
     BookingFormComponent,
     DetailComponent,
     PreviewComponent,
-    ThankPageComponent
+    ThankPageComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,9 +43,10 @@ import { ThankPageComponent } from './thank-page/thank-page.component';
     ReactiveFormsModule,
     HttpClientModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    NzDatePickerModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [{ provide: NZ_I18N, useValue: en_US }],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -3,28 +3,39 @@
     <div class="form-container">
       <mat-card>
         <div class="header-title">
-          <img src="/assets/images/odds_logo.png" height="20px">
+          <img src="/assets/images/odds_logo.png" height="20px" />
           Booking
         </div>
-        <hr>
+        <hr />
 
         <form [formGroup]="bookingForm">
-
-          <mat-form-field class="full-width " appearance="outline" floatLabel="never">
+          <mat-form-field
+            class="full-width"
+            appearance="outline"
+            floatLabel="never"
+          >
             <mat-label>Name</mat-label>
-            <input matInput formControlName="name">
+            <input matInput formControlName="name" />
             <mat-icon matSuffix>face</mat-icon>
           </mat-form-field>
 
-          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+          <mat-form-field
+            class="full-width"
+            appearance="outline"
+            floatLabel="never"
+          >
             <mat-label>Email</mat-label>
-            <input matInput formControlName="email">
+            <input matInput formControlName="email" />
             <mat-icon matSuffix>email</mat-icon>
           </mat-form-field>
 
-          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+          <mat-form-field
+            class="full-width"
+            appearance="outline"
+            floatLabel="never"
+          >
             <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" maxlength="10">
+            <input matInput formControlName="phoneNumber" maxlength="10" />
             <mat-icon matSuffix>phone_iphone</mat-icon>
           </mat-form-field>
 
@@ -38,22 +49,48 @@
             </mat-select>
           </mat-form-field>
 
-          <mat-form-field class="full-width form-field-reason" appearance="outline">
+          <mat-form-field
+            class="full-width form-field-reason"
+            appearance="outline"
+          >
             <mat-label>Reason</mat-label>
             <textarea matInput formControlName="reason"></textarea>
             <mat-icon matSuffix>textsms</mat-icon>
           </mat-form-field>
 
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Start Date</mat-label>
-            <input matInput type="datetime-local" min="{{minDate}}" formControlName="startDate">
-          </mat-form-field>
-          <mat-form-field class="full-width" appearance="outline" floatLabel="never">
-            <mat-label>End Date</mat-label>
-            <input matInput type="datetime-local" min="{{minDate}}" formControlName="endDate">
-          </mat-form-field>
-          <button mat-raised-button color="primary" (click)="onSubmit()" class="button-row button-color"
-            [disabled]="bookingForm.invalid">PREVIEW</button>
+          <nz-date-picker
+            formControlName="startDate"
+            [nzShowTime]="timeOption"
+            [nzDisabledDate]="disabledDateOnStart"
+            [nzDisabledTime]="disabledDateTime"
+            nzFormat="yyyy/MM/dd HH:mm"
+            [nzDefaultPickerValue]="minDate"
+            [nzInputReadOnly]="true"
+            [nzShowNow]="false"
+            class="full-width"
+          ></nz-date-picker>
+
+          <nz-date-picker
+            formControlName="endDate"
+            [nzShowTime]="timeOption"
+            [nzDisabledDate]="disabledDateOnEnd"
+            [nzDisabledTime]="disabledDateTimeOnEnd"
+            nzFormat="yyyy/MM/dd HH:mm"
+            [nzDefaultPickerValue]="minDate"
+            [nzInputReadOnly]="true"
+            [nzShowNow]="false"
+            class="full-width"
+          ></nz-date-picker>
+
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="onSubmit()"
+            class="button-row button-color"
+            [disabled]="bookingForm.invalid"
+          >
+            PREVIEW
+          </button>
         </form>
       </mat-card>
     </div>

@@ -1,9 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import * as dayjs from 'dayjs';
 import { map } from 'rxjs';
 import { BookingService } from '../booking.service';
 import { DetailService } from '../detail.service';
+import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'app-booking-form',
@@ -12,39 +14,126 @@ import { DetailService } from '../detail.service';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  minDate: string = '';
+  minDate: Date = dayjs().add(14, 'day').toDate();
   inputvalue: string = '';
   inputPhoneNumber: string = '';
   isRealValid: boolean = false;
   @Input() uid!: string;
+  timeOption = { nzFormat: 'HH:mm' };
 
-  bookingForm = new FormGroup({
-    name: new FormControl('', [Validators.required]),
-    email: new FormControl('', [Validators.required, Validators.email]),
-    room: new FormControl('', [Validators.required]),
-    phoneNumber: new FormControl('', [Validators.required, Validators.pattern('^[0-9]{10}')]),
-    reason: new FormControl('', [Validators.required]),
-    startDate: new FormControl('', [Validators.required]),
-    endDate: new FormControl('', [Validators.required]),
-  }, Validators.required);
+  range(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+  disabledDateOnStart = (current: Date): boolean => {
+    const endDate = this.bookingForm.get('endDate')?.value;
+    if (endDate)
+      return (
+        dayjs().add(14, 'day').isAfter(current, 'date') ||
+        dayjs(current).isAfter(dayjs(endDate))
+      );
+    return dayjs().add(14, 'day').isAfter(current, 'date');
+  };
 
-  constructor(private bookingService: BookingService, private detailService: DetailService
-    , private router: Router) { }
+  disabledDateOnEnd = (current: Date): boolean => {
+    const startDate = this.bookingForm.get('startDate')?.value;
+    if (startDate)
+      return (
+        dayjs().add(14, 'D').isAfter(current, 'D') ||
+        dayjs(current).isBefore(dayjs(startDate))
+      );
+    return dayjs().add(14, 'D').isAfter(current, 'D');
+  };
+  // Can not select days before today and today
+  // differenceInCalendarDays(current, this.today) > 0;
+
+  disabledDateTime: DisabledTimeFn = (_value) => ({
+    nzDisabledHours: () => {
+      const endDate = this.bookingForm.get('endDate')?.value;
+      return this.range(7, 18);
+    },
+    nzDisabledMinutes: () => {
+      if (_value) {
+        if (dayjs(_value as Date).hour() === 6) return this.range(1, 60);
+        return [];
+      }
+      return [];
+    },
+    nzDisabledSeconds: () => [],
+  });
+
+  disabledDateTimeOnEnd: DisabledTimeFn = (_value) => ({
+    nzDisabledHours: () => {
+      const startDate = this.bookingForm.get('startDate')?.value;
+      if (
+        startDate &&
+        dayjs(_value as Date).isBefore(dayjs(startDate), 'millisecond')
+      ) {
+        return [
+          ...this.range(0, dayjs(startDate).hour()),
+          ...this.range(7, 18),
+        ];
+      }
+      return this.range(7, 18);
+    },
+    nzDisabledMinutes: () => {
+      const startDate = this.bookingForm.get('startDate')?.value;
+      const endHours = dayjs(_value as Date).hour();
+
+      if (startDate && dayjs(_value as Date).isSame(dayjs(startDate), 'D')) {
+        return !dayjs(_value as Date).isSame(dayjs(startDate), 'h')
+          ? []
+          : [...this.range(0, dayjs(startDate).minute() + 1)];
+      }
+      if (_value) {
+        if (endHours === 6) return this.range(1, 60);
+        return [];
+      }
+      return [];
+    },
+    nzDisabledSeconds: () => [],
+  });
+
+  bookingForm = new FormGroup(
+    {
+      name: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      room: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.pattern('^[0-9]{10}'),
+      ]),
+      reason: new FormControl('', [Validators.required]),
+      startDate: new FormControl('', [Validators.required]),
+      endDate: new FormControl('', [Validators.required]),
+    },
+    Validators.required
+  );
+
+  constructor(
+    private bookingService: BookingService,
+    private detailService: DetailService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     //this.setMinDate();
-    this.minDate = this.setMinDate(new Date());
-
-    console.log(this.minDate);
-    this.bookingForm.get('name')?.valueChanges
-      .pipe(
-        map(v => this.textAutoFormat(v))
-      ).subscribe(
-        v => this.bookingForm.get('name')?.setValue(v, { emitEvent: false })
+    this.bookingForm
+      .get('name')
+      ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
+      .subscribe((v) =>
+        this.bookingForm.get('name')?.setValue(v, { emitEvent: false })
       );
 
-    this.bookingForm.get('phoneNumber')?.valueChanges.pipe(map(v => this.checkPhoneNumberInput(v)))
-    .subscribe(v => this.bookingForm.get("phoneNumber")?.setValue(v, { emitEvent: false }))
+    this.bookingForm
+      .get('phoneNumber')
+      ?.valueChanges.pipe(map((v) => this.checkPhoneNumberInput(v)))
+      .subscribe((v) =>
+        this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
+      );
 
     // this.bookingForm.get('name')?.valueChanges
     //   .subscribe(
@@ -53,24 +142,28 @@ export class BookingFormComponent implements OnInit {
 
     const currentBooking = this.bookingService.getCurrentBooking();
     if (currentBooking) {
-
-      this.bookingForm.setValue(
-        {
-          name: currentBooking.name,
-          email: currentBooking.email,
-          room: currentBooking.room,
-          phoneNumber: currentBooking.phoneNumber,
-          reason: currentBooking.reason,
-          startDate: currentBooking.startDate,
-          endDate: currentBooking.endDate
-        }
-      );
+      this.bookingForm.setValue({
+        name: currentBooking.name,
+        email: currentBooking.email,
+        room: currentBooking.room,
+        phoneNumber: currentBooking.phoneNumber,
+        reason: currentBooking.reason,
+        startDate: currentBooking.startDate,
+        endDate: currentBooking.endDate,
+      });
       this.inputvalue = this.textAutoFormat(currentBooking.name);
       this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber);
+
       //this.checkStartDateNEndDate();
     }
   }
   onSubmit() {
+    this.bookingForm.value.startDate = this.convertDateToString(
+      this.bookingForm.value.startDate
+    );
+    this.bookingForm.value.endDate = this.convertDateToString(
+      this.bookingForm.value.endDate
+    );
     this.bookingService.saveBooking(this.bookingForm.value);
     this.router.navigateByUrl('preview');
   }
@@ -89,25 +182,24 @@ export class BookingFormComponent implements OnInit {
     const pattern = /^[0-9]*$/;
     let phoneNumberFormatted = term;
     if (!pattern.test(phoneNumberFormatted)) {
-      phoneNumberFormatted = phoneNumberFormatted.replace(/[^0-9]/g, "");
+      phoneNumberFormatted = phoneNumberFormatted.replace(/[^0-9]/g, '');
     }
     return phoneNumberFormatted;
   }
 
-  setMinDate(date: Date): string {
-    var next2WeekDate = new Date();
-    next2WeekDate.setDate(date.getDate() + 14);
+  convertDateToString(date: Date): string {
+    const next2WeekDate = dayjs(date).add(14, 'day').toDate();
+    return dayjs(next2WeekDate).format('YYYY-MM-DDTHH:mm');
 
-    var next2WeekDateString = "";
-    var strDate = next2WeekDate.getDate() < 10 ? "0" + next2WeekDate.getDate() : next2WeekDate.getDate();
-    var strMonth = next2WeekDate.getMonth() < 10 ? "0" + (next2WeekDate.getMonth() + 1) : (next2WeekDate.getMonth() + 1);
-    var strYear = next2WeekDate.getFullYear();
-    var strHours = next2WeekDate.getHours() < 10 ? "0" + (next2WeekDate.getHours()) : (next2WeekDate.getHours());
-    var strMinutes = next2WeekDate.getMinutes() < 10 ? "0" + next2WeekDate.getMinutes() : next2WeekDate.getMinutes();
+    // var next2WeekDateString = "";
+    // var strDate = next2WeekDate.getDate() < 10 ? "0" + next2WeekDate.getDate() : next2WeekDate.getDate();
+    // var strMonth = next2WeekDate.getMonth() < 10 ? "0" + (next2WeekDate.getMonth() + 1) : (next2WeekDate.getMonth() + 1);
+    // var strYear = next2WeekDate.getFullYear();
+    // var strHours = next2WeekDate.getHours() < 10 ? "0" + (next2WeekDate.getHours()) : (next2WeekDate.getHours());
+    // var strMinutes = next2WeekDate.getMinutes() < 10 ? "0" + next2WeekDate.getMinutes() : next2WeekDate.getMinutes();
 
-    next2WeekDateString = strYear + "-" + strMonth + "-" + strDate + "T" + strHours + ":" + strMinutes;
+    // next2WeekDateString = strYear + "-" + strMonth + "-" + strDate + "T" + strHours + ":" + strMinutes;
 
-    return next2WeekDateString;
     // var date = currentDateTime.getDate() < 10 ? "0" + currentDateTime.getDate() : currentDateTime.getDate();
     // var month = currentDateTime.getMonth() < 10 ? "0" + (currentDateTime.getMonth() + 1) : (currentDateTime.getMonth() + 1);
     // var year = currentDateTime.getFullYear();
@@ -117,7 +209,6 @@ export class BookingFormComponent implements OnInit {
     // this.minDate = year + "-" + month + "-" + date + "T" + hours + ":" + minutes;
 
     // console.log(this.minDate);
-
   }
 
   // checkStartDateNEndDate() {
