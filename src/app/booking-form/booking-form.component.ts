@@ -42,8 +42,7 @@ export class BookingFormComponent implements OnInit {
     const startDate = this.bookingForm.get('startDate')?.value;
     if (startDate)
       return (
-        dayjs().add(14, 'day').isAfter(current, 'date') ||
-        dayjs(current).isAfter(dayjs().add(15, 'day'))
+        dayjs(current).add(1,'day').isBefore(dayjs(startDate)) || dayjs(current).add(-1,'day').isAfter(dayjs(startDate))
       );
     return dayjs().add(14, 'day').isAfter(current, 'date');
   };
