@@ -20,6 +20,8 @@ import { en_US } from 'ng-zorro-antd/i18n';
 import { registerLocaleData } from '@angular/common';
 import en from '@angular/common/locales/en';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzFormModule } from 'ng-zorro-antd/form';
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
 
 registerLocaleData(en);
 
@@ -45,6 +47,8 @@ registerLocaleData(en);
     MatCardModule,
     MatIconModule,
     NzDatePickerModule,
+    NzFormModule,
+    NzTimePickerModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_US }],
   bootstrap: [AppComponent],

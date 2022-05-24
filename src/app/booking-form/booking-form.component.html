@@ -58,29 +58,35 @@
             <mat-icon matSuffix>textsms</mat-icon>
           </mat-form-field>
 
-          <nz-date-picker
-            formControlName="startDate"
-            [nzShowTime]="timeOption"
-            [nzDisabledDate]="disabledDateOnStart"
-            [nzDisabledTime]="disabledDateTime"
-            nzFormat="yyyy/MM/dd HH:mm"
-            [nzDefaultPickerValue]="minDate"
-            [nzInputReadOnly]="true"
-            [nzShowNow]="false"
-            class="full-width"
-          ></nz-date-picker>
+          <nz-form-item>
+            <nz-date-picker
+              formControlName="startDate"
+              [nzShowTime]="timeOption"
+              [nzDisabledDate]="disabledDateOnStart"
+              [nzDisabledTime]="disabledDateTime"
+              nzFormat="yyyy/MM/dd HH:mm"
+              [nzDefaultPickerValue]="minDate"
+              [nzInputReadOnly]="true"
+              [nzShowNow]="false"
+              class="full-width"
+            ></nz-date-picker>
+          </nz-form-item>
 
-          <nz-date-picker
-            formControlName="endDate"
-            [nzShowTime]="timeOption"
-            [nzDisabledDate]="disabledDateOnEnd"
-            [nzDisabledTime]="disabledDateTimeOnEnd"
-            nzFormat="yyyy/MM/dd HH:mm"
-            [nzDefaultPickerValue]="minDate"
-            [nzInputReadOnly]="true"
-            [nzShowNow]="false"
-            class="full-width"
-          ></nz-date-picker>
+          <nz-form-item>
+            <nz-date-picker
+              formControlName="endDate"
+              [nzShowTime]="timeOption"
+              [nzDisabledDate]="disabledDateOnEnd"
+              [nzDisabledTime]="disabledDateTimeOnEnd"
+              nzFormat="yyyy/MM/dd HH:mm"
+              [nzDefaultPickerValue]="minDate"
+              [nzInputReadOnly]="true"
+              [nzShowNow]="false"
+              class="full-width"
+            ></nz-date-picker>
+          </nz-form-item>
+
+          
 
           <button
             mat-raised-button

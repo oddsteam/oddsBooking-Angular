@@ -14,10 +14,9 @@ import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  minDate: Date = dayjs().add(14, 'day').toDate();
+  minDate: Date = dayjs().add(14, 'day').hour(18).minute(0).toDate();
   inputvalue: string = '';
   inputPhoneNumber: string = '';
-  isRealValid: boolean = false;
   @Input() uid!: string;
   timeOption = { nzFormat: 'HH:mm' };
 
@@ -28,6 +27,7 @@ export class BookingFormComponent implements OnInit {
     }
     return result;
   }
+
   disabledDateOnStart = (current: Date): boolean => {
     const endDate = this.bookingForm.get('endDate')?.value;
     if (endDate)
@@ -42,10 +42,10 @@ export class BookingFormComponent implements OnInit {
     const startDate = this.bookingForm.get('startDate')?.value;
     if (startDate)
       return (
-        dayjs().add(14, 'D').isAfter(current, 'D') ||
-        dayjs(current).isBefore(dayjs(startDate))
+        dayjs().add(14, 'day').isAfter(current, 'date') ||
+        dayjs(current).isAfter(dayjs().add(15, 'day'))
       );
-    return dayjs().add(14, 'D').isAfter(current, 'D');
+    return dayjs().add(14, 'day').isAfter(current, 'date');
   };
   // Can not select days before today and today
   // differenceInCalendarDays(current, this.today) > 0;
@@ -64,6 +64,8 @@ export class BookingFormComponent implements OnInit {
     },
     nzDisabledSeconds: () => [],
   });
+
+  
 
   disabledDateTimeOnEnd: DisabledTimeFn = (_value) => ({
     nzDisabledHours: () => {
@@ -109,13 +111,13 @@ export class BookingFormComponent implements OnInit {
       reason: new FormControl('', [Validators.required]),
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
+      startTime: new FormControl('', [Validators.required]),
     },
     Validators.required
   );
 
   constructor(
     private bookingService: BookingService,
-    private detailService: DetailService,
     private router: Router
   ) {}
 
@@ -210,7 +212,6 @@ export class BookingFormComponent implements OnInit {
 
     // console.log(this.minDate);
   }
-
   // checkStartDateNEndDate() {
   //   this.setMinDate();
   //   var startDate: Date = this.bookingForm.get('startDate')?.value;
