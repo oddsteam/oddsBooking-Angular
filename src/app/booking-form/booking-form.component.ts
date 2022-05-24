@@ -110,7 +110,6 @@ export class BookingFormComponent implements OnInit {
       reason: new FormControl('', [Validators.required]),
       startDate: new FormControl('', [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
-      startTime: new FormControl('', [Validators.required]),
     },
     Validators.required
   );
