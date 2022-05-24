@@ -59,51 +59,59 @@
           </mat-form-field>
 
           <div class="row-datetimepicker">
-            <nz-form-item style="width: 60%">
+            <nz-form-item style="width: 60%" class="date-box">
               <nz-date-picker
                 formControlName="startDate"
+                nzPlaceHolder=" "
                 [nzDisabledDate]="disabledDateOnStart"
                 [nzShowToday]="false"
                 nzFormat="yyyy/MM/dd"
                 [nzDefaultPickerValue]="minDate"
                 [nzInputReadOnly]="true"
-                class="full-width"
+                class="full-width date-picker"
               ></nz-date-picker>
+              <p class="date-picker-title">Start Date</p>
             </nz-form-item>
 
-            <nz-form-item style="width: 40%"
+            <nz-form-item style="width: 40%" class="date-box"
               ><nz-time-picker
                 formControlName="startTime"
+                nzPlaceHolder=" "
                 [nzDisabledHours]="nzDisabledHoursOnStart"
                 [nzDisabledMinutes]="nzDisabledMinutesOnStart"
                 nzFormat="HH:mm"
-                class="full-width"
-              ></nz-time-picker
-            ></nz-form-item>
+                class="full-width date-picker"
+              ></nz-time-picker>
+              <p class="date-picker-title">Start Time</p>
+            </nz-form-item>
           </div>
 
           <div class="row-datetimepicker">
-            <nz-form-item style="width: 60%">
+            <nz-form-item style="width: 60%" class="date-box">
               <nz-date-picker
                 formControlName="endDate"
+                nzPlaceHolder=" "
                 [nzDisabledDate]="disabledDateOnEnd"
                 [nzShowToday]="false"
                 nzFormat="yyyy/MM/dd"
                 [nzDefaultPickerValue]="minDate"
                 [nzInputReadOnly]="true"
-                class="full-width"
+                class="full-width date-picker"
               ></nz-date-picker>
+              <p class="date-picker-title">End Date</p>
             </nz-form-item>
 
-            <nz-form-item style="width: 40%"
+            <nz-form-item style="width: 40%" class="date-box"
               ><nz-time-picker
                 formControlName="endTime"
+                nzPlaceHolder=" "
                 [nzDisabledHours]="nzDisabledHoursOnEnd"
                 [nzDisabledMinutes]="nzDisabledMinutesOnEnd"
                 nzFormat="HH:mm"
-                class="full-width"
-              ></nz-time-picker
-            ></nz-form-item>
+                class="full-width date-picker"
+              ></nz-time-picker>
+              <p class="date-picker-title">End time</p>
+            </nz-form-item>
           </div>
 
           <button
