@@ -14,11 +14,13 @@ import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
 })
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  minDate: Date = dayjs().add(14, 'day').hour(18).minute(0).toDate();
+  minDate: Date =
+    dayjs().add(14, 'day').day() !== 0 || dayjs().add(14, 'day').day() !== 6
+      ? dayjs().add(14, 'day').startOf('D').toDate()
+      : dayjs().add(14, 'day').hour(9).minute(0).toDate();
   inputvalue: string = '';
   inputPhoneNumber: string = '';
   @Input() uid!: string;
-  timeOption = { nzFormat: 'HH:mm' };
 
   range(start: number, end: number): number[] {
     const result: number[] = [];
@@ -28,75 +30,46 @@ export class BookingFormComponent implements OnInit {
     return result;
   }
 
+  nzDisabledHoursOnStart = () => {
+    return this.range(7, 18);
+  };
+
+  nzDisabledMinutesOnStart = (hours: number) => {
+    if (hours === 6) return this.range(1, 60);
+    return [];
+  };
+
+  nzDisabledHoursOnEnd = () => {
+    return this.range(7, 18);
+  };
+
+  nzDisabledMinutesOnEnd = (hours: number) => {
+    if (hours === 6) return this.range(1, 60);
+    return [];
+  };
+
   disabledDateOnStart = (current: Date): boolean => {
     const endDate = this.bookingForm.get('endDate')?.value;
-    if (endDate)
-      return (
-        dayjs().add(14, 'day').isAfter(current, 'date') ||
-        dayjs(current).isAfter(dayjs(endDate))
-      );
+    if (endDate) return dayjs().add(14, 'day').isAfter(current, 'date');
     return dayjs().add(14, 'day').isAfter(current, 'date');
   };
 
   disabledDateOnEnd = (current: Date): boolean => {
     const startDate = this.bookingForm.get('startDate')?.value;
-    if (startDate)
-      return (
-        dayjs(current).add(1,'day').isBefore(dayjs(startDate)) || dayjs(current).add(-1,'day').isAfter(dayjs(startDate))
-      );
+    if (startDate) {
+      const startDateDayjs = dayjs(startDate);
+      const dayInWeek = dayjs(startDate).day();
+      if (dayInWeek === 0 || dayInWeek === 6) {
+        return !dayjs(current).isSame(startDateDayjs, 'date');
+      } else {
+        return (
+          startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+          !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+        );
+      }
+    }
     return dayjs().add(14, 'day').isAfter(current, 'date');
   };
-  // Can not select days before today and today
-  // differenceInCalendarDays(current, this.today) > 0;
-
-  disabledDateTime: DisabledTimeFn = (_value) => ({
-    nzDisabledHours: () => {
-      const endDate = this.bookingForm.get('endDate')?.value;
-      return this.range(7, 18);
-    },
-    nzDisabledMinutes: () => {
-      if (_value) {
-        if (dayjs(_value as Date).hour() === 6) return this.range(1, 60);
-        return [];
-      }
-      return [];
-    },
-    nzDisabledSeconds: () => [],
-  });
-
-  
-
-  disabledDateTimeOnEnd: DisabledTimeFn = (_value) => ({
-    nzDisabledHours: () => {
-      const startDate = this.bookingForm.get('startDate')?.value;
-      if (
-        startDate &&
-        dayjs(_value as Date).isBefore(dayjs(startDate), 'millisecond')
-      ) {
-        return [
-          ...this.range(0, dayjs(startDate).hour()),
-          ...this.range(7, 18),
-        ];
-      }
-      return this.range(7, 18);
-    },
-    nzDisabledMinutes: () => {
-      const startDate = this.bookingForm.get('startDate')?.value;
-      const endHours = dayjs(_value as Date).hour();
-
-      if (startDate && dayjs(_value as Date).isSame(dayjs(startDate), 'D')) {
-        return !dayjs(_value as Date).isSame(dayjs(startDate), 'h')
-          ? []
-          : [...this.range(0, dayjs(startDate).minute() + 1)];
-      }
-      if (_value) {
-        if (endHours === 6) return this.range(1, 60);
-        return [];
-      }
-      return [];
-    },
-    nzDisabledSeconds: () => [],
-  });
 
   bookingForm = new FormGroup(
     {
@@ -109,15 +82,14 @@ export class BookingFormComponent implements OnInit {
       ]),
       reason: new FormControl('', [Validators.required]),
       startDate: new FormControl('', [Validators.required]),
+      startTime: new FormControl(null, [Validators.required]),
       endDate: new FormControl('', [Validators.required]),
+      endTime: new FormControl(null, [Validators.required]),
     },
     Validators.required
   );
 
-  constructor(
-    private bookingService: BookingService,
-    private router: Router
-  ) {}
+  constructor(private bookingService: BookingService, private router: Router) {}
 
   ngOnInit(): void {
     //this.setMinDate();
@@ -140,16 +112,28 @@ export class BookingFormComponent implements OnInit {
     //     v => this.bookingForm.get('name')?.setValue(this.transform(v), {emitEvent : false})
     //   );
 
+    this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {});
+
+    this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {});
+
+    this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {});
+    this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {});
+
     const currentBooking = this.bookingService.getCurrentBooking();
     if (currentBooking) {
+      const startDate = dayjs(currentBooking.startDate);
+      const endDate = dayjs(currentBooking.endDate);
+
       this.bookingForm.setValue({
         name: currentBooking.name,
         email: currentBooking.email,
         room: currentBooking.room,
         phoneNumber: currentBooking.phoneNumber,
         reason: currentBooking.reason,
-        startDate: currentBooking.startDate,
-        endDate: currentBooking.endDate,
+        startDate: startDate.toDate(),
+        endDate: endDate.toDate(),
+        startTime: startDate.toDate(),
+        endTime: endDate.toDate(),
       });
       this.inputvalue = this.textAutoFormat(currentBooking.name);
       this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber);
@@ -158,11 +142,17 @@ export class BookingFormComponent implements OnInit {
     }
   }
   onSubmit() {
+    const startDate = dayjs(this.bookingForm.get('startDate')?.value);
+    const startTime = dayjs(this.bookingForm.get('startTime')?.value);
+
     this.bookingForm.value.startDate = this.convertDateToString(
-      this.bookingForm.value.startDate
+      startDate.hour(startTime.hour()).minute(startTime.minute()).toDate()
     );
+
+    const endDate = dayjs(this.bookingForm.get('endDate')?.value);
+    const endTime = dayjs(this.bookingForm.get('endTime')?.value);
     this.bookingForm.value.endDate = this.convertDateToString(
-      this.bookingForm.value.endDate
+      endDate.hour(endTime.hour()).minute(endTime.minute()).toDate()
     );
     this.bookingService.saveBooking(this.bookingForm.value);
     this.router.navigateByUrl('preview');
@@ -188,6 +178,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   convertDateToString(date: Date): string {
+    if (!date) return '';
     const next2WeekDate = dayjs(date).add(14, 'day').toDate();
     return dayjs(next2WeekDate).format('YYYY-MM-DDTHH:mm');
 

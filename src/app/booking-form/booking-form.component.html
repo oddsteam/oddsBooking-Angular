@@ -58,35 +58,53 @@
             <mat-icon matSuffix>textsms</mat-icon>
           </mat-form-field>
 
-          <nz-form-item>
-            <nz-date-picker
-              formControlName="startDate"
-              [nzShowTime]="timeOption"
-              [nzDisabledDate]="disabledDateOnStart"
-              [nzDisabledTime]="disabledDateTime"
-              nzFormat="yyyy/MM/dd HH:mm"
-              [nzDefaultPickerValue]="minDate"
-              [nzInputReadOnly]="true"
-              [nzShowNow]="false"
-              class="full-width"
-            ></nz-date-picker>
-          </nz-form-item>
+          <div class="row-datetimepicker">
+            <nz-form-item style="width: 60%">
+              <nz-date-picker
+                formControlName="startDate"
+                [nzDisabledDate]="disabledDateOnStart"
+                [nzShowToday]="false"
+                nzFormat="yyyy/MM/dd"
+                [nzDefaultPickerValue]="minDate"
+                [nzInputReadOnly]="true"
+                class="full-width"
+              ></nz-date-picker>
+            </nz-form-item>
 
-          <nz-form-item>
-            <nz-date-picker
-              formControlName="endDate"
-              [nzShowTime]="timeOption"
-              [nzDisabledDate]="disabledDateOnEnd"
-              [nzDisabledTime]="disabledDateTimeOnEnd"
-              nzFormat="yyyy/MM/dd HH:mm"
-              [nzDefaultPickerValue]="minDate"
-              [nzInputReadOnly]="true"
-              [nzShowNow]="false"
-              class="full-width"
-            ></nz-date-picker>
-          </nz-form-item>
+            <nz-form-item style="width: 40%"
+              ><nz-time-picker
+                formControlName="startTime"
+                [nzDisabledHours]="nzDisabledHoursOnStart"
+                [nzDisabledMinutes]="nzDisabledMinutesOnStart"
+                nzFormat="HH:mm"
+                class="full-width"
+              ></nz-time-picker
+            ></nz-form-item>
+          </div>
 
-          
+          <div class="row-datetimepicker">
+            <nz-form-item style="width: 60%">
+              <nz-date-picker
+                formControlName="endDate"
+                [nzDisabledDate]="disabledDateOnEnd"
+                [nzShowToday]="false"
+                nzFormat="yyyy/MM/dd"
+                [nzDefaultPickerValue]="minDate"
+                [nzInputReadOnly]="true"
+                class="full-width"
+              ></nz-date-picker>
+            </nz-form-item>
+
+            <nz-form-item style="width: 40%"
+              ><nz-time-picker
+                formControlName="endTime"
+                [nzDisabledHours]="nzDisabledHoursOnEnd"
+                [nzDisabledMinutes]="nzDisabledMinutesOnEnd"
+                nzFormat="HH:mm"
+                class="full-width"
+              ></nz-time-picker
+            ></nz-form-item>
+          </div>
 
           <button
             mat-raised-button
