@@ -67,10 +67,13 @@ export class BookingService {
     }
 
     static rangeDisabledHoursOnStart(startDate: Date): number[] {
-        if (this.isWeekend(startDate)) {
-            return this.range(0, 9).concat(this.range(21, 24))
+        if (!this.isWeekend(startDate)) {
+            if(dayjs(startDate).day()===1){
+                return this.range(0,18)
+            }
+            return this.range(6, 18)
         }
-        return this.range(6, 18)
+        return this.range(0, 9).concat(this.range(21, 24))
     }
 
     static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
