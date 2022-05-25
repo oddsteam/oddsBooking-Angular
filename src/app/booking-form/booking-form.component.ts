@@ -67,6 +67,10 @@ export class BookingFormComponent implements OnInit {
     constructor(private bookingService: BookingService, private router: Router) {}
 
     ngOnInit(): void {
+        ;['startTime', 'endDate', 'endTime'].forEach((name) =>
+            this.bookingForm.get(name)?.disable({ onlySelf: true, emitEvent: false })
+        )
+
         this.bookingForm
             .get('fullName')
             ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
@@ -79,11 +83,30 @@ export class BookingFormComponent implements OnInit {
                 this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
             )
 
-        this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {})
+        this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {
+            if (v) {
+                this.bookingForm.get('startTime')?.enable({ onlySelf: true, emitEvent: false })
+            } else {
+                ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
+            }
+        })
 
-        this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {})
+        this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {
+            if (v) {
+                this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
+            } else {
+                this.onClearValue('endDate')
+                this.onClearValue('endTime')
+            }
+        })
 
-        this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {})
+        this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
+            if (v) {
+                this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
+            } else {
+                this.onClearValue('endTime')
+            }
+        })
         this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {})
 
         const currentBooking = this.bookingService.getCurrentBooking()
@@ -122,6 +145,11 @@ export class BookingFormComponent implements OnInit {
         )
         this.bookingService.saveBooking(this.bookingForm.value)
         this.router.navigateByUrl('preview')
+    }
+
+    onClearValue(formName: string) {
+        this.bookingForm.get(formName)?.setValue(null, { emitEvent: false })
+        this.bookingForm.get(formName)?.disable({ onlySelf: true, emitEvent: false })
     }
 
     textAutoFormat(term: string): string {

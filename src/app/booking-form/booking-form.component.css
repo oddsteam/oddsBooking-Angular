@@ -193,9 +193,11 @@ input[type="number"] {
 .time-box {
     position: relative;
 }
+
 .date-box {
     width: 55%;
 }
+
 .time-box {
     width: 45%;
 }
@@ -206,9 +208,11 @@ input[type="number"] {
         flex-direction: column;
         gap: 0rem;
     }
+
     .date-box {
         width: 100%;
     }
+
     .time-box {
         width: 100%;
     }
@@ -229,6 +233,7 @@ input[type="number"] {
     border-width: 2px !important;
     padding: 4px 10px;
 }
+
 .date-picker.ant-picker-focused {
     border-width: 2px !important;
     padding: 4px 10px;
@@ -252,23 +257,25 @@ input[type="number"] {
     color: #666;
 }
 
-.date-picker.ant-picker-focused ~ .date-picker-title {
+.date-picker.ant-picker-focused~.date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
     transform: translate(-2px, -22px);
     background: #fff;
     color: #4252ae;
 }
+
 .date-picker.ant-picker-focused {
     border-width: 2px !important;
     border-color: #4252ae;
 }
-.date-picker.ant-picker-focused ~ .date-picker-title::after {
+
+.date-picker.ant-picker-focused~.date-picker-title::after {
     content: " *";
     color: red;
 }
 
-.date-picker.ng-valid ~ .date-picker-title {
+.date-picker.ng-valid~.date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
     background: #fff;
@@ -280,10 +287,12 @@ input[type="number"] {
     border-width: 2px;
     padding: 4px 10px;
 }
-.date-picker.ng-invalid.ng-touched ~ .date-picker-title {
+
+.date-picker.ng-invalid.ng-touched~.date-picker-title {
     color: red;
 }
-.date-picker.ng-invalid.ng-touched ~ .date-picker-title::after {
+
+.date-picker.ng-invalid.ng-touched~.date-picker-title::after {
     color: red;
 }
 
