@@ -24,6 +24,8 @@ export class PreviewComponent implements OnInit {
     }
 
     onLoading() {
+        const serviceData = this.bookingService.getCurrentBooking()
+        if (!serviceData) this.router.navigateByUrl('')
         this.bookingDetail = this.bookingService.getCurrentBooking()!
     }
 

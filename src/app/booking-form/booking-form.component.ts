@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import * as dayjs from 'dayjs'
@@ -18,6 +18,7 @@ export class BookingFormComponent implements OnInit {
             : dayjs().add(14, 'day').hour(9).minute(0).toDate()
     inputValue: string = ''
     inputPhoneNumber: string = ''
+
     disabledHoursOnStart = () => {
         return BookingService.rangeDisabledHoursOnStart(this.bookingForm.get('startDate')?.value)
     }

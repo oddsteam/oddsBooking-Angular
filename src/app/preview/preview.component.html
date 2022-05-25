@@ -34,7 +34,14 @@
 
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Reason</mat-label>
-                        <textarea matInput value="{{ bookingDetail.reason }}" disabled></textarea>
+                        <textarea
+                            matInput
+                            value="{{ bookingDetail.reason }}"
+                            disabled
+                            cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="2"
+                        ></textarea>
                         <mat-icon matSuffix>event</mat-icon>
                     </mat-form-field>
 

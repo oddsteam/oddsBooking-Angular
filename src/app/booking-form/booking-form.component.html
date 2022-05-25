@@ -39,7 +39,13 @@
 
                     <mat-form-field class="full-width form-field-reason" appearance="outline">
                         <mat-label>Reason</mat-label>
-                        <textarea matInput formControlName="reason"></textarea>
+                        <textarea
+                            matInput
+                            formControlName="reason"
+                            cdkTextareaAutosize
+                            #autosize="cdkTextareaAutosize"
+                            cdkAutosizeMinRows="2"
+                        ></textarea>
                         <mat-icon matSuffix>textsms</mat-icon>
                     </mat-form-field>
 
