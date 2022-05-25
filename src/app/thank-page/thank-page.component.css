@@ -1,84 +1,79 @@
 * {
-  --red-color: #f00b51;
-  --purple-color: #7366ff;
-  --black-color: #333;
-  --green-light: #e6f9e4;
+    --red-color: #f00b51;
+    --purple-color: #7366ff;
+    --black-color: #333;
+    --green-light: #e6f9e4;
 }
 
 .container-card {
-  /* ! add bg images */
-  background: url("/assets/images/pattern.png") center center / cover no-repeat
-    fixed transparent;
-  /* ! add overflow scrolling */
-  overflow-y: auto;
-  overflow-x: hidden;
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    /* ! add bg images */
+    background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
+    /* ! add overflow scrolling */
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .header-title {
-  padding: 20px 0;
-  /* ! center-fontsize-weight title */
-  text-align: center;
-  font-size: 36px;
-  font-weight: bold;
-  margin-bottom: 10px;
-  contain: flex;
+    padding: 20px 0;
+    /* ! center-fontsize-weight title */
+    text-align: center;
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    contain: flex;
 }
 
 .container {
-  width: 100vw;
-  height: 100vh;
-  /* ! add gradient bg */
-  background: linear-gradient(
-    45deg,
-    var(--red-color) 0%,
-    var(--purple-color) 100%
-  );
+    width: 100vw;
+    height: 100vh;
+    /* ! add gradient bg */
+    background: linear-gradient(45deg, var(--red-color) 0%, var(--purple-color) 100%);
 }
 
 .form-container {
-  /* ! responsive container */
-  width: min(90%, 450px);
-  /* ! add padding*/
-  padding: 20px 0px;
-  margin-left: auto;
-  margin-right: auto;
-  /* background-color: aquamarine; */
+    /* ! responsive container */
+    width: min(90%, 450px);
+    /* ! add padding*/
+    padding: 20px 0px;
+    margin-left: auto;
+    margin-right: auto;
+    /* background-color: aquamarine; */
 }
 
 .button-row {
-  margin: 16px 16px 16px 0;
+    margin: 16px 16px 16px 0;
 }
 
 .button-row {
-  display: table-cell;
-  width: 100%;
+    display: table-cell;
+    width: 100%;
 }
 
 .button-color:hover:not([disabled]) {
-  background-color: var(--green-light);
-  color: #000000;
+    background-color: var(--green-light);
+    color: #000000;
 }
 
 .button-color {
-  background-color: var(--purple-color);
+    background-color: var(--purple-color);
 }
 
 .button-color:focus {
-  background-color: var(--black-color);
+    background-color: var(--black-color);
 }
 
 .check-icon {
     padding: 20px 0 6px 0;
-  font-size: 100px;
-  width: 100px;
-  height: 100px;
-  color: #539f56;
-  margin: 0 auto;
+    font-size: 100px;
+    width: 100px;
+    height: 100px;
+    color: #539f56;
+    margin: 0 auto;
 }
 
 .flex-display {

@@ -1,130 +1,115 @@
 <div class="container">
-  <div class="container-card">
-    <div class="form-container">
-      <mat-card>
-        <div class="header-title">
-          <img src="/assets/images/odds_logo.png" height="20px" />
-          Booking
+    <div class="container-card">
+        <div class="form-container">
+            <mat-card>
+                <div class="header-title">
+                    <img src="/assets/images/odds_logo.png" height="20px" />
+                    Booking
+                </div>
+                <hr />
+
+                <form [formGroup]="bookingForm">
+                    <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" />
+                        <mat-icon matSuffix>face</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+                        <mat-label>Email</mat-label>
+                        <input matInput formControlName="email" />
+                        <mat-icon matSuffix>email</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width" appearance="outline" floatLabel="never">
+                        <mat-label>Phone Number</mat-label>
+                        <input matInput formControlName="phoneNumber" maxlength="10" />
+                        <mat-icon matSuffix>phone_iphone</mat-icon>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Select Room</mat-label>
+                        <mat-icon matSuffix>room</mat-icon>
+                        <mat-select formControlName="room">
+                            <mat-option *ngFor="let room of rooms" [value]="room">
+                                {{ room }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field class="full-width form-field-reason" appearance="outline">
+                        <mat-label>Reason</mat-label>
+                        <textarea matInput formControlName="reason"></textarea>
+                        <mat-icon matSuffix>textsms</mat-icon>
+                    </mat-form-field>
+
+                    <div class="row-datetimepicker">
+                        <nz-form-item class="date-box">
+                            <nz-date-picker
+                                formControlName="startDate"
+                                nzPlaceHolder=" "
+                                [nzDisabledDate]="disabledDateOnStart"
+                                [nzShowToday]="false"
+                                nzFormat="yyyy/MM/dd"
+                                [nzDefaultPickerValue]="minDate"
+                                [nzInputReadOnly]="true"
+                                class="full-width date-picker"
+                            ></nz-date-picker>
+                            <p class="date-picker-title">Start Date</p>
+                        </nz-form-item>
+
+                        <nz-form-item class="time-box"
+                            ><nz-time-picker
+                                formControlName="startTime"
+                                nzPlaceHolder=" "
+                                [nzDisabledHours]="disabledHoursOnStart"
+                                [nzDisabledMinutes]="disabledMinutesOnStart"
+                                nzFormat="HH:mm"
+                                class="full-width date-picker"
+                            ></nz-time-picker>
+                            <p class="date-picker-title">Start Time</p>
+                        </nz-form-item>
+                    </div>
+
+                    <div class="row-datetimepicker">
+                        <nz-form-item class="date-box">
+                            <nz-date-picker
+                                formControlName="endDate"
+                                nzPlaceHolder=" "
+                                [nzDisabledDate]="disabledDateOnEnd"
+                                [nzShowToday]="false"
+                                nzFormat="yyyy/MM/dd"
+                                [nzDefaultPickerValue]="minDate"
+                                [nzInputReadOnly]="true"
+                                class="full-width date-picker"
+                            ></nz-date-picker>
+                            <p class="date-picker-title">End Date</p>
+                        </nz-form-item>
+
+                        <nz-form-item class="time-box"
+                            ><nz-time-picker
+                                formControlName="endTime"
+                                nzPlaceHolder=" "
+                                [nzDisabledHours]="disabledHoursOnEnd"
+                                [nzDisabledMinutes]="disabledMinutesOnEnd"
+                                nzFormat="HH:mm"
+                                class="full-width date-picker"
+                            ></nz-time-picker>
+                            <p class="date-picker-title">End Time</p>
+                        </nz-form-item>
+                    </div>
+
+                    <button
+                        mat-raised-button
+                        color="primary"
+                        (click)="onSubmit()"
+                        class="button-row button-color"
+                        [disabled]="bookingForm.invalid"
+                    >
+                        PREVIEW
+                    </button>
+                </form>
+            </mat-card>
         </div>
-        <hr />
-
-        <form [formGroup]="bookingForm">
-          <mat-form-field
-            class="full-width"
-            appearance="outline"
-            floatLabel="never"
-          >
-            <mat-label>Name</mat-label>
-            <input matInput formControlName="name" />
-            <mat-icon matSuffix>face</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field
-            class="full-width"
-            appearance="outline"
-            floatLabel="never"
-          >
-            <mat-label>Email</mat-label>
-            <input matInput formControlName="email" />
-            <mat-icon matSuffix>email</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field
-            class="full-width"
-            appearance="outline"
-            floatLabel="never"
-          >
-            <mat-label>Phone Number</mat-label>
-            <input matInput formControlName="phoneNumber" maxlength="10" />
-            <mat-icon matSuffix>phone_iphone</mat-icon>
-          </mat-form-field>
-
-          <mat-form-field class="full-width" appearance="outline">
-            <mat-label>Select Room</mat-label>
-            <mat-icon matSuffix>room</mat-icon>
-            <mat-select formControlName="room">
-              <mat-option *ngFor="let room of rooms" [value]="room">
-                {{ room }}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field
-            class="full-width form-field-reason"
-            appearance="outline"
-          >
-            <mat-label>Reason</mat-label>
-            <textarea matInput formControlName="reason"></textarea>
-            <mat-icon matSuffix>textsms</mat-icon>
-          </mat-form-field>
-
-          <div class="row-datetimepicker">
-            <nz-form-item class="date-box">
-              <nz-date-picker
-                formControlName="startDate"
-                nzPlaceHolder=" "
-                [nzDisabledDate]="disabledDateOnStart"
-                [nzShowToday]="false"
-                nzFormat="yyyy/MM/dd"
-                [nzDefaultPickerValue]="minDate"
-                [nzInputReadOnly]="true"
-                class="full-width date-picker"
-              ></nz-date-picker>
-              <p class="date-picker-title">Start Date</p>
-            </nz-form-item>
-
-            <nz-form-item class="time-box"
-              ><nz-time-picker
-                formControlName="startTime"
-                nzPlaceHolder=" "
-                [nzDisabledHours]="disabledHoursOnStart"
-                [nzDisabledMinutes]="disabledMinutesOnStart"
-                nzFormat="HH:mm"
-                class="full-width date-picker"
-              ></nz-time-picker>
-              <p class="date-picker-title">Start Time</p>
-            </nz-form-item>
-          </div>
-
-          <div class="row-datetimepicker">
-            <nz-form-item class="date-box">
-              <nz-date-picker
-                formControlName="endDate"
-                nzPlaceHolder=" "
-                [nzDisabledDate]="disabledDateOnEnd"
-                [nzShowToday]="false"
-                nzFormat="yyyy/MM/dd"
-                [nzDefaultPickerValue]="minDate"
-                [nzInputReadOnly]="true"
-                class="full-width date-picker"
-              ></nz-date-picker>
-              <p class="date-picker-title">End Date</p>
-            </nz-form-item>
-
-            <nz-form-item class="time-box"
-              ><nz-time-picker
-                formControlName="endTime"
-                nzPlaceHolder=" "
-                [nzDisabledHours]="disabledHoursOnEnd"
-                [nzDisabledMinutes]="disabledMinutesOnEnd"
-                nzFormat="HH:mm"
-                class="full-width date-picker"
-              ></nz-time-picker>
-              <p class="date-picker-title">End Time</p>
-            </nz-form-item>
-          </div>
-
-          <button
-            mat-raised-button
-            color="primary"
-            (click)="onSubmit()"
-            class="button-row button-color"
-            [disabled]="bookingForm.invalid"
-          >
-            PREVIEW
-          </button>
-        </form>
-      </mat-card>
     </div>
-  </div>
 </div>
