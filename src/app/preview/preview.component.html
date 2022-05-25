@@ -40,7 +40,7 @@
                             disabled
                             cdkAutosizeMinRows="2"
                         ></textarea>
-                        <mat-icon matSuffix>event</mat-icon>
+                        <mat-icon matSuffix>textsms</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
@@ -55,17 +55,18 @@
                         <mat-icon matSuffix>calendar_today</mat-icon>
                     </mat-form-field>
 
-                    <div class="flex-box">
+                    <div class="flex">
                         <button
                             mat-raised-button
-                            class="button-return-color button-row"
+                            class="button button-return"
                             (click)="onReturn()"
                         >
                             RETURN
                         </button>
+
                         <button
                             mat-raised-button
-                            class="button-confirm-color button-row"
+                            class="button button-confirm"
                             (click)="onConfirm()"
                             [disabled]="isConfirm"
                         >

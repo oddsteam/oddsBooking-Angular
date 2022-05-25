@@ -35,7 +35,7 @@
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Reason</mat-label>
                         <textarea matInput value="{{ bookingDetail.reason }}" disabled></textarea>
-                        <mat-icon matSuffix>event</mat-icon>
+                        <mat-icon matSuffix>textsms</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
@@ -50,15 +50,9 @@
                         <mat-icon matSuffix>calendar_today</mat-icon>
                     </mat-form-field>
 
-                    <div class="flex-box">
-                        <button
-                            mat-raised-button
-                            class="button-confirm-color button-row"
-                            (click)="onConfirm()"
-                        >
-                            CONFIRM
-                        </button>
-                    </div>
+                    <button mat-raised-button class="button button-confirm" (click)="onConfirm()">
+                        CONFIRM
+                    </button>
                 </form>
             </mat-card>
         </div>

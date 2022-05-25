@@ -1,185 +1,6 @@
-* {
-    --red-color: #f00b51;
-    --purple-color: #7366ff;
-    --black-color: #333;
-    --green-light: #e6f9e4;
-}
-
-.card {
-    max-width: 400px;
-}
-
-.container-card {
-    /* ! add bg images */
-    background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
-    /* ! add overflow scrolling */
-    overflow-y: auto;
-    overflow-x: hidden;
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-@media only screen and (max-height: 754px) {
-    .container-card {
-        align-items: flex-start;
-    }
-}
-
-.header-title {
-    padding: 12px 0;
-    /* ! center-fontsize-weight title */
-    text-align: center;
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 10px;
-    contain: flex;
-}
-
-.container {
-    width: 100vw;
-    height: 100vh;
-    /* ! add gradient bg */
-    background: linear-gradient(45deg, var(--red-color) 0%, var(--purple-color) 100%);
-}
-
-.form-container {
-    /* ! responsive container */
-    width: min(90%, 450px);
-    /* ! add padding*/
-    padding: 20px 0px;
-    margin-left: auto;
-    margin-right: auto;
-    /* background-color: aquamarine; */
-}
-
-.input {
-    margin-bottom: 10px;
-    padding: 10px;
-    width: 100%;
-    border: #c5c5c5 2px solid;
-    border-radius: 10px;
-}
-
-.input-text {
-    display: block;
-    height: 30px;
-}
-
-.input-label {
-    display: block;
-}
-
-.input-text-area {
-    display: block;
-    height: 80px;
-}
-
-.input-selector {
-    display: block;
-    height: 50px;
-}
-
-.input-datetime {
-    display: block;
-    height: 30px;
-}
-
-.button-submit {
-    margin-top: 20px;
-    padding: 15px;
-    border-radius: 15px;
-    background-color: rgb(170, 228, 255);
-    border: none;
-}
-
-.button-submit:hover {
-    background-color: rgb(255, 255, 255);
-    color: #000000;
-    box-shadow: 2px 2px 3px 3px #8888888c;
-}
-
-.form {
-    min-width: 150px;
-    max-width: 500px;
-    width: 100%;
-}
-
-.full-width {
-    width: 100%;
-}
-
-.button-row .mat-button-base {
-    margin: 16px 16px 16px 0;
-}
-
-.button-row {
-    display: table-cell;
-    width: 100%;
-}
-
-.icon-color {
-    color: #ffc0cb;
-}
-
-.icon-color:hover {
-    color: #920018;
-}
-
 .button-color:hover:not([disabled]) {
-    background-color: var(--green-light);
-    color: #000000;
-}
-
-.button-color {
-    background-color: var(--purple-color);
-}
-
-.button-color:focus {
-    background-color: var(--black-color);
-}
-
-/* ! Icon calen size */
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    width: 20px;
-    height: 20px;
-}
-
-/* ! Icon reason at top */
-/* ::ng-deep div.form-field-reason .form-field-reason{
-  align-items:flex-start !important;
-} */
-
-.baseline-to-center {
-    align-items: center;
-}
-
-input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    width: 20px;
-    height: 20px;
-}
-
-.icon-style {
-    width: 20px;
-    height: 20px;
-    margin: auto;
+    background-color: var(--light-green);
     color: var(--black-color);
-    padding-right: 10.5px;
-}
-
-/* ! Hide Arrows From Input Number */
-/* Chrome, Safari, Edge, Opera */
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-/* Firefox */
-input[type="number"] {
-    -moz-appearance: textfield;
 }
 
 .row-datetimepicker {
@@ -221,15 +42,16 @@ input[type="number"] {
 .date-picker {
     position: relative;
     box-shadow: none;
-    color: rgba(0, 0, 0, 0.12);
+    color: var(--gray-outline);
     border-radius: 5px;
     z-index: 0;
     height: 52px;
     transition: none;
+    font-size: 20px;
 }
 
 .date-picker:hover {
-    border-color: black;
+    border-color: var(--black-color);
     border-width: 2px !important;
     padding: 4px 10px;
 }
@@ -246,7 +68,7 @@ input[type="number"] {
     z-index: 99;
     pointer-events: none;
     transition: all 0.25s ease;
-    color: #666;
+    color: var(--gray-color);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -254,50 +76,47 @@ input[type="number"] {
 
 .date-picker-title::after {
     content: " *";
-    color: #666;
+    color: var(--gray-color);
 }
 
 .date-picker.ant-picker-focused~.date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
     transform: translate(-2px, -22px);
-    background: #fff;
-    color: #4252ae;
+    background: var(--white-color);
+    color: var(--dark-blue);
 }
 
 .date-picker.ant-picker-focused {
     border-width: 2px !important;
-    border-color: #4252ae;
+    border-color: var(--dark-blue);
 }
 
 .date-picker.ant-picker-focused~.date-picker-title::after {
     content: " *";
-    color: red;
+    color: var(--dark-red);
 }
 
 .date-picker.ng-valid~.date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
-    background: #fff;
+    background: var(--white-color);
     transform: translate(-2px, -22px);
 }
 
 .date-picker.ng-invalid.ng-touched {
-    border-color: red;
+    border-color: var(--dark-red);
     border-width: 2px;
     padding: 4px 10px;
 }
 
-.date-picker.ng-invalid.ng-touched~.date-picker-title {
-    color: red;
-}
-
+.date-picker.ng-invalid.ng-touched~.date-picker-title,
 .date-picker.ng-invalid.ng-touched~.date-picker-title::after {
-    color: red;
+    color: var(--dark-red);
 }
 
 ::ng-deep .ant-picker-suffix {
-    color: black !important;
+    color: var(--black-color) !important;
     margin-right: 5px;
 }
 
@@ -310,7 +129,7 @@ input[type="number"] {
 }
 
 .ant-picker-disabled.date-picker:hover {
-    border-color: rgb(217 217 217);
+    border-color: var(--gray-outline);
     border-width: 1px !important;
     padding: 4px 11px;
 }

@@ -8,7 +8,7 @@ import { BookingService } from '../booking.service'
 @Component({
     selector: 'app-booking-form',
     templateUrl: './booking-form.component.html',
-    styleUrls: ['./booking-form.component.css'],
+    styleUrls: ['./booking-form.component.css', '../app.component.css'],
 })
 export class BookingFormComponent implements OnInit {
     rooms: string[] = ['All Stars', 'Neon']

@@ -6,7 +6,7 @@ import { DetailService } from '../detail.service'
 @Component({
     selector: 'app-detail',
     templateUrl: './detail.component.html',
-    styleUrls: ['./detail.component.css'],
+    styleUrls: ['./detail.component.css', '../app.component.css'],
 })
 export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี

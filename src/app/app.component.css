@@ -1,0 +1,90 @@
+* {
+    --red-color: #f00b51;
+    --purple-color: #7366ff;
+    --dark-gray: #333;
+    --light-green: #e6f9e4;
+    --dark-red: #f44336;
+    --dark-blue: #3f51b5;
+    --black-color: #000;
+    --gray-outline: rgba(0, 0, 0, 0.12);
+    --green-color: #4caf50;
+    --yellow-color: #ffeb3b;
+    --gray-color: #666;
+    --white-color: #fff;
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(45deg, var(--red-color) 0%, var(--purple-color) 100%);
+}
+
+.container-card {
+    background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media only screen and (max-height: 754px) {
+    .container-card {
+        align-items: flex-start;
+    }
+}
+
+.form-container {
+    width: min(90%, 450px);
+    padding: 20px 0px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.header-title {
+    padding: 12px 0;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    contain: flex;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.button {
+    width: 100%;
+}
+
+.button:focus {
+    background-color: var(--dark-gray);
+    color: var(--white-color);
+}
+
+.button-color {
+    background-color: var(--purple-color);
+    color: var(--white-color);
+}
+
+.button-return {
+    background-color: var(--yellow-color);
+    color: var(--black-color);
+}
+
+.button-confirm {
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+
+input:disabled,
+textarea:disabled {
+    color: var(--black-color);
+}
+
+::ng-deep .mat-form-field-flex {
+    align-items: center !important;
+}

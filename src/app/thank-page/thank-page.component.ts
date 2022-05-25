@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 @Component({
     selector: 'app-thank-page',
     templateUrl: './thank-page.component.html',
-    styleUrls: ['./thank-page.component.css'],
+    styleUrls: ['./thank-page.component.css', '../app.component.css'],
 })
 export class ThankPageComponent implements OnInit {
     constructor(private router: Router) {}

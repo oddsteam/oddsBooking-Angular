@@ -7,7 +7,7 @@ import { BookingService } from '../booking.service'
 @Component({
     selector: 'app-preview',
     templateUrl: './preview.component.html',
-    styleUrls: ['./preview.component.css'],
+    styleUrls: ['./preview.component.css', '../app.component.css'],
 })
 export class PreviewComponent implements OnInit {
     bookingDetail!: BookingDetail
