@@ -34,7 +34,7 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledMinutesOnEnd = (hours: number) => {
-        return BookingService.rangeDisabledHoursOnEnd(this.bookingForm.get('startDate')?.value)
+      return BookingService.rangeDisabledMinutesOnStart(hours,this.bookingForm.get('startDate')?.value)
     }
 
     disabledDateOnStart = (current: Date): boolean => {
