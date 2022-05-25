@@ -10,15 +10,18 @@ import { BookingService } from '../booking.service';
   templateUrl: './booking-form.component.html',
   styleUrls: ['./booking-form.component.css'],
 })
+
 export class BookingFormComponent implements OnInit {
   rooms: string[] = ['All Stars', 'Neon'];
-  minDate: Date =
-    dayjs().add(14, 'day').day() !== 0 || dayjs().add(14, 'day').day() !== 6
-      ? dayjs().add(14, 'day').startOf('D').toDate()
-      : dayjs().add(14, 'day').hour(9).minute(0).toDate();
-  inputvalue: string = '';
+  minDate: Date = (dayjs().add(14, 'day').day() !== 0 || dayjs().add(14, 'day').day() !== 6) ? dayjs().add(14, 'day').startOf('D').toDate() : dayjs().add(14, 'day').hour(9).minute(0).toDate();
+  inputValue: string = '';
   inputPhoneNumber: string = '';
+
   @Input() uid!: string;
+
+  isWeekend(day : Date): boolean {
+    return dayjs(day).day()===0||dayjs(day).day()===6
+  }
 
   range(start: number, end: number): number[] {
     const result: number[] = [];
@@ -29,20 +32,34 @@ export class BookingFormComponent implements OnInit {
   }
 
   nzDisabledHoursOnStart = () => {
-    return this.range(7, 18);
+    if(this.isWeekend(this.bookingForm.get('startDate')?.value)){
+      return this.range(0,9).concat(this.range(21,24))
+    }
+    return this.range(6,18);
   };
 
   nzDisabledMinutesOnStart = (hours: number) => {
-    if (hours === 6) return this.range(1, 60);
+    if((this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===21) ||
+      (!this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===6)
+    ){
+      return this.range(1, 60);
+    }
     return [];
   };
 
   nzDisabledHoursOnEnd = () => {
-    return this.range(7, 18);
+    if(this.isWeekend(this.bookingForm.get('startDate')?.value)){
+      return this.range(0,9).concat(this.range(22,24))
+    }
+    return this.range(7,18);
   };
 
   nzDisabledMinutesOnEnd = (hours: number) => {
-    if (hours === 6) return this.range(1, 60);
+    if((this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===21) ||
+      (!this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===6)
+    ){
+      return this.range(1, 60);
+    }
     return [];
   };
 
@@ -87,19 +104,19 @@ export class BookingFormComponent implements OnInit {
     Validators.required
   );
 
-  constructor(private bookingService: BookingService, private router: Router) {}
+  constructor(private bookingService: BookingService, private router: Router) { }
 
   ngOnInit(): void {
     this.bookingForm
-      .get('name')
-      ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
+      .get('name')?.valueChanges
+      .pipe(map((v) => this.textAutoFormat(v)))
       .subscribe((v) =>
         this.bookingForm.get('name')?.setValue(v, { emitEvent: false })
       );
 
     this.bookingForm
-      .get('phoneNumber')
-      ?.valueChanges.pipe(map((v) => this.checkPhoneNumberInput(v)))
+      .get('phoneNumber')?.valueChanges
+      .pipe(map((v) => this.checkPhoneNumberInput(v)))
       .subscribe((v) =>
         this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
       );
@@ -127,10 +144,11 @@ export class BookingFormComponent implements OnInit {
         startTime: startDate.toDate(),
         endTime: endDate.toDate(),
       });
-      this.inputvalue = this.textAutoFormat(currentBooking.name);
+      this.inputValue = this.textAutoFormat(currentBooking.name);
       this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber);
     }
   }
+
   onSubmit() {
     const startDate = dayjs(this.bookingForm.get('startDate')?.value);
     const startTime = dayjs(this.bookingForm.get('startTime')?.value);
