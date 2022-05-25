@@ -5,7 +5,6 @@ import { BookingDetail } from './booking';
 
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import * as dayjs from 'dayjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -14,7 +13,7 @@ export class BookingService {
 
   uid: any
   currentBooking?: BookingDetail;
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   httpOption = {
     headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -27,82 +26,18 @@ export class BookingService {
       this.bookingUrl,
       booking,
       this.httpOption
-    ).pipe(map(data => data.id));
+    ).pipe(map(data => data.id ));
   }
 
-  saveBooking(booking: BookingDetail) {
+  saveBooking(booking: BookingDetail){
     this.currentBooking = booking;
   }
 
-  getCurrentBooking(): BookingDetail | undefined {
+  getCurrentBooking(): BookingDetail | undefined{
     return this.currentBooking;
   }
 
-  clearCurrentBooking() {
+  clearCurrentBooking(){
     this.currentBooking = undefined;
   }
-
-  static isWeekend(day: Date): boolean {
-    return dayjs(day).day() === 0 || dayjs(day).day() === 6
-  }
-
-  static isDisableEndDate(startDate: Date | null, current: Date): boolean {
-    if (startDate) {
-      const startDateDayjs = dayjs(startDate);
-      if (this.isWeekend(startDate)) {
-        return !dayjs(current).isSame(startDateDayjs, 'date');
-      }
-      return (
-        startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
-        !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
-      );
-    }
-    return dayjs().add(14, 'day').isAfter(current, 'date');
-  }
-
-  static range(start: number, end: number): number[] {
-    const result: number[] = [];
-    for (let i = start; i < end; i++) {
-      result.push(i);
-    }
-    return result;
-  }
-
-  static rangeDisabledHoursOnStart(startDate: Date): number[] {
-    if (this.isWeekend(startDate)) {
-      return this.range(0, 9).concat(this.range(21, 24))
-    }
-    return this.range(6, 18);
-  };
-
-  static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
-    if ((this.isWeekend(startDate) && hours === 21) ||
-      (!this.isWeekend(startDate) && hours === 6)
-    ) {
-      return this.range(1, 60);
-    }
-    return [];
-  };
-
-  static rangeDisabledHoursOnEnd(startDate: Date):number[] {
-    if (this.isWeekend(startDate)) {
-      return this.range(0, 9).concat(this.range(22, 24))
-    }
-    return this.range(7, 18);
-  };
-
-  static rangeDisabledMinutesOnEnd(hours: number, startDate: Date): number[] {
-    if ((this.isWeekend(startDate) && hours === 21) ||
-      (!this.isWeekend(startDate) && hours === 6)
-    ) {
-      return this.range(1, 60);
-    }
-    return [];
-  };
-
-  static isDisabledDateOnStart(current: Date): boolean{
-    return dayjs().add(14, 'day').isAfter(current, 'date');
-  };
-
 }
-

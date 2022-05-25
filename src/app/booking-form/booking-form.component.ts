@@ -16,29 +16,74 @@ export class BookingFormComponent implements OnInit {
   minDate: Date = (dayjs().add(14, 'day').day() !== 0 || dayjs().add(14, 'day').day() !== 6) ? dayjs().add(14, 'day').startOf('D').toDate() : dayjs().add(14, 'day').hour(9).minute(0).toDate();
   inputValue: string = '';
   inputPhoneNumber: string = '';
-  disabledHoursOnStart = () => {
-    return BookingService.rangeDisabledHoursOnStart(this.bookingForm.get('startDate')?.value)
+
+  @Input() uid!: string;
+
+  isWeekend(day : Date): boolean {
+    return dayjs(day).day()===0||dayjs(day).day()===6
+  }
+
+  range(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+
+  nzDisabledHoursOnStart = () => {
+    if(this.isWeekend(this.bookingForm.get('startDate')?.value)){
+      return this.range(0,9).concat(this.range(21,24))
+    }
+    return this.range(6,18);
   };
 
-  disabledMinutesOnStart = (hours: number) => {
-    return BookingService.rangeDisabledMinutesOnStart(hours, this.bookingForm.get('startDate')?.value)
+  nzDisabledMinutesOnStart = (hours: number) => {
+    if((this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===21) ||
+      (!this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===6)
+    ){
+      return this.range(1, 60);
+    }
+    return [];
   };
 
-  disabledHoursOnEnd = () => {
-    return BookingService.rangeDisabledHoursOnEnd(this.bookingForm.get('startDate')?.value)
+  nzDisabledHoursOnEnd = () => {
+    if(this.isWeekend(this.bookingForm.get('startDate')?.value)){
+      return this.range(0,9).concat(this.range(22,24))
+    }
+    return this.range(7,18);
   };
 
-  disabledMinutesOnEnd = (hours: number) => {
-    return BookingService.rangeDisabledHoursOnEnd(this.bookingForm.get('startDate')?.value)
+  nzDisabledMinutesOnEnd = (hours: number) => {
+    if((this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===21) ||
+      (!this.isWeekend(this.bookingForm.get('startDate')?.value)&&hours===6)
+    ){
+      return this.range(1, 60);
+    }
+    return [];
   };
 
   disabledDateOnStart = (current: Date): boolean => {
-    return BookingService.isDisabledDateOnStart(current)
+    const endDate = this.bookingForm.get('endDate')?.value;
+    if (endDate) return dayjs().add(14, 'day').isAfter(current, 'date');
+    return dayjs().add(14, 'day').isAfter(current, 'date');
   };
 
   disabledDateOnEnd = (current: Date): boolean => {
     const startDate = this.bookingForm.get('startDate')?.value;
-    return BookingService.isDisableEndDate(startDate, current)
+    if (startDate) {
+      const startDateDayjs = dayjs(startDate);
+      const dayInWeek = dayjs(startDate).day();
+      if (dayInWeek === 0 || dayInWeek === 6) {
+        return !dayjs(current).isSame(startDateDayjs, 'date');
+      } else {
+        return (
+          startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+          !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+        );
+      }
+    }
+    return dayjs().add(14, 'day').isAfter(current, 'date');
   };
 
   bookingForm = new FormGroup(
@@ -76,12 +121,12 @@ export class BookingFormComponent implements OnInit {
         this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
       );
 
-    this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => { });
+    this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {});
 
-    this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => { });
+    this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {});
 
-    this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => { });
-    this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => { });
+    this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {});
+    this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {});
 
     const currentBooking = this.bookingService.getCurrentBooking();
     if (currentBooking) {
