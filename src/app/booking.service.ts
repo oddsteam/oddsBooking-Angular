@@ -55,13 +55,15 @@ export class BookingService {
     static isDisableEndDate(startDate: Date | null, current: Date): boolean {
         if (startDate) {
             const startDateDayjs = dayjs(startDate)
-            if (this.isWeekend(startDate)) {
-                return !dayjs(current).isSame(startDateDayjs, 'date')
-            }
-            return (
-                startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
-                !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
-            )
+            return startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+            !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+            // if (this.isWeekend(startDate)) {
+            //     return !dayjs(current).isSame(startDateDayjs, 'date')
+            // }
+            // return (
+            //     startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+            //     !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+            // )
         }
         return dayjs().add(14, 'day').isAfter(current, 'date')
     }
