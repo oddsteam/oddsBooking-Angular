@@ -308,3 +308,9 @@ input[type="number"] {
 ::ng-deep .ant-picker-clear {
     margin-right: 5px;
 }
+
+.ant-picker-disabled.date-picker:hover {
+    border-color: rgb(217 217 217);
+    border-width: 1px !important;
+    padding: 4px 11px;
+}
