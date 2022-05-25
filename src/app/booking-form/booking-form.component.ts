@@ -4,8 +4,6 @@ import { Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 import { map } from 'rxjs';
 import { BookingService } from '../booking.service';
-import { DetailService } from '../detail.service';
-import { DisabledTimeFn } from 'ng-zorro-antd/date-picker';
 
 @Component({
   selector: 'app-booking-form',
@@ -92,7 +90,6 @@ export class BookingFormComponent implements OnInit {
   constructor(private bookingService: BookingService, private router: Router) {}
 
   ngOnInit(): void {
-    //this.setMinDate();
     this.bookingForm
       .get('name')
       ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
@@ -106,11 +103,6 @@ export class BookingFormComponent implements OnInit {
       .subscribe((v) =>
         this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
       );
-
-    // this.bookingForm.get('name')?.valueChanges
-    //   .subscribe(
-    //     v => this.bookingForm.get('name')?.setValue(this.transform(v), {emitEvent : false})
-    //   );
 
     this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {});
 
@@ -137,8 +129,6 @@ export class BookingFormComponent implements OnInit {
       });
       this.inputvalue = this.textAutoFormat(currentBooking.name);
       this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber);
-
-      //this.checkStartDateNEndDate();
     }
   }
   onSubmit() {
@@ -181,42 +171,5 @@ export class BookingFormComponent implements OnInit {
     if (!date) return '';
     const next2WeekDate = dayjs(date).add(14, 'day').toDate();
     return dayjs(next2WeekDate).format('YYYY-MM-DDTHH:mm');
-
-    // var next2WeekDateString = "";
-    // var strDate = next2WeekDate.getDate() < 10 ? "0" + next2WeekDate.getDate() : next2WeekDate.getDate();
-    // var strMonth = next2WeekDate.getMonth() < 10 ? "0" + (next2WeekDate.getMonth() + 1) : (next2WeekDate.getMonth() + 1);
-    // var strYear = next2WeekDate.getFullYear();
-    // var strHours = next2WeekDate.getHours() < 10 ? "0" + (next2WeekDate.getHours()) : (next2WeekDate.getHours());
-    // var strMinutes = next2WeekDate.getMinutes() < 10 ? "0" + next2WeekDate.getMinutes() : next2WeekDate.getMinutes();
-
-    // next2WeekDateString = strYear + "-" + strMonth + "-" + strDate + "T" + strHours + ":" + strMinutes;
-
-    // var date = currentDateTime.getDate() < 10 ? "0" + currentDateTime.getDate() : currentDateTime.getDate();
-    // var month = currentDateTime.getMonth() < 10 ? "0" + (currentDateTime.getMonth() + 1) : (currentDateTime.getMonth() + 1);
-    // var year = currentDateTime.getFullYear();
-    // var hours = currentDateTime.getHours() < 10 ? "0" + (currentDateTime.getHours()) : (currentDateTime.getHours());
-    // var minutes = currentDateTime.getMinutes() < 10 ? "0" + currentDateTime.getMinutes() : currentDateTime.getMinutes();
-
-    // this.minDate = year + "-" + month + "-" + date + "T" + hours + ":" + minutes;
-
-    // console.log(this.minDate);
   }
-  // checkStartDateNEndDate() {
-  //   this.setMinDate();
-  //   var startDate: Date = this.bookingForm.get('startDate')?.value;
-  //   var endDate: Date = this.bookingForm.get('endDate')?.value;
-
-  //   var currentDateTime = new Date();
-  //   var selectStartDateTime = new Date(startDate);
-  //   var selectEndDateTime = new Date(endDate);
-
-  //   if (selectStartDateTime >= currentDateTime &&
-  //     selectEndDateTime >= currentDateTime &&
-  //     startDate < endDate &&
-  //     this.bookingForm.valid) {
-  //     this.isRealValid = true;
-  //   } else {
-  //     this.isRealValid = false;
-  //   }
-  // }
 }

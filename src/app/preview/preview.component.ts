@@ -1,8 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { BookingDetail } from '../booking';
-import { DetailService } from '../detail.service';
-import { Location } from '@angular/common'
 import { BookingService } from '../booking.service';
 
 @Component({
