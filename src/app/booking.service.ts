@@ -42,6 +42,14 @@ export class BookingService {
     this.currentBooking = undefined;
   }
 
+  static range(start: number, end: number): number[] {
+    const result: number[] = [];
+    for (let i = start; i < end; i++) {
+      result.push(i);
+    }
+    return result;
+  }
+
   static isWeekend(day: Date): boolean {
     return dayjs(day).day() === 0 || dayjs(day).day() === 6
   }
@@ -60,13 +68,6 @@ export class BookingService {
     return dayjs().add(14, 'day').isAfter(current, 'date');
   }
 
-  static range(start: number, end: number): number[] {
-    const result: number[] = [];
-    for (let i = start; i < end; i++) {
-      result.push(i);
-    }
-    return result;
-  }
 
   static rangeDisabledHoursOnStart(startDate: Date): number[] {
     if (this.isWeekend(startDate)) {
@@ -84,7 +85,7 @@ export class BookingService {
     return [];
   };
 
-  static rangeDisabledHoursOnEnd(startDate: Date):number[] {
+  static rangeDisabledHoursOnEnd(startDate: Date): number[] {
     if (this.isWeekend(startDate)) {
       return this.range(0, 9).concat(this.range(22, 24))
     }
@@ -100,7 +101,7 @@ export class BookingService {
     return [];
   };
 
-  static isDisabledDateOnStart(current: Date): boolean{
+  static isDisabledDateOnStart(current: Date): boolean {
     return dayjs().add(14, 'day').isAfter(current, 'date');
   };
 

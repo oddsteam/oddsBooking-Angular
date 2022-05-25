@@ -77,8 +77,8 @@
               ><nz-time-picker
                 formControlName="startTime"
                 nzPlaceHolder=" "
-                [nzDisabledHours]="nzDisabledHoursOnStart"
-                [nzDisabledMinutes]="nzDisabledMinutesOnStart"
+                [nzDisabledHours]="disabledHoursOnStart"
+                [nzDisabledMinutes]="disabledMinutesOnStart"
                 nzFormat="HH:mm"
                 class="full-width date-picker"
               ></nz-time-picker>
@@ -105,8 +105,8 @@
               ><nz-time-picker
                 formControlName="endTime"
                 nzPlaceHolder=" "
-                [nzDisabledHours]="nzDisabledHoursOnEnd"
-                [nzDisabledMinutes]="nzDisabledMinutesOnEnd"
+                [nzDisabledHours]="disabledHoursOnEnd"
+                [nzDisabledMinutes]="disabledMinutesOnEnd"
                 nzFormat="HH:mm"
                 class="full-width date-picker"
               ></nz-time-picker>
