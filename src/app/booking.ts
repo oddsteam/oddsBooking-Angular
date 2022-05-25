@@ -1,6 +1,6 @@
 export interface BookingDetail {
     id: string
-    name: string
+    fullName: string
     email: string
     phoneNumber: string
     reason: string
@@ -11,7 +11,7 @@ export interface BookingDetail {
 
 export interface Detail {
     id: string
-    name: string
+    fullName: string
     email: string
     phoneNumber: string
     reason: string

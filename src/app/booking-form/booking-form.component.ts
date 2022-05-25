@@ -48,7 +48,7 @@ export class BookingFormComponent implements OnInit {
 
     bookingForm = new FormGroup(
         {
-            name: new FormControl('', [Validators.required]),
+            fullName: new FormControl('', [Validators.required]),
             email: new FormControl('', [Validators.required, Validators.email]),
             room: new FormControl('', [Validators.required]),
             phoneNumber: new FormControl('', [
@@ -68,9 +68,9 @@ export class BookingFormComponent implements OnInit {
 
     ngOnInit(): void {
         this.bookingForm
-            .get('name')
+            .get('fullName')
             ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
-            .subscribe((v) => this.bookingForm.get('name')?.setValue(v, { emitEvent: false }))
+            .subscribe((v) => this.bookingForm.get('fullName')?.setValue(v, { emitEvent: false }))
 
         this.bookingForm
             .get('phoneNumber')
@@ -92,7 +92,7 @@ export class BookingFormComponent implements OnInit {
             const endDate = dayjs(currentBooking.endDate)
 
             this.bookingForm.setValue({
-                name: currentBooking.name,
+                fullName: currentBooking.fullName,
                 email: currentBooking.email,
                 room: currentBooking.room,
                 phoneNumber: currentBooking.phoneNumber,
@@ -102,7 +102,7 @@ export class BookingFormComponent implements OnInit {
                 startTime: startDate.toDate(),
                 endTime: endDate.toDate(),
             })
-            this.inputValue = this.textAutoFormat(currentBooking.name)
+            this.inputValue = this.textAutoFormat(currentBooking.fullName)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
         }
     }
