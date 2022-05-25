@@ -209,8 +209,7 @@ input[type="number"] {
   position: relative;
   box-shadow: none;
   color: rgba(0 , 0, 0, .12);
-  border-radius: 4px;
-  color: rgba(0 , 0, 0, .12);
+  border-radius: 5px;
   z-index: 0;
   height: 52px;
   transition: none;
@@ -219,8 +218,12 @@ input[type="number"] {
 .date-picker:hover{
   border-color: black;
   border-width: 2px !important;
+  padding: 4px 10px;
 }
-
+.date-picker.ant-picker-focused {
+  border-width: 2px !important;
+  padding: 4px 10px;
+}
 
 .date-picker-title {
   position: absolute;
@@ -263,6 +266,7 @@ input[type="number"] {
 .date-picker.ng-invalid.ng-touched{
   border-color: red;
   border-width: 2px;
+  padding: 4px 10px;
 }
 .date-picker.ng-invalid.ng-touched~.date-picker-title{
   color: red;
@@ -280,3 +284,6 @@ input[type="number"] {
   background: transparent;
 }
 
+::ng-deep .ant-picker-clear {
+  margin-right: 5px;
+}
