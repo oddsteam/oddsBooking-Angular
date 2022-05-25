@@ -190,19 +190,32 @@ input[type="number"] {
 .row-datetimepicker {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 1rem;
   width: 100%;
 }
 
-
-.row-datetimepicker {
-  display: flex;
-  flex-direction: row;
-  gap: 0.5rem;
-  width: 100%;
-}
-.date-box {
+.date-box, .time-box {
   position: relative;
+}
+.date-box{
+  width: 55%;
+}
+.time-box {
+  width: 45%;
+}
+
+@media only screen and (max-width: 400px) {
+  .row-datetimepicker {
+    display: flex;
+    flex-direction: column;
+    gap: 0rem;
+  }
+  .date-box{
+    width: 100%;
+  }
+  .time-box {
+    width: 100%;
+  }
 }
 
 .date-picker {
@@ -233,6 +246,9 @@ input[type="number"] {
   pointer-events: none;
   transition: all 0.25s ease;
   color: #666;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .date-picker-title::after{
@@ -240,7 +256,7 @@ input[type="number"] {
   color: #666;
 }
 
-.date-picker[class~="ant-picker-focused"]~.date-picker-title {
+.date-picker.ant-picker-focused~.date-picker-title {
   font-size: 10px;
   padding: 0px 6px;
   transform: translate(-2px, -22px);
