@@ -31,14 +31,17 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledHoursOnEnd = () => {
-        return BookingService.rangeDisabledHoursOnEnd(this.bookingForm.get('startDate')?.value)
+        const startDate = this.bookingForm.get('startDate')?.value
+        const startTime = this.bookingForm.get('startTime')?.value
+        const endDate = this.bookingForm.get('endDate')?.value
+        return BookingService.rangeDisabledHoursOnEnd(startDate, startTime, endDate)
     }
 
     disabledMinutesOnEnd = (hours: number) => {
-        return BookingService.rangeDisabledMinutesOnStart(
-            hours,
-            this.bookingForm.get('startDate')?.value
-        )
+        const startDate = this.bookingForm.get('startDate')?.value
+        const startTime = this.bookingForm.get('startTime')?.value
+        const endDate = this.bookingForm.get('endDate')?.value
+        return BookingService.rangeDisabledMinutesOnEnd(hours, startDate, startTime, endDate)
     }
 
     disabledDateOnStart = (current: Date): boolean => {

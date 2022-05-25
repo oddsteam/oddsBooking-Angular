@@ -107,19 +107,60 @@ export class BookingService {
         return []
     }
 
-    static rangeDisabledHoursOnEnd(startDate: Date): number[] {
+    static rangeDisabledHoursOnEnd(startDate: Date, startTime: Date, endDate: Date): number[] {
+        let startTimeHoursDayJs = dayjs(startTime).get('hour')
+        // Sat-Sun
         if (this.isWeekend(startDate)) {
-            return this.range(0, 9).concat(this.range(22, 24))
+            // start = end
+            if (dayjs(startDate).get('date') === dayjs(endDate).get('date')) {
+                if (dayjs(startTime).get('minute') === 59) {
+                    startTimeHoursDayJs++
+                }
+                return this.range(0, startTimeHoursDayJs).concat(this.range(22, 24))
+            }
+            // start != end
+            else {
+                return this.range(0, 9).concat(this.range(22, 24))
+            }
         }
-        return this.range(7, 18)
+        // Mon-Fri
+        else {
+            // start = end
+            if (dayjs(startDate).get('date') === dayjs(endDate).get('date')) {
+                if (dayjs(startTime).get('minute') === 59) {
+                    startTimeHoursDayJs++
+                }
+                if (startTimeHoursDayJs <= 6) {
+                    return this.range(0, startTimeHoursDayJs).concat(this.range(7, 24))
+                } else {
+                    return this.range(0, startTimeHoursDayJs)
+                }
+            }
+            // start != end
+            else {
+                return this.range(7, 24)
+            }
+        }
     }
 
-    static rangeDisabledMinutesOnEnd(hours: number, startDate: Date): number[] {
+    static rangeDisabledMinutesOnEnd(
+        hours: number,
+        startDate: Date,
+        startTime: Date,
+        endDate: Date
+    ): number[] {
         if (
-            (this.isWeekend(startDate) && hours === 21) ||
-            (!this.isWeekend(startDate) && hours === 6)
+            dayjs(startDate).get('date') === dayjs(endDate).get('date') &&
+            hours === dayjs(startTime).get('hour')
         ) {
-            return this.range(1, 60)
+            return this.range(0, dayjs(startTime).add(1, 'm').get('minute'))
+        } else {
+            if (
+                (this.isWeekend(startDate) && hours === 21) ||
+                (!this.isWeekend(startDate) && hours === 6)
+            ) {
+                return this.range(1, 60)
+            }
         }
         return []
     }
