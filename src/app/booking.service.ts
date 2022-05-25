@@ -52,14 +52,32 @@ export class BookingService {
         return dayjs(day).day() === 0 || dayjs(day).day() === 6
     }
 
-    static isDisableEndDate(startDate: Date | null, current: Date): boolean {
+    static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date): boolean {
         if (startDate) {
             const startDateDayjs = dayjs(startDate)
             if (this.isWeekend(startDate)) {
-                if(dayjs(startDate).day()===6){
-                   return startDateDayjs.add(1, 'day').isBefore(dayjs(current)) || !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+                if (dayjs(startDate).day() === 6) {
+                    return (
+                        startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+                        !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+                    )
                 }
                 return !dayjs(current).isSame(startDateDayjs, 'date')
+            } else {
+                if (startTime) {
+                    const startTimeDayjs = dayjs(startTime)
+                    if (dayjs(startTimeDayjs).hour() <= 6) {
+                        return (
+                            startDateDayjs.isBefore(dayjs(current)) ||
+                            !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+                        )
+                    } else {
+                        return (
+                            startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
+                            !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+                        )
+                    }
+                }
             }
             return (
                 startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
@@ -71,8 +89,8 @@ export class BookingService {
 
     static rangeDisabledHoursOnStart(startDate: Date): number[] {
         if (!this.isWeekend(startDate)) {
-            if(dayjs(startDate).day()===1){
-                return this.range(0,18)
+            if (dayjs(startDate).day() === 1) {
+                return this.range(0, 18)
             }
             return this.range(6, 18)
         }

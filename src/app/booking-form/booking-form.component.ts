@@ -35,7 +35,10 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledMinutesOnEnd = (hours: number) => {
-      return BookingService.rangeDisabledMinutesOnStart(hours,this.bookingForm.get('startDate')?.value)
+        return BookingService.rangeDisabledMinutesOnStart(
+            hours,
+            this.bookingForm.get('startDate')?.value
+        )
     }
 
     disabledDateOnStart = (current: Date): boolean => {
@@ -44,7 +47,8 @@ export class BookingFormComponent implements OnInit {
 
     disabledDateOnEnd = (current: Date): boolean => {
         const startDate = this.bookingForm.get('startDate')?.value
-        return BookingService.isDisableEndDate(startDate, current)
+        const startTime = this.bookingForm.get('startTime')?.value
+        return BookingService.isDisableEndDate(startDate, startTime, current)
     }
 
     bookingForm = new FormGroup(
@@ -86,7 +90,9 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {
             if (v) {
+                this.bookingForm.get('startTime')?.setValue(null, { emitEvent: false })
                 this.bookingForm.get('startTime')?.enable({ onlySelf: true, emitEvent: false })
+                ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
             } else {
                 ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
             }
@@ -95,6 +101,13 @@ export class BookingFormComponent implements OnInit {
         this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {
             if (v) {
                 this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
+                if (dayjs(v).hour() <= 6) {
+                    this.bookingForm
+                        .get('endDate')
+                        ?.setValue(dayjs(this.bookingForm.get('startDate')?.value).toDate(), {
+                            emitEvent: false,
+                        })
+                }
             } else {
                 this.onClearValue('endDate')
                 this.onClearValue('endTime')
@@ -148,7 +161,7 @@ export class BookingFormComponent implements OnInit {
         this.router.navigateByUrl('preview')
     }
 
-    onClearValue(formName: string) {
+    onClearValue(formName: string): void {
         this.bookingForm.get(formName)?.setValue(null, { emitEvent: false })
         this.bookingForm.get(formName)?.disable({ onlySelf: true, emitEvent: false })
     }
