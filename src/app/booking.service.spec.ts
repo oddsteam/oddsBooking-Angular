@@ -15,4 +15,11 @@ describe('BookingService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
+
+  it('startdate is empty', () => {
+    const result = BookingService.isDisableEndDate(null,new Date)
+    expect(result).toBeTruthy();
+  })
+
 });
+
