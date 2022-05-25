@@ -17,7 +17,7 @@ describe('BookingService', () => {
     })
 
     it('startdate is empty', () => {
-        const result = BookingService.isDisableEndDate(null, new Date())
+        const result = BookingService.isDisableEndDate(null, new Date(), new Date())
         expect(result).toBeTruthy()
     })
 })
