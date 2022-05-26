@@ -99,6 +99,11 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {
             if (v) {
+                const disableHoursStartTime = this.disabledHoursOnStart()
+                const valueHoursTime = dayjs(v).hour()
+                const valueMinutesTime = dayjs(v).minute()
+                const disableMinutesStartTime = this.disabledMinutesOnStart(valueHoursTime)
+
                 this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
                 // Mon-Fri startime <= 6
                 if (dayjs(v).hour() <= 6) {
@@ -107,6 +112,11 @@ export class BookingFormComponent implements OnInit {
                     this.bookingForm.get('endDate')?.setValue(dayjs(startDate).toDate(), {
                         emitEvent: false,
                     })
+                } else if (
+                    disableHoursStartTime.includes(valueHoursTime) ||
+                    disableMinutesStartTime.includes(valueMinutesTime)
+                ) {
+                    this.bookingForm.get('startTime')?.setValue(null, { emitEvent: false })
                 }
             } else {
                 ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
@@ -134,6 +144,11 @@ export class BookingFormComponent implements OnInit {
                 const minHours = Math.min(...enableHours)
                 const maxHours = Math.max(...enableHours)
 
+                const disableHoursEndTime = this.disabledHoursOnEnd()
+                const valueEndHours = dayjs(v).hour()
+                const valueEndMinutes = dayjs(v).minute()
+                const disableMinutesEndTime = this.disabledMinutesOnEnd(valueEndHours)
+
                 if (dayjs(v).hour() === minHours && !enableMinutes.includes(dayjs(v).minute())) {
                     const startTimeWithMinute = dayjs(startTime).add(1, 'minute').minute()
                     const time = dayjs(v).minute(0).add(startTimeWithMinute, 'minute').toDate()
@@ -141,6 +156,11 @@ export class BookingFormComponent implements OnInit {
                 } else if (dayjs(v).hour() === maxHours) {
                     const zeroMinute = dayjs(v).minute(0).toDate()
                     this.bookingForm.get('endTime')?.setValue(zeroMinute, { emitEvent: false })
+                } else if (
+                    disableHoursEndTime.includes(valueEndHours) ||
+                    disableMinutesEndTime.includes(valueEndMinutes)
+                ) {
+                    this.bookingForm.get('endTime')?.setValue(null, { emitEvent: false })
                 }
             }
         })
