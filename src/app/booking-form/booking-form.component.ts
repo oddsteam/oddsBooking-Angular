@@ -121,6 +121,7 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
             if (v) {
+                this.bookingForm.get('endTime')?.setValue(null, { emitEvent: false })
                 this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
             } else {
                 this.onClearValue('endTime')
