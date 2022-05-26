@@ -117,6 +117,7 @@ export class BookingFormComponent implements OnInit {
                     disableMinutesStartTime.includes(valueMinutesTime)
                 ) {
                     this.bookingForm.get('startTime')?.setValue(null, { emitEvent: false })
+                    ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
                 }
             } else {
                 ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
