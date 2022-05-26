@@ -6,6 +6,9 @@ import { BookingDetail } from './booking'
 import { map } from 'rxjs/operators'
 import { environment } from 'src/environments/environment'
 import * as dayjs from 'dayjs'
+import * as isBetween from 'dayjs/plugin/isBetween'
+
+dayjs.extend(isBetween)
 @Injectable({
     providedIn: 'root',
 })
