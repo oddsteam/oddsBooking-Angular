@@ -42,5 +42,28 @@ pipeline{
                 """
             }
         }
+    node(slaveLabel) {
+    checkoutCode()
+    prepareVars()
+    discordSend description: "Jenkins Pipeline Build ${appName}", footer: "Start Build", link: "$BUILD_URL", result: currentBuild.currentResult, title: JOB_NAME, webhookURL: "https://discord.com/api/webhooks/979228784064614410/Ynmo3Zd9WbP8PvulM87fO0iZlKg0PTxnYuc73OLe3cLMzI__n9gNCsKR7GCfpIAZmda8"
+
+    switch(envName) {
+      case ["dev", "sit", "uat"]:
+        runUnitTest()
+        runOWASP()
+        runSonarQube()
+        buildAndPushDockerImage()
+        deployApp()
+        // runPerfTest()
+        break
+      case "tag":
+        buildAndPushDockerImage()
+        break
+      case "prod":
+        checkoutCode(checkout_tag: true)
+        deployApp()
+        break
+    }
+  }
     }
 }
