@@ -22,6 +22,10 @@ import en from '@angular/common/locales/en'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker'
+import * as dayjs from 'dayjs'
+import * as isBetween from 'dayjs/plugin/isBetween'
+
+dayjs.extend(isBetween)
 
 registerLocaleData(en)
 

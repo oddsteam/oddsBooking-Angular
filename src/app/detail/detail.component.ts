@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
-import { BookingDetail } from '../booking'
+import { BookingDetail, BookingDetailRes } from '../booking'
 import { DetailService } from '../detail.service'
 
 @Component({
@@ -10,7 +10,7 @@ import { DetailService } from '../detail.service'
 })
 export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี
-    bookingDetail?: BookingDetail
+    bookingDetailRes?: BookingDetailRes
 
     constructor(private detailService: DetailService, private route: ActivatedRoute) {}
 
@@ -21,11 +21,14 @@ export class DetailComponent implements OnInit {
     onLoading() {
         try {
             const id = this.route.snapshot.paramMap.get('id')
-            this.detailService.getBooking(id!).subscribe((data) => (this.bookingDetail = data))
+            this.detailService.getBooking(id!).subscribe((data) => (this.bookingDetailRes = data))
         } catch (err) {
             console.log(err)
         }
     }
 
-    onConfirm() {}
+    onConfirm() {
+        this.bookingDetailRes!.status = true;
+        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {console.log(this.bookingDetailRes)})
+    }
 }

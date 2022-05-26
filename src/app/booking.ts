@@ -7,9 +7,10 @@ export interface BookingDetail {
     room: string
     startDate: Date
     endDate: Date
+    status: boolean
 }
 
-export interface Detail {
+export interface BookingDetailRes {
     id: string
     fullName: string
     email: string
@@ -18,5 +19,9 @@ export interface Detail {
     room: string
     startDate: Date
     endDate: Date
-    status: string
+    status: boolean
+    createdAt: Date
+    updatedAt: Date
 }
+
+
