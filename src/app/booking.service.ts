@@ -104,6 +104,7 @@ export class BookingService {
         ) {
             return this.range(1, 60)
         }
+        if (hours === undefined) return this.range(0, 60)
         return []
     }
 
@@ -162,6 +163,7 @@ export class BookingService {
                 return this.range(1, 60)
             }
         }
+        if (hours === undefined) return this.range(0, 60)
         return []
     }
 

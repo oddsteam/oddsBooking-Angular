@@ -18,6 +18,7 @@ export class BookingFormComponent implements OnInit {
             : dayjs().add(14, 'day').hour(9).minute(0).toDate()
     inputValue: string = ''
     inputPhoneNumber: string = ''
+    isEndTimeValid: boolean = false
 
     disabledHoursOnStart = () => {
         return BookingService.rangeDisabledHoursOnStart(this.bookingForm.get('startDate')?.value)
@@ -127,7 +128,63 @@ export class BookingFormComponent implements OnInit {
                 this.onClearValue('endTime')
             }
         })
-        this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {})
+        this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {
+            const startTime = this.bookingForm.get('startTime')?.value
+            const startDate = this.bookingForm.get('startDate')?.value
+            const endDate = this.bookingForm.get('endDate')?.value
+            const startHours = dayjs(startTime).hour()
+            if (v) {
+                const rangeDisableHoursOnEnd = BookingService.rangeDisabledHoursOnEnd(
+                    startDate,
+                    startTime,
+                    endDate
+                )
+                let enableHours = []
+                for (let i = 0; i < 24; i++) {
+                    if (rangeDisableHoursOnEnd.some((h) => h === i)) {
+                        continue
+                    } else {
+                        enableHours.push(i)
+                    }
+                }
+                const rangeDisabledMinutesOnEnd = BookingService.rangeDisabledMinutesOnEnd(
+                    startHours,
+                    startDate,
+                    startTime,
+                    endDate
+                )
+
+                let enableMinMinutes = []
+                for (let i = 0; i < 60; i++) {
+                    if (rangeDisabledMinutesOnEnd.some((h) => h === i)) {
+                        continue
+                    } else {
+                        enableMinMinutes.push(i)
+                    }
+                }
+
+                if (
+                    dayjs(v).hour() === Math.min(...enableHours) &&
+                    !enableMinMinutes.some((t) => dayjs(v).minute() === t)
+                ) {
+                    this.bookingForm
+                        .get('endTime')
+                        ?.setValue(
+                            dayjs(v)
+                                .minute(0)
+                                .add(dayjs(startTime).add(1, 'minute').minute(), 'minute')
+                                .toDate(),
+                            {
+                                emitEvent: false,
+                            }
+                        )
+                } else if (dayjs(v).hour() === Math.max(...enableHours)) {
+                    this.bookingForm.get('endTime')?.setValue(dayjs(v).minute(0).toDate(), {
+                        emitEvent: false,
+                    })
+                }
+            }
+        })
 
         const currentBooking = this.bookingService.getCurrentBooking()
         if (currentBooking) {
