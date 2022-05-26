@@ -104,7 +104,9 @@ export class BookingFormComponent implements OnInit {
         this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {
             if (v) {
                 this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
+                // Mon-Fri startime <= 6
                 if (dayjs(v).hour() <= 6) {
+                    this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
                     this.bookingForm
                         .get('endDate')
                         ?.setValue(dayjs(this.bookingForm.get('startDate')?.value).toDate(), {
