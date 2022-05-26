@@ -71,16 +71,6 @@ export class BookingFormComponent implements OnInit {
     constructor(private bookingService: BookingService, private router: Router) {}
 
     ngOnInit(): void {
-        // force set time input to can read only //
-        document
-            .getElementById('startTime')
-            ?.getElementsByTagName('input')[0]
-            .setAttribute('readonly', 'true')
-        document
-            .getElementById('endTime')
-            ?.getElementsByTagName('input')[0]
-            .setAttribute('readonly', 'true')
-
         ;['startTime', 'endDate', 'endTime'].forEach((name) =>
             this.bookingForm.get(name)?.disable({ onlySelf: true, emitEvent: false })
         )
