@@ -133,3 +133,9 @@
     border-width: 1px !important;
     padding: 4px 11px;
 }
+
+
+::ng-deep .ant-picker-now a {
+    cursor: default !important;
+    color: rgba(0, 0, 0, 0.0) !important;
+}
