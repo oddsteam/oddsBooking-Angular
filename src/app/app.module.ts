@@ -21,7 +21,8 @@ import { registerLocaleData } from '@angular/common'
 import en from '@angular/common/locales/en'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzFormModule } from 'ng-zorro-antd/form'
-import { NzTimePickerModule } from 'ng-zorro-antd/time-picker'
+import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
+import { ExpiredComponent } from './expired/expired.component'
 
 registerLocaleData(en)
 
@@ -32,6 +33,7 @@ registerLocaleData(en)
         DetailComponent,
         PreviewComponent,
         ThankPageComponent,
+        ExpiredComponent,
     ],
     imports: [
         BrowserModule,

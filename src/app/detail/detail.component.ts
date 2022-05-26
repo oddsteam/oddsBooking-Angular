@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import { BookingDetail, BookingDetailRes } from '../booking'
+import { ActivatedRoute, Router } from '@angular/router'
+import { BookingDetailRes } from '../booking'
 import { DetailService } from '../detail.service'
 
 @Component({
@@ -12,20 +12,25 @@ export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี
     bookingDetailRes?: BookingDetailRes
 
-    constructor(private detailService: DetailService, private route: ActivatedRoute) {}
+    constructor(private detailService: DetailService, private route: ActivatedRoute, private router: Router) {}
 
     ngOnInit(): void {
         this.onLoading()
     }
 
     onLoading() {
+        
+        
         try {
+            console.log("err");
             const id = this.route.snapshot.paramMap.get('id')
-            this.detailService.getBooking(id!).subscribe((data) => {
-                this.bookingDetailRes = data
-            })
-        } catch (err) {
-            console.log(err)
+            this.detailService.getBooking(id!).subscribe(
+                res => this.bookingDetailRes = res,
+                err => this.router.navigateByUrl('expired')
+            )
+            
+        } catch (error) {
+            
         }
     }
 

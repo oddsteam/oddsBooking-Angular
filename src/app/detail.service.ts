@@ -16,6 +16,7 @@ export class DetailService {
     }
 
     getBooking(id: String): Observable<BookingDetailRes> {
+        
         return this.httpClient.get<BookingDetailRes>(this.bookingUrl + '/' + id, this.httpOption)
     }
 

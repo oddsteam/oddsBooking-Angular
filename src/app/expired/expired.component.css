@@ -1,0 +1,25 @@
+@media only screen and (max-height: 754px) {
+    .container-card {
+        align-items: center !important;
+    }
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.check-icon {
+    padding: 20px 0 6px 0;
+    font-size: 100px;
+    width: 100px;
+    height: 100px;
+    color: var(--red-color);
+    margin: 0 auto;
+}
+
+.button-color:hover {
+    background-color: var(--light-green);
+    color: var(--black-color);
+}

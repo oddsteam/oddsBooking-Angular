@@ -16,8 +16,15 @@ describe('BookingService', () => {
         expect(service).toBeTruthy()
     })
 
-    it('startdate is empty', () => {
+    it('#isWeekend should return true from weekend date', () => {
+        const result = BookingService.isWeekend(new Date())
+        expect(result).toBe(false)
+    })
+
+    it('#isDisableEndDate startdate is empty', () => {
         const result = BookingService.isDisableEndDate(null, new Date(), new Date())
         expect(result).toBeTruthy()
     })
+
+
 })
