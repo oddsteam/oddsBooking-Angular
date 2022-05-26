@@ -20,7 +20,7 @@
 }
 
 .container-card {
-    background: url("/assets/images/pattern.png") center center / cover no-repeat fixed transparent;
+    background: url("/assets/images/odds-bg.png") center center / 400px repeat fixed transparent;
     overflow-y: auto;
     overflow-x: hidden;
     width: 100vw;
