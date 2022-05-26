@@ -8,8 +8,7 @@ import { BookingDetail, BookingDetailRes } from './booking'
     providedIn: 'root',
 })
 export class DetailService {
-    uData: any
-    private bookingUrl = `${environment.apiUrl}/v1/booking`
+    private bookingUrl = `https://api-odds-booking.odds.team/v1/booking`
 
     constructor(private httpClient: HttpClient) {}
     httpOption = {
@@ -21,6 +20,6 @@ export class DetailService {
     }
 
     confirmBooking(bookingDetailRes: BookingDetailRes): Observable<BookingDetailRes> {
-        return this.httpClient.put<BookingDetailRes>(this.bookingUrl + '/' + bookingDetailRes.id, this.httpOption)
+        return this.httpClient.put<BookingDetailRes>(this.bookingUrl + '/' + bookingDetailRes.id, bookingDetailRes, this.httpOption)
     }
 }

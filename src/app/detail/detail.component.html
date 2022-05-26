@@ -50,7 +50,7 @@
                         <mat-icon matSuffix>calendar_today</mat-icon>
                     </mat-form-field>
 
-                    <button mat-raised-button class="button button-confirm" (click)="onConfirm()" [disabled]="bookingDetailRes.status">
+                    <button mat-raised-button class="button button-confirm" (click)="onConfirm()" *ngIf="!bookingDetailRes.status">
                         CONFIRM
                     </button>
                 </form>

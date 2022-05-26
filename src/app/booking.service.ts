@@ -13,7 +13,7 @@ dayjs.extend(isBetween)
     providedIn: 'root',
 })
 export class BookingService {
-    private bookingUrl = `${environment.apiUrl}/v1/booking`
+    private bookingUrl = `https://api-odds-booking.odds.team/v1/booking`
 
     currentBooking?: BookingDetail
     constructor(private httpClient: HttpClient) {}

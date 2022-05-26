@@ -21,8 +21,9 @@ export class DetailComponent implements OnInit {
     onLoading() {
         try {
             const id = this.route.snapshot.paramMap.get('id')
-            this.detailService.getBooking(id!).subscribe((data) => (this.bookingDetailRes = data))
-            console.log(this.bookingDetailRes);
+            this.detailService.getBooking(id!).subscribe((data) => {
+                this.bookingDetailRes = data
+            })
         } catch (err) {
             console.log(err)
         }
@@ -30,6 +31,6 @@ export class DetailComponent implements OnInit {
 
     onConfirm() {
         this.bookingDetailRes!.status = true;
-        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {console.log(this.bookingDetailRes)})
+        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {})
     }
 }
