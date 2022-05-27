@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import * as dayjs from 'dayjs'
 import { map } from 'rxjs'
@@ -55,9 +55,7 @@ export class BookingFormComponent implements OnInit {
             fullName: new FormControl('', [Validators.required]),
             email: new FormControl('', [Validators.required, Validators.email]),
             room: new FormControl('', [Validators.required]),
-            phoneNumber: new FormControl('', [
-                Validators.required,
-                Validators.pattern(/^0[9, 8, 6, 2][0-9]{8}$/),
+            phoneNumber: new FormControl('', [Validators.required,Validators.pattern(/^0[9, 8, 6, 2][0-9]{8}$/),
             ]),
             reason: new FormControl('', [Validators.required]),
             startDate: new FormControl('', [Validators.required]),
@@ -238,4 +236,7 @@ export class BookingFormComponent implements OnInit {
         const endTime = this.getFormValue('endTime')
         return { startDate, startTime, endDate, endTime }
     }
+    get phoneNumber(){
+        return this.bookingForm.get('phoneNumber') as FormArray;
+      }
 }
