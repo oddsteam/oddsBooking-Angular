@@ -116,6 +116,7 @@
                         mat-raised-button
                         (click)="onSubmit()"
                         class="button button-color"
+                        [disabled]="bookingForm.invalid"
                     >
                         PREVIEW
                     </button>
