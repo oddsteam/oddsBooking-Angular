@@ -8,7 +8,7 @@ import { BookingDetail, BookingDetailRes } from './booking'
     providedIn: 'root',
 })
 export class DetailService {
-    private bookingUrl = `https://api-odds-booking.odds.team/v1/booking`
+    private bookingUrl = `${environment.apiUrl}/v1/booking`;
 
     constructor(private httpClient: HttpClient) {}
     httpOption = {
