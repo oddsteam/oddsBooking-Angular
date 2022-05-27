@@ -11,7 +11,7 @@ const routes: Routes = [
     { path: 'booking_detail', component: BookingFormComponent },
     { path: 'detail/:id', component: DetailComponent },
     { path: 'preview', component: PreviewComponent },
-    { path: 'thankyou', component: ThankPageComponent },
+    { path: 'success', component: ThankPageComponent },
     { path: 'expired', component: ExpiredComponent },
 ]
 

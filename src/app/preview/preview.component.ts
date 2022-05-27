@@ -40,7 +40,7 @@ export class PreviewComponent implements OnInit {
         this.bookingService.addBooking(this.bookingDetail).subscribe((data) => {
             this.isConfirm = true
             this.bookingService.clearCurrentBooking()
-            this.router.navigateByUrl('thankyou')
+            this.router.navigateByUrl('success')
         })
     }
 }
