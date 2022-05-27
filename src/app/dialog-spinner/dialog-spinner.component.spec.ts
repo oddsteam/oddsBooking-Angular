@@ -1,4 +1,7 @@
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { DialogSpinnerComponent } from './dialog-spinner.component';
 
@@ -8,7 +11,12 @@ describe('DialogSpinnerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DialogSpinnerComponent ]
+      imports: [
+        MatDialogModule,
+        MatProgressSpinnerModule
+      ],
+      declarations: [ DialogSpinnerComponent ],
+      schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
     })
     .compileComponents();
   });

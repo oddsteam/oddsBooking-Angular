@@ -3,6 +3,9 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { RouterModule } from '@angular/router'
 import { PreviewComponent } from './preview.component'
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 describe('PreviewComponent', () => {
     let component: PreviewComponent
@@ -10,7 +13,12 @@ describe('PreviewComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, RouterModule.forRoot([])],
+            imports: [
+                HttpClientTestingModule, 
+                RouterModule.forRoot([]),
+                MatDialogModule,
+                MatProgressSpinnerModule
+            ],
             declarations: [PreviewComponent],
             schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
         }).compileComponents()

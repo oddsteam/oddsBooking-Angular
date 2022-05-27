@@ -34,7 +34,7 @@ describe('BookingFormComponent', () => {
                 NzFormModule,
                 NzTimePickerModule,
                 BrowserAnimationsModule,
-                ReactiveFormsModule
+                ReactiveFormsModule,
             ],
             declarations: [BookingFormComponent],
             schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
