@@ -60,23 +60,23 @@
     width: 100%;
 }
 
-.button:focus {
+/* .button:focus {
     background-color: var(--dark-gray);
     color: var(--white-color);
-}
+} */
 
 .button-color {
-    background-color: var(--purple-color);
+    background-color: #6f42c1;
     color: var(--white-color);
 }
 
 .button-return {
-    background-color: var(--yellow-color);
-    color: var(--black-color);
+    background-color: #ffc107;
+    color: var(--white-color);
 }
 
 .button-confirm {
-    background-color: var(--green-color);
+    background-color: #28a745;
     color: var(--white-color);
 }
 

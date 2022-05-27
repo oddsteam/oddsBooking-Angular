@@ -19,7 +19,8 @@
     margin: 0 auto;
 }
 
-.button-color:hover {
-    background-color: var(--light-green);
-    color: var(--black-color);
+.button-color:hover:not([disabled]),
+.button-color:focus {
+    background-color: #5f38a6;
+    color: #ffffff;
 }
