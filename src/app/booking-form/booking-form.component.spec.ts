@@ -14,6 +14,7 @@ import { NzTimePickerModule } from 'ng-zorro-antd/time-picker'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms'
 describe('BookingFormComponent', () => {
     let component: BookingFormComponent
     let fixture: ComponentFixture<BookingFormComponent>
@@ -32,7 +33,8 @@ describe('BookingFormComponent', () => {
                 NzDatePickerModule,
                 NzFormModule,
                 NzTimePickerModule,
-                BrowserAnimationsModule
+                BrowserAnimationsModule,
+                ReactiveFormsModule
             ],
             declarations: [BookingFormComponent],
             schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

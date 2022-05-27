@@ -22,7 +22,6 @@ export class DetailComponent implements OnInit {
         
         
         try {
-            console.log("err");
             const id = this.route.snapshot.paramMap.get('id')
             this.detailService.getBooking(id!).subscribe(
                 res => this.bookingDetailRes = res,
