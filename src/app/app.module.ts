@@ -22,7 +22,11 @@ import en from '@angular/common/locales/en'
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker'
 import { NzFormModule } from 'ng-zorro-antd/form'
 import { NzTimePickerModule } from 'ng-zorro-antd/time-picker';
-import { ExpiredComponent } from './expired/expired.component'
+import { ExpiredComponent } from './expired/expired.component';
+import { DialogSpinnerComponent } from './dialog-spinner/dialog-spinner.component'
+import {MatDialogModule} from '@angular/material/dialog';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 registerLocaleData(en)
 
@@ -34,6 +38,7 @@ registerLocaleData(en)
         PreviewComponent,
         ThankPageComponent,
         ExpiredComponent,
+        DialogSpinnerComponent,
     ],
     imports: [
         BrowserModule,
@@ -51,6 +56,8 @@ registerLocaleData(en)
         NzDatePickerModule,
         NzFormModule,
         NzTimePickerModule,
+        MatDialogModule,
+        MatProgressSpinnerModule
     ],
     providers: [{ provide: NZ_I18N, useValue: en_US }],
     bootstrap: [AppComponent],

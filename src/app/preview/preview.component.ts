@@ -4,6 +4,10 @@ import { Router } from '@angular/router'
 import { BookingDetail } from '../booking'
 import { BookingService } from '../booking.service'
 
+import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.component'
+
+
 @Component({
     selector: 'app-preview',
     templateUrl: './preview.component.html',
@@ -16,7 +20,8 @@ export class PreviewComponent implements OnInit {
     constructor(
         private bookingService: BookingService,
         private location: Location,
-        private router: Router
+        private router: Router,
+        public dialog: MatDialog
     ) {}
 
     ngOnInit(): void {
@@ -36,8 +41,10 @@ export class PreviewComponent implements OnInit {
         this.location.back()
     }
 
-    onConfirm() {
-        this.bookingService.addBooking(this.bookingDetail).subscribe((data) => {
+    async onConfirm() {
+        this.dialog.open(DialogSpinnerComponent, { disableClose: true })
+        await this.bookingService.addBooking(this.bookingDetail).subscribe((data) => {
+            this.dialog.closeAll()
             this.isConfirm = true
             this.bookingService.clearCurrentBooking()
             this.router.navigateByUrl('success')
