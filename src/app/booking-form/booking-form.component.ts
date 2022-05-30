@@ -55,7 +55,9 @@ export class BookingFormComponent implements OnInit {
             fullName: new FormControl('', [Validators.required]),
             email: new FormControl('', [Validators.required, Validators.email]),
             room: new FormControl('', [Validators.required]),
-            phoneNumber: new FormControl('', [Validators.required,Validators.pattern(/^0[9, 8, 6, 2][0-9]{8}$/),
+            phoneNumber: new FormControl('', [
+                Validators.required,
+                Validators.pattern(/^0[9, 8, 6, 2][0-9]{8}$/),
             ]),
             reason: new FormControl('', [Validators.required]),
             startDate: new FormControl('', [Validators.required]),
@@ -87,9 +89,13 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {
             if (v) {
-                this.bookingForm.get('startTime')?.setValue(null, { emitEvent: false })
+                this.bookingForm
+                    .get('startTime')
+                    ?.setValue(this.getDefaultFromTime(v), { emitEvent: false })
                 this.bookingForm.get('startTime')?.enable({ onlySelf: true, emitEvent: false })
-                ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
+                
+                ;['endDate','endTime'].forEach((name) => this.onClearValue(name))
+                this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
             } else {
                 ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
             }
@@ -107,9 +113,14 @@ export class BookingFormComponent implements OnInit {
                 if (dayjs(v).hour() <= 6) {
                     const { startDate } = this.getTimeonForm()
                     this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
+                    this.bookingForm.get('endTime')?.setValue(this.getCustomTime(6, 0), {
+                        emitEvent: false,
+                    })
+                    
                     this.bookingForm.get('endDate')?.setValue(dayjs(startDate).toDate(), {
                         emitEvent: false,
                     })
+                    
                 } else if (
                     disableHoursStartTime.includes(valueHoursTime) ||
                     disableMinutesStartTime.includes(valueMinutesTime)
@@ -124,7 +135,7 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
             if (v) {
-                this.bookingForm.get('endTime')?.setValue(null, { emitEvent: false })
+                this.bookingForm.get('endTime')?.setValue(this.getDefaultToTime(this.getFormValue('startDate'), this.getFormValue('startTime') ,v), { emitEvent: false })
                 this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
             } else {
                 this.onClearValue('endTime')
@@ -236,7 +247,35 @@ export class BookingFormComponent implements OnInit {
         const endTime = this.getFormValue('endTime')
         return { startDate, startTime, endDate, endTime }
     }
-    get phoneNumber(){
-        return this.bookingForm.get('phoneNumber') as FormArray;
-      }
+    get phoneNumber() {
+        return this.bookingForm.get('phoneNumber') as FormArray
+    }
+
+    private getCustomTime(hour: number, minute: number): Date {
+        return dayjs().set('hour', hour).set('minute', minute).toDate()
+    }
+
+    private getDefaultFromTime(startDate: Date): Date {
+        if(BookingService.isWeekend(startDate)){
+            return this.getCustomTime(9,0)
+        }
+        return this.getCustomTime(18, 0)
+    }
+
+    private getDefaultToTime(startDate: Date, startTime: Date, endDate: Date): Date {
+        if(!dayjs(endDate).isSame(startDate, 'date')){
+            if(endDate.getDay() == 0){
+                return this.getCustomTime(21, 0)
+            }
+            return this.getCustomTime(6, 0)
+        }else{
+            if(BookingService.isWeekend(startDate) && BookingService.isWeekend(endDate)){
+                return this.getCustomTime(21, 0)
+            }else if(!BookingService.isWeekend(startDate) && !BookingService.isWeekend(endDate) && startTime.getHours() < 6){
+                return this.getCustomTime(6, 0)
+            }
+            return this.getCustomTime(23, 59)
+        }
+        
+    }
 }
