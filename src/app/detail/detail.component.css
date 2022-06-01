@@ -1,5 +1,5 @@
 .button-confirm:hover:not([disabled]),
 .button-confirm:focus {
-    background-color: #218838;
-    color: #ffffff;
+    background-color: var(--green-color);
+    color: var(--white-color);
 }

@@ -7,10 +7,11 @@
     --dark-blue: #3f51b5;
     --black-color: #000;
     --gray-outline: rgba(0, 0, 0, 0.12);
-    --green-color: #4caf50;
-    --yellow-color: #ffeb3b;
+    --green-color: #28a745;
+    --yellow-color: #ffc107;
     --gray-color: #666;
     --white-color: #fff;
+    --purple-hover: #5f38a6;
 }
 
 .container {
@@ -49,7 +50,9 @@
     font-size: 26px;
     font-weight: bold;
     margin-bottom: 10px;
-    contain: flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .full-width {
@@ -60,23 +63,18 @@
     width: 100%;
 }
 
-/* .button:focus {
-    background-color: var(--dark-gray);
-    color: var(--white-color);
-} */
-
 .button-color {
-    background-color: #6f42c1;
+    background-color: var(--purple-color);
     color: var(--white-color);
 }
 
 .button-return {
-    background-color: #ffc107;
+    background-color: var(--yellow-color);
     color: var(--white-color);
 }
 
 .button-confirm {
-    background-color: #28a745;
+    background-color: var(--green-color);
     color: var(--white-color);
 }
 

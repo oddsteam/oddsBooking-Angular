@@ -21,6 +21,6 @@
 
 .button-color:hover:not([disabled]),
 .button-color:focus {
-    background-color: #5f38a6;
+    background-color: var(--purple-hover);
     color: #ffffff;
 }

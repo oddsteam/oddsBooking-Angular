@@ -1,7 +1,7 @@
 .button-color:hover:not([disabled]),
 .button-color:focus {
-    background-color: #5f38a6;
-    color: #ffffff;
+    background-color: var(--purple-hover);
+    color: var(--white-color);
 }
 
 .row-datetimepicker {
@@ -43,7 +43,7 @@
 .date-picker {
     position: relative;
     box-shadow: none;
-    color: var(--gray-outline);
+    color: var(--gray-color);
     border-radius: 5px;
     z-index: 0;
     height: 52px;
@@ -80,7 +80,7 @@
     color: var(--gray-color);
 }
 
-.date-picker.ant-picker-focused~.date-picker-title {
+.date-picker.ant-picker-focused ~ .date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
     transform: translate(-2px, -22px);
@@ -93,12 +93,12 @@
     border-color: var(--dark-blue);
 }
 
-.date-picker.ant-picker-focused~.date-picker-title::after {
+.date-picker.ant-picker-focused ~ .date-picker-title::after {
     content: " *";
     color: var(--dark-red);
 }
 
-.date-picker.ng-valid~.date-picker-title {
+.date-picker.ng-valid ~ .date-picker-title {
     font-size: 10px;
     padding: 0px 6px;
     background: var(--white-color);
@@ -111,8 +111,8 @@
     padding: 4px 10px;
 }
 
-.date-picker.ng-invalid.ng-touched~.date-picker-title,
-.date-picker.ng-invalid.ng-touched~.date-picker-title::after {
+.date-picker.ng-invalid.ng-touched ~ .date-picker-title,
+.date-picker.ng-invalid.ng-touched ~ .date-picker-title::after {
     color: var(--dark-red);
 }
 
@@ -130,15 +130,15 @@
 }
 
 .ant-picker-disabled.date-picker:hover {
-    border-color: var(--gray-outline);
+    border-color: var(--gray-color);
     border-width: 1px !important;
     padding: 4px 11px;
 }
-.alert-error{
-    color:brown
+.alert-error {
+    color: brown;
 }
 
 ::ng-deep .ant-picker-now a {
     cursor: default !important;
-    color: rgba(0, 0, 0, 0.0) !important;
+    color: rgba(0, 0, 0, 0) !important;
 }

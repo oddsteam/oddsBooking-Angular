@@ -12,12 +12,12 @@
 
 .button-return:hover,
 .button-return:focus {
-    background-color: #e0a800;
-    color: #ffffff;
+    background-color: var(--yellow-color);
+    color: var(--white-color);
 }
 
 .button-confirm:hover:not([disabled]),
 .button-confirm:focus {
-    background-color: #218838;
-    color: #ffffff;
+    background-color: var(--green-color);
+    color: var(--white-color);
 }
