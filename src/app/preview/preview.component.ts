@@ -42,7 +42,7 @@ export class PreviewComponent implements OnInit {
     }
 
     async onConfirm() {
-        this.dialog.open(DialogSpinnerComponent, { disableClose: true })
+        this.dialog.open(DialogSpinnerComponent, { disableClose: true , data: {msg : "Sending Email..."}})
         await this.bookingService.addBooking(this.bookingDetail).subscribe((data) => {
             this.dialog.closeAll()
             this.isConfirm = true

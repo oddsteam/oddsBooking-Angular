@@ -24,8 +24,6 @@ export class BookingService {
     }
 
     addBooking(booking: BookingDetail): Observable<string> {
-        console.log('This is Service')
-        console.log(booking)
         booking.status = false;
         return this.httpClient
             .post<BookingDetail>(this.bookingUrl, booking, this.httpOption)

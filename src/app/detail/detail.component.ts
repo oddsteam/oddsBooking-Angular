@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { BookingDetailRes } from '../booking'
 import { DetailService } from '../detail.service'
 import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
+import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.component'
 
 @Component({
     selector: 'app-detail',
@@ -39,10 +40,14 @@ export class DetailComponent implements OnInit {
         }
     }
 
-    onConfirm() {
+    async onConfirm() {
         this.bookingDetailRes!.status = true;
-        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {
+        this.dialog.open(DialogSpinnerComponent, { disableClose: true , data: {msg : "Please Wait..."}})
+        
+        await this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {
+            this.dialog.closeAll()
             this.dialog.open(DialogConfirmComponent)
+            
         })
     }
 }
