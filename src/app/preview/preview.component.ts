@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { BookingDetail } from '../booking'
 import { BookingService } from '../booking.service'
 
-import {MatDialog, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.component'
 
 

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import { BookingDetailRes } from '../booking'
 import { DetailService } from '../detail.service'
+import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 
 @Component({
     selector: 'app-detail',
@@ -12,7 +14,11 @@ export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี
     bookingDetailRes?: BookingDetailRes
 
-    constructor(private detailService: DetailService, private route: ActivatedRoute, private router: Router) {}
+    constructor(
+        private detailService: DetailService,
+        private route: ActivatedRoute, 
+        private router: Router, 
+        public dialog: MatDialog) {}
 
     ngOnInit(): void {
         this.onLoading()
@@ -35,6 +41,8 @@ export class DetailComponent implements OnInit {
 
     onConfirm() {
         this.bookingDetailRes!.status = true;
-        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {})
+        this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {
+            this.dialog.open(DialogConfirmComponent)
+        })
     }
 }

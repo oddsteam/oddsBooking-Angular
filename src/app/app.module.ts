@@ -26,6 +26,7 @@ import { ExpiredComponent } from './expired/expired.component';
 import { DialogSpinnerComponent } from './dialog-spinner/dialog-spinner.component'
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { DialogConfirmComponent } from './dialog-confirm/dialog-confirm.component';
 
 
 registerLocaleData(en)
@@ -39,6 +40,7 @@ registerLocaleData(en)
         ThankPageComponent,
         ExpiredComponent,
         DialogSpinnerComponent,
+        DialogConfirmComponent,
     ],
     imports: [
         BrowserModule,
