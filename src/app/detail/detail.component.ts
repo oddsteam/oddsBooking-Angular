@@ -17,37 +17,35 @@ export class DetailComponent implements OnInit {
 
     constructor(
         private detailService: DetailService,
-        private route: ActivatedRoute, 
-        private router: Router, 
-        public dialog: MatDialog) {}
+        private route: ActivatedRoute,
+        private router: Router,
+        public dialog: MatDialog
+    ) {}
 
     ngOnInit(): void {
         this.onLoading()
     }
 
     onLoading() {
-        
-        
         try {
             const id = this.route.snapshot.paramMap.get('id')
             this.detailService.getBooking(id!).subscribe(
-                res => this.bookingDetailRes = res,
-                err => this.router.navigateByUrl('expired')
+                (res) => (this.bookingDetailRes = res),
+                (err) => this.router.navigateByUrl('expired')
             )
-            
-        } catch (error) {
-            
-        }
+        } catch (error) {}
     }
 
     async onConfirm() {
-        this.bookingDetailRes!.status = true;
-        this.dialog.open(DialogSpinnerComponent, { disableClose: true , data: {msg : "Please Wait..."}})
-        
+        this.bookingDetailRes!.status = true
+        this.dialog.open(DialogSpinnerComponent, {
+            disableClose: true,
+            data: { msg: 'Please Wait...' },
+        })
+
         await this.detailService.confirmBooking(this.bookingDetailRes!).subscribe((response) => {
             this.dialog.closeAll()
             this.dialog.open(DialogConfirmComponent)
-            
         })
     }
 }
