@@ -10,7 +10,7 @@ export class BookingUtility {
             endDate
         )
         const enableHours = []
-        for (let i = 0; i < 24; i++) {
+        for (let i = 0; i < 25; i++) {
             if (!rangeDisableHoursOnEnd.includes(i)) {
                 enableHours.push(i)
             }
