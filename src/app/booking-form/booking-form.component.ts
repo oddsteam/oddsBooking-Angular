@@ -18,6 +18,7 @@ export class BookingFormComponent implements OnInit {
         ? next2WeekMinDate.startOf('D').toDate()
         : next2WeekMinDate.hour(9).minute(0).toDate()
     inputValue: string = ''
+    inputReason:string = ''
     inputPhoneNumber: string = ''
     isEndTimeValid: boolean = false
 
@@ -79,6 +80,11 @@ export class BookingFormComponent implements OnInit {
             .get('fullName')
             ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
             .subscribe((v) => this.bookingForm.get('fullName')?.setValue(v, { emitEvent: false }))
+
+        this.bookingForm
+            .get('reason')
+            ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
+            .subscribe((v) => this.bookingForm.get('reason')?.setValue(v, { emitEvent: false }))
 
         this.bookingForm
             .get('phoneNumber')
@@ -199,6 +205,7 @@ export class BookingFormComponent implements OnInit {
                 endTime: endDate.toDate(),
             })
             this.inputValue = this.textAutoFormat(currentBooking.fullName)
+            this.inputReason = this.textAutoFormat(currentBooking.reason)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
         }
     }
@@ -226,6 +233,11 @@ export class BookingFormComponent implements OnInit {
                 nameFormatter[_i].charAt(0).toUpperCase() + nameFormatter[_i].substring(1)
         }
         return nameFormatter.join(' ')
+    }
+
+    checkReasonInput(term: string) {
+        let reasonFormatter = term.trim()
+        return reasonFormatter
     }
 
     checkPhoneNumberInput(term: string): string {
