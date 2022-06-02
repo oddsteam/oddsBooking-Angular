@@ -5,7 +5,7 @@ import { BookingDetail } from './booking'
 
 import { map } from 'rxjs/operators'
 
-import { environment } from 'src/environments/environment';
+import { environment } from 'src/environments/environment'
 import * as dayjs from 'dayjs'
 import * as isBetween from 'dayjs/plugin/isBetween'
 
@@ -14,7 +14,7 @@ dayjs.extend(isBetween)
     providedIn: 'root',
 })
 export class BookingService {
-    private bookingUrl = `${environment.apiUrl}/v1/booking`;
+    private bookingUrl = `${environment.apiUrl}/v1/booking`
 
     currentBooking?: BookingDetail
     constructor(private httpClient: HttpClient) {}
@@ -24,7 +24,7 @@ export class BookingService {
     }
 
     addBooking(booking: BookingDetail): Observable<string> {
-        booking.status = false;
+        booking.status = false
         return this.httpClient
             .post<BookingDetail>(this.bookingUrl, booking, this.httpOption)
             .pipe(map((data) => data.id))
@@ -58,17 +58,40 @@ export class BookingService {
         return this.getAvailableStartDate(current)
     }
 
-    static rangeDisabledHoursOnStart(startDate: Date): number[] {
+    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date, endTime: Date): number[] {
+        let futureRange: number[] = []
+        const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
+        if (isHaveEndTime) {
+            const startHours = dayjs(startDate).endOf('date').hour()
+            const endHours = dayjs(endTime).hour()
+            futureRange = this.range(endHours + 1, startHours + 1)
+        }
         if (!this.isWeekend(startDate)) {
             if (dayjs(startDate).day() === 1) {
-                return this.range(0, 18)
+                return [...this.range(0, 18), ...futureRange]
             }
-            return this.range(6, 18)
+            return [...this.range(6, 18), ...futureRange]
         }
-        return this.range(0, 9).concat(this.range(21, 24))
+
+        return [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
     }
 
-    static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
+    static rangeDisabledMinutesOnStart(
+        hours: number,
+        startDate: Date,
+        endDate: Date,
+        endTime: Date
+    ): number[] {
+        let futureRange: number[] = []
+        const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
+        if (isHaveEndTime) {
+            const endHours = dayjs(endTime).hour()
+            if (hours === endHours) {
+                const endMinutes = dayjs(endTime).minute()
+                futureRange = this.range(endMinutes, 60)
+            }
+        }
+
         if (
             (this.isWeekend(startDate) && hours === 21) ||
             (!this.isWeekend(startDate) && hours === 6)
@@ -76,7 +99,7 @@ export class BookingService {
             return this.range(1, 60)
         }
         if (hours === undefined) return this.range(0, 60)
-        return []
+        return [...futureRange]
     }
 
     static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date): boolean {
@@ -84,9 +107,7 @@ export class BookingService {
             const startDateDayjs = dayjs(startDate)
             if (this.isWeekend(startDate)) {
                 if (dayjs(startDate).day() === 6) {
-                    return (
-                        this.getAvailableEndDate(startDateDayjs, current)
-                    )
+                    return this.getAvailableEndDate(startDateDayjs, current)
                 }
                 return !dayjs(current).isSame(startDateDayjs, 'date')
             } else {
@@ -98,15 +119,11 @@ export class BookingService {
                             !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
                         )
                     } else {
-                        return (
-                            this.getAvailableEndDate(startDateDayjs, current)
-                        )
+                        return this.getAvailableEndDate(startDateDayjs, current)
                     }
                 }
             }
-            return (
-                this.getAvailableEndDate(startDateDayjs, current)
-            )
+            return this.getAvailableEndDate(startDateDayjs, current)
         }
         return this.getAvailableStartDate(current)
     }
@@ -130,7 +147,7 @@ export class BookingService {
         // Mon-Fri
         else {
             // start = end
-            if (this.isStartDateSameAsEndDate(startDate,endDate)) {
+            if (this.isStartDateSameAsEndDate(startDate, endDate)) {
                 if (dayjs(startTime).get('minute') === 59) {
                     startTimeHoursDayJs++
                 }
@@ -175,7 +192,7 @@ export class BookingService {
     }
 
     private static getAvailableEndDate(startDateDayjs: dayjs.Dayjs, current: Date): boolean {
-        return !dayjs(current).isBetween(startDateDayjs,startDateDayjs.add(1, 'd') , 'day', '[]')
+        return !dayjs(current).isBetween(startDateDayjs, startDateDayjs.add(1, 'd'), 'day', '[]')
         // return startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
         //     !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
     }
@@ -183,6 +200,4 @@ export class BookingService {
     private static getAvailableStartDate(current: Date): boolean {
         return dayjs().add(14, 'day').isAfter(current, 'date')
     }
-
-    
 }

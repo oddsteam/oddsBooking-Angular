@@ -7,12 +7,12 @@ import { PreviewComponent } from './preview/preview.component'
 import { ThankPageComponent } from './thank-page/thank-page.component'
 
 const routes: Routes = [
-    { path: '', redirectTo: '/booking_detail', pathMatch: 'full' },
     { path: 'booking_detail', component: BookingFormComponent },
     { path: 'detail/:id', component: DetailComponent },
     { path: 'preview', component: PreviewComponent },
     { path: 'success', component: ThankPageComponent },
     { path: 'expired', component: ExpiredComponent },
+    { path: '**', redirectTo: '/booking_detail', pathMatch: 'full' },
 ]
 
 @NgModule({
