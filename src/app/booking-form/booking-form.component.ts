@@ -213,7 +213,7 @@ export class BookingFormComponent implements OnInit {
     }
 
     textAutoFormat(term: string): string {
-        let nameFormatter = term.toLowerCase().split(' ')
+        let nameFormatter = term.trimStart().toLowerCase().split(' ')
         for (let _i = 0; _i < nameFormatter.length; _i++) {
             nameFormatter[_i] =
                 nameFormatter[_i].charAt(0).toUpperCase() + nameFormatter[_i].substring(1)
