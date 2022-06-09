@@ -79,16 +79,18 @@ describe('BookingService', () => {
         expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
     })
 
-    it('#rangeDisabledHoursOnStart should return [6, 7, 8, ..., 17] from startDate: 2022/06/23, endDate: 2022/06/23, endTime: 23:59 *startDate is not weekend', () =>{
-        //input 2022/06/23, 2022/06/23, 23:59
-        //output [6, 7, 8, ..., 17]
-        const startDate = dayjs("23 Jun 2022").toDate()
-        const endDate = dayjs("23 Jun 2022").toDate()
-        const endTime = dayjs("23 Jun 2022").hour(23).minute(59).toDate()
+    it('#rangeDisabledHoursOnStart should return [0, 1, 2, ..., 8, 21, 22, 23] from startDate: 2022/06/25, endDate: 2022/06/25, endTime: 21:00 *startDate is weekend', () =>{
+        //input 2022/06/25, 2022/06/25, 21:00
+        //output [0, 1, 2, ..., 8 | 21, ..., 23]
+        const startDate = dayjs("25 Jun 2022").toDate()
+        const endDate = dayjs("25 Jun 2022").toDate()
+        const endTime = dayjs("25 Jun 2022").hour(21).minute(0).toDate()
 
         const result = BookingService.rangeDisabledHoursOnStart(startDate, endDate, endTime)
+        console.log(result);
+        
 
-        expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+        expect(result).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 21, 22, 23])
     })
 
     it('check rang of time', () =>{

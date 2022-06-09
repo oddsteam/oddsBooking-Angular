@@ -64,7 +64,13 @@ export class BookingService {
         if (isHaveEndTime) {
             const startHours = dayjs(startDate).endOf('date').hour()
             const endHours = dayjs(endTime).hour()
-            futureRange = this.range(endHours + 1, startHours + 1)
+            const endMinute = dayjs(endTime).minute()
+            if(endMinute == 0){
+                futureRange = this.range(endHours, startHours + 1)
+            }else{
+                futureRange = this.range(endHours + 1, startHours + 1)
+            }
+            
         }
         if (!this.isWeekend(startDate)) {
             if (dayjs(startDate).day() === 1) {
@@ -73,7 +79,21 @@ export class BookingService {
             return [...this.range(6, 18), ...futureRange]
         }
 
-        return [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
+        // let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
+        let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24))]
+        for(let i = 0; i < futureRange.length; ++i){
+            let found = false;
+            for(let j = 0; j < rangeDisable.length; ++j){
+                if(futureRange[i] === rangeDisable[j]){
+                    found = true
+                }
+            }
+            if(!found){
+                rangeDisable.push(futureRange[i])
+            }
+        }
+
+        return [...new Set(rangeDisable)].sort((a,b) => a - b)
     }
 
     static rangeDisabledMinutesOnStart(
