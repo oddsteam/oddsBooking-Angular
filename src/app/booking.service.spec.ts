@@ -36,6 +36,7 @@ describe('BookingService', () => {
         }]
         //act
         httpClientSpy.post('HttpClient',booking);
+
         expect(httpClientSpy.post) .toBeTruthy()
     })
 
@@ -87,11 +88,57 @@ describe('BookingService', () => {
         const endTime = dayjs("25 Jun 2022").hour(21).minute(0).toDate()
 
         const result = BookingService.rangeDisabledHoursOnStart(startDate, endDate, endTime)
-        console.log(result);
-        
 
         expect(result).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 21, 22, 23])
     })
+    
+    it('#rangeDisabledHoursOnStart should return [0, 1, 2, ..., 8, 21, 22, 23] from startDate: 2022/06/25, endDate: undefined, endTime: undefined *startDate is weekend', () =>{
+        //input 2022/06/25, undefined, undefined
+        //output [0, 1, 2, ..., 8 | 21, ..., 23]
+        const startDate = dayjs("25 Jun 2022").toDate()
+
+        const result = BookingService.rangeDisabledHoursOnStart(startDate, undefined, undefined)
+
+        expect(result).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 21, 22, 23])
+    })
+    
+    it('#rangeDisabledHoursOnStart should return [6, 7, 8, ..., 17] from startDate: 2022/06/23, endDate: null, endTime: null *startDate is not weekend', () =>{
+        //input 2022/06/23, undefined, undefined
+        //output [6, 7, 8, ..., 17]
+        const startDate = dayjs("23 Jun 2022").toDate()
+
+        const result = BookingService.rangeDisabledHoursOnStart(startDate, undefined, undefined)
+
+        expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+    })
+    
+    it('#isDisableEndDate should return false from startDate: 2022/06/23, startTime: 18:00, current: 2022/06/23, now: 2022/06/23 *startDate is not weekend', () =>{
+        //input 2022/06/23, 18:00, 2022/06/23, 2022/06/23
+        //output false
+        const startDate = dayjs("23 Jun 2022").toDate()
+        const startTime = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
+        const current = startDate
+        const now = startDate
+
+        const result = BookingService.isDisableEndDate(startDate, startTime, current, now)
+
+        expect(result).toBeFalse()
+    })
+
+    it('#isDisableEndDate should return true from startDate: 2022/06/23, startTime: 18:00, current: 2022/06/22, now: 2022/06/23 *startDate is not weekend', () =>{
+        //input 2022/06/23, 18:00, 2022/06/23, 2022/06/23
+        //output false
+        const startDate = dayjs("23 Jun 2022").toDate()
+        const startTime = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
+        const current = dayjs("22 Jun 2022").toDate()
+        const now = startDate
+
+        const result = BookingService.isDisableEndDate(startDate, startTime, current, now)
+
+        expect(result).toBeTrue()
+    })
+
+
 
     it('check rang of time', () =>{
         const start = 3

@@ -58,7 +58,7 @@ export class BookingService {
         return this.getAvailableStartDate(current, now)
     }
 
-    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date, endTime: Date): number[] {
+    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date | undefined, endTime: Date | undefined ): number[] {
         let futureRange: number[] = []
         const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
         if (isHaveEndTime) {

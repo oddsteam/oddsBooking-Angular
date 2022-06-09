@@ -72,8 +72,6 @@ export class BookingFormComponent implements OnInit {
     constructor(private bookingService: BookingService, private router: Router) {}
 
     ngOnInit(): void {
-        console.log(dayjs(dayjs().toDate()).toDate())
-
         ;['startTime', 'endDate', 'endTime'].forEach((name) =>
             this.bookingForm.get(name)?.disable({ onlySelf: true, emitEvent: false })
         )
