@@ -198,6 +198,7 @@ export class BookingService {
     }
 
     private static getAvailableStartDate(current: Date): boolean {
+        //dayjs(now: date)
         return dayjs().add(14, 'day').isAfter(current, 'date')
     }
 }
