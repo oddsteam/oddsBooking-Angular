@@ -43,12 +43,12 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledDateOnStart = (current: Date): boolean => {
-        return BookingService.isDisabledDateOnStart(current)
+        return BookingService.isDisabledDateOnStart(current, dayjs().toDate())
     }
 
     disabledDateOnEnd = (current: Date): boolean => {
         const { startDate, startTime } = this.getTimeOnForm()
-        return BookingService.isDisableEndDate(startDate, startTime, current)
+        return BookingService.isDisableEndDate(startDate, startTime, current, dayjs().toDate())
     }
 
     bookingForm = new FormGroup(
@@ -72,6 +72,8 @@ export class BookingFormComponent implements OnInit {
     constructor(private bookingService: BookingService, private router: Router) {}
 
     ngOnInit(): void {
+        console.log(dayjs(dayjs().toDate()).toDate())
+
         ;['startTime', 'endDate', 'endTime'].forEach((name) =>
             this.bookingForm.get(name)?.disable({ onlySelf: true, emitEvent: false })
         )
@@ -83,7 +85,7 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm
             .get('reason')
-            ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
+            ?.valueChanges.pipe(map((v) => v.trimStart()))
             .subscribe((v) => this.bookingForm.get('reason')?.setValue(v, { emitEvent: false }))
 
         this.bookingForm
@@ -205,7 +207,6 @@ export class BookingFormComponent implements OnInit {
                 endTime: endDate.toDate(),
             })
             this.inputValue = this.textAutoFormat(currentBooking.fullName)
-            this.inputReason = this.textAutoFormat(currentBooking.reason)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
         }
     }

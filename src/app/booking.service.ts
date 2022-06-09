@@ -54,8 +54,8 @@ export class BookingService {
         return dayjs(day).day() === 0 || dayjs(day).day() === 6
     }
 
-    static isDisabledDateOnStart(current: Date): boolean {
-        return this.getAvailableStartDate(current)
+    static isDisabledDateOnStart(current: Date, now: Date): boolean {
+        return this.getAvailableStartDate(current, now)
     }
 
     static rangeDisabledHoursOnStart(startDate: Date, endDate: Date, endTime: Date): number[] {
@@ -102,7 +102,7 @@ export class BookingService {
         return [...futureRange]
     }
 
-    static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date): boolean {
+    static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date, now: Date): boolean {
         if (startDate) {
             const startDateDayjs = dayjs(startDate)
             if (this.isWeekend(startDate)) {
@@ -125,7 +125,7 @@ export class BookingService {
             }
             return this.getAvailableEndDate(startDateDayjs, current)
         }
-        return this.getAvailableStartDate(current)
+        return this.getAvailableStartDate(current, now)
     }
 
     static rangeDisabledHoursOnEnd(startDate: Date, startTime: Date, endDate: Date): number[] {
@@ -197,8 +197,8 @@ export class BookingService {
         //     !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
     }
 
-    private static getAvailableStartDate(current: Date): boolean {
+    private static getAvailableStartDate(current: Date, now: Date): boolean {
         //dayjs(now: date)
-        return dayjs().add(14, 'day').isAfter(current, 'date')
+        return dayjs(now).add(14, 'day').isAfter(current, 'date')
     }
 }
