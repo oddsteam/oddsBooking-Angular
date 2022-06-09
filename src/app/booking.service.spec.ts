@@ -138,18 +138,11 @@ describe('BookingService', () => {
         expect(result).toBeTrue()
     })
 
-
-
-    it('check rang of time', () =>{
-        const start = 3
-        const end = 2
+    it('#range should return [2, 3, 4, .., 10] from start:2, end: 11', () =>{
+        const start = 2
+        const end = 11
         const result = BookingService.range(start,end)
 
-        expect(result).toBeTruthy()
-    })
-    it('should be disable 14 day after current date', () => {
-        const result = BookingService.isDisabledDateOnStart(new Date(), new Date())
-
-        expect(result).toBeTruthy()
+        expect(result).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10])
     })
 })
