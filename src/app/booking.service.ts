@@ -26,7 +26,7 @@ export class BookingService {
     addBooking(booking: BookingDetail): Observable<string> {
         booking.status = false
         return this.httpClient
-            .post<BookingDetail>(this.bookingUrl, booking, this.httpOption)
+            .post<BookingDetail>(this.bookingUrl, booking)
             .pipe(map((data) => data.id))
     }
 
@@ -41,10 +41,10 @@ export class BookingService {
     clearCurrentBooking() {
         this.currentBooking = undefined
     }
-
+    
     static range(start: number, end: number): number[] {
         const result: number[] = []
-        for (let i = start; i < end; i++) {
+        for (let i = start; i <= end; i++) {
             result.push(i)
         }
         return result
@@ -66,21 +66,21 @@ export class BookingService {
             const endHours = dayjs(endTime).hour()
             const endMinute = dayjs(endTime).minute()
             if(endMinute == 0){
-                futureRange = this.range(endHours, startHours + 1)
+                futureRange = this.range(endHours, startHours)
             }else{
-                futureRange = this.range(endHours + 1, startHours + 1)
+                futureRange = this.range(endHours + 1, startHours)
             }
             
         }
         if (!this.isWeekend(startDate)) {
             if (dayjs(startDate).day() === 1) {
-                return [...this.range(0, 18), ...futureRange]
+                return [...this.range(0, 17), ...futureRange]
             }
-            return [...this.range(6, 18), ...futureRange]
+            return [...this.range(6, 17), ...futureRange]
         }
 
         // let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
-        let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24))]
+        let rangeDisable = [...this.range(0, 8).concat(this.range(21, 23))]
         for(let i = 0; i < futureRange.length; ++i){
             let found = false;
             for(let j = 0; j < rangeDisable.length; ++j){
@@ -108,7 +108,7 @@ export class BookingService {
             const endHours = dayjs(endTime).hour()
             if (hours === endHours) {
                 const endMinutes = dayjs(endTime).minute()
-                futureRange = this.range(endMinutes, 60)
+                futureRange = this.range(endMinutes, 59)
             }
         }
 
@@ -116,9 +116,9 @@ export class BookingService {
             (this.isWeekend(startDate) && hours === 21) ||
             (!this.isWeekend(startDate) && hours === 6)
         ) {
-            return this.range(1, 60)
+            return this.range(1, 59)
         }
-        if (hours === undefined) return this.range(0, 60)
+        if (hours === undefined) return this.range(0, 59)
         return [...futureRange]
     }
 
@@ -157,11 +157,11 @@ export class BookingService {
                 if (dayjs(startTime).get('minute') === 59) {
                     startTimeHoursDayJs++
                 }
-                return this.range(0, startTimeHoursDayJs).concat(this.range(22, 24))
+                return this.range(0, startTimeHoursDayJs--).concat(this.range(22, 23))
             }
             // start != end
             else {
-                return this.range(0, 9).concat(this.range(22, 24))
+                return this.range(0, 8).concat(this.range(22, 23))
             }
         }
         // Mon-Fri
@@ -172,14 +172,14 @@ export class BookingService {
                     startTimeHoursDayJs++
                 }
                 if (startTimeHoursDayJs <= 6) {
-                    return this.range(0, startTimeHoursDayJs).concat(this.range(7, 24))
+                    return this.range(0, startTimeHoursDayJs--).concat(this.range(7, 23))
                 } else {
-                    return this.range(0, startTimeHoursDayJs)
+                    return this.range(0, startTimeHoursDayJs--)
                 }
             }
             // start != end
             else {
-                return this.range(7, 24)
+                return this.range(7, 23)
             }
         }
     }
@@ -194,16 +194,16 @@ export class BookingService {
             this.isStartDateSameAsEndDate(startDate, endDate) &&
             hours === dayjs(startTime).get('hour')
         ) {
-            return this.range(0, dayjs(startTime).add(1, 'm').get('minute'))
+            return this.range(0, dayjs(startTime).get('minute'))
         } else {
             if (
                 (this.isWeekend(startDate) && hours === 21) ||
                 (!this.isWeekend(startDate) && hours === 6)
             ) {
-                return this.range(1, 60)
+                return this.range(1, 59)
             }
         }
-        if (hours === undefined) return this.range(0, 60)
+        if (hours === undefined) return this.range(0, 59)
         return []
     }
 
@@ -217,8 +217,8 @@ export class BookingService {
         //     !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
     }
 
-    private static getAvailableStartDate(current: Date, now: Date): boolean {
+    private static getAvailableStartDate(dateOnCalendar: Date, today: Date): boolean {
         //dayjs(now: date)
-        return dayjs(now).add(14, 'day').isAfter(current, 'date')
+        return dayjs(today).add(14, 'day').isAfter(dateOnCalendar, 'date')
     }
 }

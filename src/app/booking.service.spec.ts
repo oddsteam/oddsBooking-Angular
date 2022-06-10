@@ -1,19 +1,22 @@
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpHandler, HttpHeaders } from '@angular/common/http'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { TestBed } from '@angular/core/testing'
 import * as dayjs from 'dayjs'
+import { Observable, of } from 'rxjs'
+import { environment } from 'src/environments/environment'
 import { BookingDetail } from './booking'
 import { BookingService } from './booking.service'
 
 describe('BookingService', () => {
     let service: BookingService
-    let httpClientSpy: jasmine.SpyObj<HttpClient>;
+    let httpClientSpy: HttpClient;
     beforeEach(() => {
         TestBed.configureTestingModule({
             imports: [HttpClientTestingModule],
         })
-        service = TestBed.inject(BookingService)
-        httpClientSpy = jasmine.createSpyObj('HttpClient', ['post']);
+        
+        httpClientSpy = new HttpClient({} as HttpHandler);
+        service = new BookingService(httpClientSpy)
         
     })
 
@@ -21,9 +24,9 @@ describe('BookingService', () => {
         expect(service).toBeTruthy()
     })
 
-    it('should be add booking', () => {
-        const booking : BookingDetail[] =
-        [{
+    it('#addBooking should have been called from url, booking', () => {
+        const booking : BookingDetail =
+        {
             id:'1',  
             fullName: 'Piyapong Visitsin', 
             email: 'beam@gmail.com',
@@ -33,11 +36,36 @@ describe('BookingService', () => {
             startDate: new Date(),
             endDate: new Date(),
             status: false
-        }]
+        }
         //act
-        httpClientSpy.post('HttpClient',booking);
+        spyOn(httpClientSpy, "post").and.returnValue(of())
+        service.addBooking(booking).subscribe()
 
-        expect(httpClientSpy.post) .toBeTruthy()
+        expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
+        
+    })
+
+    it('#addBooking should return id:2 from url, booking', () => {
+        const booking : BookingDetail =
+        {
+            id:'1',  
+            fullName: 'Piyapong Visitsin', 
+            email: 'beam@gmail.com',
+            phoneNumber: '0123456789',
+            reason: 'event',
+            room: 'Allstars',
+            startDate: new Date(),
+            endDate: new Date(),
+            status: false
+        }
+        //act
+        spyOn(httpClientSpy, "post").and.returnValue(of({id : '2'}))
+        service.addBooking(booking).subscribe(res => {
+            expect(res).toEqual('2')
+        })
+
+        expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
+        
     })
 
     it('#isWeekend should return true from weekend date', () => {
@@ -112,17 +140,17 @@ describe('BookingService', () => {
         expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
     })
     
-    it('#isDisableEndDate should return false from startDate: 2022/06/23, startTime: 18:00, current: 2022/06/23, now: 2022/06/23 *startDate is not weekend', () =>{
-        //input 2022/06/23, 18:00, 2022/06/23, 2022/06/23
-        //output false
-        const startDate = dayjs("23 Jun 2022").toDate()
-        const startTime = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
-        const current = startDate
-        const now = startDate
+    it('#isDisableEndDate should return false from startDate: 2022/06/24, startTime: 18:00, current: 2022/06/23, now: 2022/06/23 *startDate is not weekend', () =>{
+        //input 2022/06/24, 18:00, 2022/06/23, 2022/06/10
+        //output true
+        const startDate = dayjs("24 Jun 2022").toDate()
+        const startTime = dayjs("24 Jun 2022").hour(18).minute(0).toDate()
+        const dateOnCalendar = dayjs("23 Jun 2022").toDate()
+        const today = dayjs("10 Jun 2022").toDate()
 
-        const result = BookingService.isDisableEndDate(startDate, startTime, current, now)
+        const result = BookingService.isDisableEndDate(startDate, startTime, dateOnCalendar, today)
 
-        expect(result).toBeFalse()
+        expect(result).toBeTruthy()
     })
 
     it('#isDisableEndDate should return true from startDate: 2022/06/23, startTime: 18:00, current: 2022/06/22, now: 2022/06/23 *startDate is not weekend', () =>{
@@ -130,17 +158,17 @@ describe('BookingService', () => {
         //output false
         const startDate = dayjs("23 Jun 2022").toDate()
         const startTime = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
-        const current = dayjs("22 Jun 2022").toDate()
-        const now = startDate
+        const dateOnCalendar = dayjs("22 Jun 2022").toDate()
+        const today = startDate
 
-        const result = BookingService.isDisableEndDate(startDate, startTime, current, now)
+        const result = BookingService.isDisableEndDate(startDate, startTime, dateOnCalendar, today)
 
         expect(result).toBeTrue()
     })
 
-    it('#range should return [2, 3, 4, .., 10] from start:2, end: 11', () =>{
+    it('#range should return [2, 3, 4, .., 10] from start:2, end: 10', () =>{
         const start = 2
-        const end = 11
+        const end = 10
         const result = BookingService.range(start,end)
 
         expect(result).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10])
