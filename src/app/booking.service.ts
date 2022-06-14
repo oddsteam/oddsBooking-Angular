@@ -15,7 +15,7 @@ dayjs.extend(isBetween)
 })
 export class BookingService {
     private bookingUrl = `${environment.apiUrl}/v1/booking`
-
+    //test push
     currentBooking?: BookingDetail
     constructor(private httpClient: HttpClient) {}
 
