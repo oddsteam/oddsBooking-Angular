@@ -17,7 +17,7 @@ export class BookingService {
     private bookingUrl = `${environment.apiUrl}/v1/booking`
     //test push
     currentBooking?: BookingDetail
-    constructor(private httpClient: HttpClient) {}
+    constructor(private httpClient: HttpClient) { }
 
     httpOption = {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
@@ -41,7 +41,7 @@ export class BookingService {
     clearCurrentBooking() {
         this.currentBooking = undefined
     }
-    
+
     static range(start: number, end: number): number[] {
         const result: number[] = []
         for (let i = start; i <= end; i++) {
@@ -58,19 +58,19 @@ export class BookingService {
         return this.getAvailableStartDate(current, now)
     }
 
-    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date | undefined, endTime: Date | undefined ): number[] {
+    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date | undefined, endTime: Date | undefined): number[] {
         let futureRange: number[] = []
         const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
         if (isHaveEndTime) {
             const startHours = dayjs(startDate).endOf('date').hour()
             const endHours = dayjs(endTime).hour()
             const endMinute = dayjs(endTime).minute()
-            if(endMinute == 0){
+            if (endMinute == 0) {
                 futureRange = this.range(endHours, startHours)
-            }else{
+            } else {
                 futureRange = this.range(endHours + 1, startHours)
             }
-            
+
         }
         if (!this.isWeekend(startDate)) {
             if (dayjs(startDate).day() === 1) {
@@ -81,19 +81,19 @@ export class BookingService {
 
         // let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
         let rangeDisable = [...this.range(0, 8).concat(this.range(21, 23))]
-        for(let i = 0; i < futureRange.length; ++i){
+        for (let i = 0; i < futureRange.length; ++i) {
             let found = false;
-            for(let j = 0; j < rangeDisable.length; ++j){
-                if(futureRange[i] === rangeDisable[j]){
+            for (let j = 0; j < rangeDisable.length; ++j) {
+                if (futureRange[i] === rangeDisable[j]) {
                     found = true
                 }
             }
-            if(!found){
+            if (!found) {
                 rangeDisable.push(futureRange[i])
             }
         }
 
-        return [...new Set(rangeDisable)].sort((a,b) => a - b)
+        return [...new Set(rangeDisable)].sort((a, b) => a - b)
     }
 
     static rangeDisabledMinutesOnStart(
@@ -122,7 +122,7 @@ export class BookingService {
         return [...futureRange]
     }
 
-    static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date, now: Date): boolean {
+    static isDisableEndDate(startDate: Date | null, current: Date, now: Date): boolean {
         if (startDate) {
             const startDateDayjs = dayjs(startDate)
             if (this.isWeekend(startDate)) {
@@ -131,19 +131,11 @@ export class BookingService {
                 }
                 return !dayjs(current).isSame(startDateDayjs, 'date')
             } else {
-                if (startTime) {
-                    const startTimeDayjs = dayjs(startTime)
-                    if (dayjs(startTimeDayjs).hour() <= 6) {
-                        return (
-                            startDateDayjs.isBefore(dayjs(current)) ||
-                            !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
-                        )
-                    } else {
-                        return this.getAvailableEndDate(startDateDayjs, current)
-                    }
-                }
+                return (
+                    startDateDayjs.isBefore(dayjs(current)) || !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
+                )
             }
-            return this.getAvailableEndDate(startDateDayjs, current)
+            //return this.getAvailableEndDate(startDateDayjs, current)
         }
         return this.getAvailableStartDate(current, now)
     }

@@ -46,80 +46,52 @@
 
                     <mat-form-field class="full-width form-field-reason" appearance="outline">
                         <mat-label>Reason</mat-label>
-                        <textarea
-                            matInput
-                            formControlName="reason"
-                            cdkAutosizeMinRows="2"
-                        ></textarea>
+                        <textarea matInput formControlName="reason" cdkAutosizeMinRows="2"></textarea>
                         <mat-icon matSuffix>textsms</mat-icon>
                     </mat-form-field>
 
                     <div class="row-datetimepicker">
                         <nz-form-item class="date-box">
-                            <nz-date-picker
-                                formControlName="startDate"
-                                nzPlaceHolder=" "
-                                [nzDisabledDate]="disabledDateOnStart"
-                                [nzShowToday]="false"
-                                nzFormat="yyyy/MM/dd"
-                                [nzDefaultPickerValue]="minDate"
-                                [nzInputReadOnly]="true"
-                                class="full-width date-picker"
-                            ></nz-date-picker>
+                            <nz-date-picker formControlName="startDate" nzPlaceHolder=" "
+                                [nzDisabledDate]="disabledDateOnStart" [nzShowToday]="false" nzFormat="yyyy/MM/dd"
+                                [nzDefaultPickerValue]="minDateStart" [nzInputReadOnly]="true"
+                                class="full-width date-picker"></nz-date-picker>
                             <p class="date-picker-title">From</p>
                         </nz-form-item>
 
-                        <nz-form-item class="time-box"
-                            ><nz-time-picker
-                                id="startTime"
-                                formControlName="startTime"
-                                nzPlaceHolder=" "
-                                nzHideDisabledOptions="true"
-                                [nzDisabledHours]="disabledHoursOnStart"
-                                [nzDisabledMinutes]="disabledMinutesOnStart"
-                                nzFormat="HH:mm"
-                                class="full-width date-picker"
-                            ></nz-time-picker>
-                            <p class="date-picker-title">From Time</p>
-                        </nz-form-item>
+                        <mat-form-field class="time-box" appearance="outline" >
+                            <mat-label>Time</mat-label>
+                            <mat-select formControlName="startTime">
+                                <mat-option *ngFor="let item of startTimeOption" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        </mat-form-field>
                     </div>
 
                     <div class="row-datetimepicker">
                         <nz-form-item class="date-box">
-                            <nz-date-picker
-                                formControlName="endDate"
-                                nzPlaceHolder=" "
-                                [nzDisabledDate]="disabledDateOnEnd"
-                                [nzShowToday]="false"
-                                nzFormat="yyyy/MM/dd"
-                                [nzDefaultPickerValue]="minDate"
-                                [nzInputReadOnly]="true"
-                                class="full-width date-picker"
-                            ></nz-date-picker>
+                            <nz-date-picker formControlName="endDate" nzPlaceHolder=" "
+                                [nzDisabledDate]="disabledDateOnEnd" [nzShowToday]="false" nzFormat="yyyy/MM/dd"
+                                [nzDefaultPickerValue]="minDateEnd" [nzInputReadOnly]="true"
+                                class="full-width date-picker"></nz-date-picker>
                             <p class="date-picker-title">To</p>
                         </nz-form-item>
 
-                        <nz-form-item class="time-box"
-                            ><nz-time-picker
-                                id="endTime"
-                                formControlName="endTime"
-                                nzPlaceHolder=" "
-                                nzHideDisabledOptions="true"
-                                [nzDisabledHours]="disabledHoursOnEnd"
-                                [nzDisabledMinutes]="disabledMinutesOnEnd"
-                                nzFormat="HH:mm"
-                                class="full-width date-picker"
-                            ></nz-time-picker>
-                            <p class="date-picker-title">To Time</p>
-                        </nz-form-item>
+                        <mat-form-field class="time-box" appearance="outline" >
+                            <mat-label>Time</mat-label>
+                            <mat-select formControlName="endTime">
+                                <mat-option *ngFor="let item of endTimeOption" [value]="item">
+                                    {{item}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+                        </mat-form-field>
                     </div>
 
-                    <button
-                        mat-raised-button
-                        (click)="onSubmit()"
-                        class="button button-color"
-                        [disabled]="bookingForm.invalid"
-                    >
+                    <button mat-raised-button (click)="onSubmit()" class="button button-color"
+                        [disabled]="bookingForm.invalid">
                         PREVIEW
                     </button>
                 </form>
