@@ -5,6 +5,7 @@ import { BookingDetail } from './booking'
 import { map } from 'rxjs/operators'
 import { environment } from 'src/environments/environment'
 import * as dayjs from 'dayjs'
+import * as isBetween from 'dayjs/plugin/isBetween'
 @Injectable({
     providedIn: 'root',
 })
@@ -73,6 +74,9 @@ export class BookingService {
 
     static isDisableEndDate(startDate: Date, current: Date, now: Date): boolean {
         const startDateDayjs = dayjs(startDate)
+        if(dayjs(startDateDayjs).day()==6){
+            return dayjs(current).isAfter(dayjs(startDate).add(1,"day")) || dayjs(current).isBefore(startDate)
+        }
         return !dayjs(current).isSame(startDateDayjs, 'date')
     }
 
