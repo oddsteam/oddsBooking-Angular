@@ -4,6 +4,7 @@ import { Router } from '@angular/router'
 import * as dayjs from 'dayjs'
 import { map } from 'rxjs'
 import { BookingUtility } from 'src/functions/booking.utility'
+import { BookingValidate } from 'src/functions/booking.validate'
 import { BookingService } from '../booking.service'
 
 const next2WeekMinDate = dayjs().add(14, 'day')
@@ -18,28 +19,24 @@ export class BookingFormComponent implements OnInit {
         ? next2WeekMinDate.startOf('D').toDate()
         : next2WeekMinDate.hour(9).minute(0).toDate()
     inputValue: string = ''
-    inputReason:string = ''
+    inputReason: string = ''
     inputPhoneNumber: string = ''
     isEndTimeValid: boolean = false
+    minuteStep: number = 30
 
     disabledHoursOnStart = () => {
         const { startDate, endDate, endTime } = this.getTimeOnForm()
         return BookingService.rangeDisabledHoursOnStart(startDate, endDate, endTime)
     }
 
-    disabledMinutesOnStart = (hours: number) => {
-        const { startDate, endDate, endTime } = this.getTimeOnForm()
-        return BookingService.rangeDisabledMinutesOnStart(hours, startDate, endDate, endTime)
-    }
-
     disabledHoursOnEnd = () => {
-        const { startDate, startTime, endDate } = this.getTimeOnForm()
-        return BookingService.rangeDisabledHoursOnEnd(startDate, startTime, endDate)
+        const { startTime } = this.getTimeOnForm()
+        return BookingService.rangeDisabledHoursOnEnd(startTime)
     }
 
-    disabledMinutesOnEnd = (hours: number) => {
-        const { startDate, startTime, endDate } = this.getTimeOnForm()
-        return BookingService.rangeDisabledMinutesOnEnd(hours, startDate, startTime, endDate)
+    disabledMinutesOnStart = (hours: number) => {
+        const { startDate } = this.getTimeOnForm()
+        return BookingService.rangeDisabledMinutesOnStart(hours, startDate)
     }
 
     disabledDateOnStart = (current: Date): boolean => {
@@ -47,8 +44,8 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledDateOnEnd = (current: Date): boolean => {
-        const { startDate, startTime } = this.getTimeOnForm()
-        return BookingService.isDisableEndDate(startDate, startTime, current, dayjs().toDate())
+        const { startDate } = this.getTimeOnForm()
+        return BookingService.isDisableEndDate(startDate, current, dayjs().toDate())
     }
 
     bookingForm = new FormGroup(
@@ -78,31 +75,30 @@ export class BookingFormComponent implements OnInit {
 
         this.bookingForm
             .get('fullName')
-            ?.valueChanges.pipe(map((v) => this.textAutoFormat(v)))
-            .subscribe((v) => this.bookingForm.get('fullName')?.setValue(v, { emitEvent: false }))
+            ?.valueChanges.pipe(map((v) => BookingValidate.textAutoFormat(v)))
+            .subscribe((v) => this.setValue('fullName', v))
 
         this.bookingForm
             .get('reason')
             ?.valueChanges.pipe(map((v) => v.trimStart()))
-            .subscribe((v) => this.bookingForm.get('reason')?.setValue(v, { emitEvent: false }))
+            .subscribe((v) => this.setValue('reason', v))
 
         this.bookingForm
             .get('phoneNumber')
-            ?.valueChanges.pipe(map((v) => this.checkPhoneNumberInput(v)))
-            .subscribe((v) =>
-                this.bookingForm.get('phoneNumber')?.setValue(v, { emitEvent: false })
-            )
+            ?.valueChanges.pipe(map((v) => BookingValidate.checkPhoneNumberInput(v)))
+            .subscribe((v) => this.setValue('phoneNumber', v))
 
         this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {
+            const chainControlName = ['startTime', 'endDate', 'endTime']
             if (v) {
-                this.bookingForm
-                    .get('startTime')
-                    ?.setValue(this.getDefaultFromTime(v), { emitEvent: false })
-                this.bookingForm.get('startTime')?.enable({ onlySelf: true, emitEvent: false })
+                this.setValue('startTime', BookingValidate.getDefaultFromTime(v))
+                const { startDate, startTime } = this.getTimeOnForm()
                 ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
-                this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
+                this.setValue('endDate', v)
+                this.enableForm(chainControlName)
+                this.setValue('endTime', BookingValidate.getDefaultToTime(startDate, startTime, v))
             } else {
-                ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
+                chainControlName.forEach((name) => this.onClearValue(name))
             }
         })
 
@@ -111,26 +107,28 @@ export class BookingFormComponent implements OnInit {
                 const disableHoursStartTime = this.disabledHoursOnStart()
                 const valueHoursTime = dayjs(v).hour()
                 const valueMinutesTime = dayjs(v).minute()
-                const disableMinutesStartTime = this.disabledMinutesOnStart(valueHoursTime)
+                const { startDate, endTime } = this.getTimeOnForm()
 
-                this.bookingForm.get('endDate')?.enable({ onlySelf: true, emitEvent: false })
+                // typing validate check
+                const isIncludeTime =
+                    disableHoursStartTime.includes(valueHoursTime) ||
+                    ![0, 30].includes(valueMinutesTime)
+
+                this.enableForm('endDate')
                 // Mon-Fri startime <= 6
                 if (dayjs(v).hour() <= 6) {
-                    const { startDate } = this.getTimeOnForm()
-                    this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
-                    this.bookingForm.get('endTime')?.setValue(this.getCustomTime(6, 0), {
-                        emitEvent: false,
-                    })
-
-                    this.bookingForm.get('endDate')?.setValue(dayjs(startDate).toDate(), {
-                        emitEvent: false,
-                    })
-                } else if (
-                    disableHoursStartTime.includes(valueHoursTime) ||
-                    disableMinutesStartTime.includes(valueMinutesTime)
-                ) {
-                    this.bookingForm.get('startTime')?.setValue(null, { emitEvent: false })
+                    this.enableForm('endTime')
+                    this.setValue('endTime', BookingValidate.getCustomTime(6, 0))
+                    this.setValue('endDate', startDate)
+                }
+                if (isIncludeTime) {
+                    this.setValue('startTime', null)
                     ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
+                }
+
+                if (endTime && BookingUtility.isTimeDiff30Minutes(v, endTime)) {
+                    const endTimeadd30Minutes = dayjs(endTime).add(30, 'minute').toDate()
+                    this.setValue('endTime', endTimeadd30Minutes)
                 }
             } else {
                 ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
@@ -138,52 +136,26 @@ export class BookingFormComponent implements OnInit {
         })
 
         this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
-            if (v) {
-                this.bookingForm
-                    .get('endTime')
-                    ?.setValue(
-                        this.getDefaultToTime(
-                            this.getFormValue('startDate'),
-                            this.getFormValue('startTime'),
-                            v
-                        ),
-                        { emitEvent: false }
-                    )
-                this.bookingForm.get('endTime')?.enable({ onlySelf: true, emitEvent: false })
-            } else {
-                this.onClearValue('endTime')
-            }
+            if (!v) this.onClearValue('endTime')
         })
-        this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {
-            const { startDate, startTime, endDate } = this.getTimeOnForm()
-            const startHours = dayjs(startTime).hour()
-            if (v) {
-                const { enableHours, enableMinutes } = BookingUtility.getEnableTime(
-                    startHours,
-                    startDate,
-                    startTime,
-                    endDate
-                )
-                const minHours = Math.min(...enableHours)
-                const maxHours = Math.max(...enableHours)
 
+        this.bookingForm.get('endTime')?.valueChanges.subscribe((v) => {
+            if (v) {
+                const { startTime } = this.getTimeOnForm()
                 const disableHoursEndTime = this.disabledHoursOnEnd()
                 const valueEndHours = dayjs(v).hour()
                 const valueEndMinutes = dayjs(v).minute()
-                const disableMinutesEndTime = this.disabledMinutesOnEnd(valueEndHours)
 
-                if (dayjs(v).hour() === minHours && !enableMinutes.includes(dayjs(v).minute())) {
-                    const startTimeWithMinute = dayjs(startTime).add(1, 'minute').minute()
-                    const time = dayjs(v).minute(0).add(startTimeWithMinute, 'minute').toDate()
-                    this.bookingForm.get('endTime')?.setValue(time, { emitEvent: false })
-                } else if (dayjs(v).hour() === maxHours) {
-                    const zeroMinute = dayjs(v).minute(0).toDate()
-                    this.bookingForm.get('endTime')?.setValue(zeroMinute, { emitEvent: false })
-                } else if (
+                // typing validate check
+                const isIncludeTime =
                     disableHoursEndTime.includes(valueEndHours) ||
-                    disableMinutesEndTime.includes(valueEndMinutes)
-                ) {
-                    this.bookingForm.get('endTime')?.setValue(null, { emitEvent: false })
+                    ![0, 30].includes(valueEndMinutes)
+
+                if (isIncludeTime) {
+                    this.setValue('endTime', null)
+                } else if (startTime && BookingUtility.isTimeDiff30Minutes(startTime, v)) {
+                    const endTimeadd30Minutes = dayjs(startTime).subtract(30, 'minute').toDate()
+                    this.setValue('startTime', endTimeadd30Minutes)
                 }
             }
         })
@@ -204,58 +176,42 @@ export class BookingFormComponent implements OnInit {
                 startTime: startDate.toDate(),
                 endTime: endDate.toDate(),
             })
-            this.inputValue = this.textAutoFormat(currentBooking.fullName)
-            this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
+            this.inputValue = BookingValidate.textAutoFormat(currentBooking.fullName)
+            this.inputPhoneNumber = BookingValidate.textAutoFormat(currentBooking.phoneNumber)
         }
     }
 
     onSubmit() {
         const { startDate, startTime, endDate, endTime } = this.getTimeOnForm()
         const startDateTime = BookingUtility.mergeDateTime(startDate, startTime)
-        this.bookingForm.value.startDate = this.convertDateToString(startDateTime)
+        this.bookingForm.value.startDate = BookingValidate.convertDateToString(startDateTime)
 
         const endDateTime = BookingUtility.mergeDateTime(endDate, endTime)
-        this.bookingForm.value.endDate = this.convertDateToString(endDateTime)
+        this.bookingForm.value.endDate = BookingValidate.convertDateToString(endDateTime)
         this.bookingService.saveBooking(this.bookingForm.value)
         this.router.navigateByUrl('preview')
     }
 
-    onClearValue(formName: string): void {
-        this.bookingForm.get(formName)?.setValue(null, { emitEvent: false })
-        this.bookingForm.get(formName)?.disable({ onlySelf: true, emitEvent: false })
-    }
-
-    textAutoFormat(term: string): string {
-        let nameFormatter = term.trimStart().toLowerCase().split(' ')
-        for (let _i = 0; _i < nameFormatter.length; _i++) {
-            nameFormatter[_i] =
-                nameFormatter[_i].charAt(0).toUpperCase() + nameFormatter[_i].substring(1)
-        }
-        return nameFormatter.join(' ')
-    }
-
-    checkReasonInput(term: string) {
-        let reasonFormatter = term.trim()
-        return reasonFormatter
-    }
-
-    checkPhoneNumberInput(term: string): string {
-        const pattern = /^[0-9]*$/
-        let phoneNumberFormatted = term
-        if (!pattern.test(phoneNumberFormatted)) {
-            phoneNumberFormatted = phoneNumberFormatted.replace(/[^0-9]/g, '')
-        }
-        return phoneNumberFormatted
-    }
-
-    convertDateToString(date: Date): string {
-        if (!date) return ''
-        const next2WeekDate = dayjs(date).toDate()
-        return dayjs(next2WeekDate).format('YYYY-MM-DDTHH:mm')
+    onClearValue(formControlName: string): void {
+        this.setValue(formControlName, null)
+        this.bookingForm.get(formControlName)?.disable({ onlySelf: true, emitEvent: false })
     }
 
     getFormValue = (formControlName: string) => {
         return this.bookingForm.get(formControlName)?.value
+    }
+
+    setValue(formControlName: string, value?: string | number | Date | null) {
+        return this.bookingForm.get(formControlName)?.setValue(value, { emitEvent: false })
+    }
+
+    enableForm = (formControlName: string | string[]) => {
+        if (Array.isArray(formControlName)) {
+            formControlName.forEach((name) => this.enableForm(name))
+        } else {
+            const formControl = this.bookingForm.get(formControlName)
+            formControl?.enable({ onlySelf: true, emitEvent: false })
+        }
     }
 
     getTimeOnForm = () => {
@@ -265,38 +221,8 @@ export class BookingFormComponent implements OnInit {
         const endTime = this.getFormValue('endTime')
         return { startDate, startTime, endDate, endTime }
     }
+
     get phoneNumber() {
         return this.bookingForm.get('phoneNumber') as FormArray
-    }
-
-    private getCustomTime(hour: number, minute: number): Date {
-        return dayjs().set('hour', hour).set('minute', minute).toDate()
-    }
-
-    private getDefaultFromTime(startDate: Date): Date {
-        if (BookingService.isWeekend(startDate)) {
-            return this.getCustomTime(9, 0)
-        }
-        return this.getCustomTime(18, 0)
-    }
-
-    private getDefaultToTime(startDate: Date, startTime: Date, endDate: Date): Date {
-        if (!dayjs(endDate).isSame(startDate, 'date')) {
-            if (endDate.getDay() == 0) {
-                return this.getCustomTime(21, 0)
-            }
-            return this.getCustomTime(6, 0)
-        } else {
-            if (BookingService.isWeekend(startDate) && BookingService.isWeekend(endDate)) {
-                return this.getCustomTime(21, 0)
-            } else if (
-                !BookingService.isWeekend(startDate) &&
-                !BookingService.isWeekend(endDate) &&
-                startTime.getHours() < 6
-            ) {
-                return this.getCustomTime(6, 0)
-            }
-            return this.getCustomTime(23, 59)
-        }
     }
 }

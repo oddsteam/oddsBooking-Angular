@@ -3,12 +3,8 @@ import { BookingService } from 'src/app/booking.service'
 
 export class BookingUtility {
     constructor() {}
-    static getEnableHours(startDate: Date, startTime: Date, endDate: Date): number[] {
-        const rangeDisableHoursOnEnd = BookingService.rangeDisabledHoursOnEnd(
-            startDate,
-            startTime,
-            endDate
-        )
+    static getEnableHours(startTime: Date): number[] {
+        const rangeDisableHoursOnEnd = BookingService.rangeDisabledHoursOnEnd(startTime)
         const enableHours = []
         for (let i = 0; i < 25; i++) {
             if (!rangeDisableHoursOnEnd.includes(i)) {
@@ -18,36 +14,8 @@ export class BookingUtility {
         return enableHours
     }
 
-    static getEnableMinutes(
-        startHours: number,
-        startDate: Date,
-        startTime: Date,
-        endDate: Date
-    ): number[] {
-        const rangeDisabledMinutesOnEnd = BookingService.rangeDisabledMinutesOnEnd(
-            startHours,
-            startDate,
-            startTime,
-            endDate
-        )
-        const enableMinutes = []
-        for (let i = 0; i < 60; i++) {
-            if (!rangeDisabledMinutesOnEnd.includes(i)) {
-                enableMinutes.push(i)
-            }
-        }
-        return enableMinutes
-    }
-
-    static getEnableTime(
-        startHours: number,
-        startDate: Date,
-        startTime: Date,
-        endDate: Date
-    ): { [key: string]: number[] } {
-        const enableHours = this.getEnableHours(startDate, startTime, endDate)
-        const enableMinutes = this.getEnableMinutes(startHours, startDate, startTime, endDate)
-        return { enableHours, enableMinutes }
+    static isTimeDiff30Minutes(startTime: Date, endTime: Date): boolean {
+        return dayjs(endTime).diff(dayjs(startTime), 'minute') === 30
     }
 
     static mergeDateTime = (date: Date, time: Date): Date => {

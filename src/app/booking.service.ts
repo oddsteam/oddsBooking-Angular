@@ -2,14 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { BookingDetail } from './booking'
-
 import { map } from 'rxjs/operators'
-
 import { environment } from 'src/environments/environment'
 import * as dayjs from 'dayjs'
-import * as isBetween from 'dayjs/plugin/isBetween'
-
-dayjs.extend(isBetween)
 @Injectable({
     providedIn: 'root',
 })
@@ -41,7 +36,7 @@ export class BookingService {
     clearCurrentBooking() {
         this.currentBooking = undefined
     }
-    
+
     static range(start: number, end: number): number[] {
         const result: number[] = []
         for (let i = start; i <= end; i++) {
@@ -51,174 +46,50 @@ export class BookingService {
     }
 
     static isWeekend(day: Date): boolean {
-        return dayjs(day).day() === 0 || dayjs(day).day() === 6
+        return dayjs(day).day() % 6 === 0
     }
 
     static isDisabledDateOnStart(current: Date, now: Date): boolean {
-        return this.getAvailableStartDate(current, now)
+        return dayjs(now).add(14, 'day').isAfter(current, 'date')
     }
 
-    static rangeDisabledHoursOnStart(startDate: Date, endDate: Date | undefined, endTime: Date | undefined ): number[] {
-        let futureRange: number[] = []
+    static getFutureRange(startDate: Date, endDate?: Date, endTime?: Date): number[] {
         const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
-        if (isHaveEndTime) {
-            const startHours = dayjs(startDate).endOf('date').hour()
-            const endHours = dayjs(endTime).hour()
-            const endMinute = dayjs(endTime).minute()
-            if(endMinute == 0){
-                futureRange = this.range(endHours, startHours)
-            }else{
-                futureRange = this.range(endHours + 1, startHours)
-            }
-            
-        }
+        if (!isHaveEndTime) return []
+        const startHours = dayjs(startDate).endOf('date').hour()
+        const endHours = dayjs(endTime).hour()
+        return this.range(endHours, startHours)
+    }
+
+    static rangeDisabledHoursOnStart(startDate: Date, endDate?: Date, endTime?: Date): number[] {
+        const futureRange = this.getFutureRange(startDate, endDate, endTime)
         if (!this.isWeekend(startDate)) {
-            if (dayjs(startDate).day() === 1) {
-                return [...this.range(0, 17), ...futureRange]
-            }
+            if (dayjs(startDate).day() === 1) return [...this.range(0, 17), ...futureRange]
             return [...this.range(6, 17), ...futureRange]
         }
-
-        // let rangeDisable = [...this.range(0, 9).concat(this.range(21, 24)), ...futureRange]
-        let rangeDisable = [...this.range(0, 8).concat(this.range(21, 23))]
-        for(let i = 0; i < futureRange.length; ++i){
-            let found = false;
-            for(let j = 0; j < rangeDisable.length; ++j){
-                if(futureRange[i] === rangeDisable[j]){
-                    found = true
-                }
-            }
-            if(!found){
-                rangeDisable.push(futureRange[i])
-            }
-        }
-
-        return [...new Set(rangeDisable)].sort((a,b) => a - b)
+        let rangeDisable = [...this.range(0, 8), ...this.range(21, 23), ...futureRange]
+        return [...new Set(rangeDisable)].sort((a, b) => a - b)
     }
 
-    static rangeDisabledMinutesOnStart(
-        hours: number,
-        startDate: Date,
-        endDate: Date,
-        endTime: Date
-    ): number[] {
-        let futureRange: number[] = []
-        const isHaveEndTime = dayjs(startDate).isSame(endDate, 'date') && endTime
-        if (isHaveEndTime) {
-            const endHours = dayjs(endTime).hour()
-            if (hours === endHours) {
-                const endMinutes = dayjs(endTime).minute()
-                futureRange = this.range(endMinutes, 59)
-            }
-        }
-
-        if (
-            (this.isWeekend(startDate) && hours === 21) ||
-            (!this.isWeekend(startDate) && hours === 6)
-        ) {
-            return this.range(1, 59)
-        }
-        if (hours === undefined) return this.range(0, 59)
-        return [...futureRange]
+    static isDisableEndDate(startDate: Date, current: Date, now: Date): boolean {
+        const startDateDayjs = dayjs(startDate)
+        return !dayjs(current).isSame(startDateDayjs, 'date')
     }
 
-    static isDisableEndDate(startDate: Date | null, startTime: Date, current: Date, now: Date): boolean {
-        if (startDate) {
-            const startDateDayjs = dayjs(startDate)
-            if (this.isWeekend(startDate)) {
-                if (dayjs(startDate).day() === 6) {
-                    return this.getAvailableEndDate(startDateDayjs, current)
-                }
-                return !dayjs(current).isSame(startDateDayjs, 'date')
-            } else {
-                if (startTime) {
-                    const startTimeDayjs = dayjs(startTime)
-                    if (dayjs(startTimeDayjs).hour() <= 6) {
-                        return (
-                            startDateDayjs.isBefore(dayjs(current)) ||
-                            !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
-                        )
-                    } else {
-                        return this.getAvailableEndDate(startDateDayjs, current)
-                    }
-                }
-            }
-            return this.getAvailableEndDate(startDateDayjs, current)
-        }
-        return this.getAvailableStartDate(current, now)
+    static rangeDisabledHoursOnEnd(startTime: Date): number[] {
+        const startTimeHoursDayJs = dayjs(startTime).get('hour')
+        const isWeekend = this.isWeekend(startTime)
+        const defaultDisabled = this.range(0, startTimeHoursDayJs)
+        const isBefore6AM = startTimeHoursDayJs < 6
+
+        if (isWeekend) return [...defaultDisabled, ...this.range(21, 23)]
+        else if (isBefore6AM) return [...defaultDisabled, ...this.range(7, 23)]
+        else return defaultDisabled
     }
 
-    static rangeDisabledHoursOnEnd(startDate: Date, startTime: Date, endDate: Date): number[] {
-        let startTimeHoursDayJs = dayjs(startTime).get('hour')
-        // Sat-Sun
-        if (this.isWeekend(startDate)) {
-            // start = end
-            if (this.isStartDateSameAsEndDate(startDate, endDate)) {
-                if (dayjs(startTime).get('minute') === 59) {
-                    startTimeHoursDayJs++
-                }
-                return this.range(0, startTimeHoursDayJs--).concat(this.range(22, 23))
-            }
-            // start != end
-            else {
-                return this.range(0, 8).concat(this.range(22, 23))
-            }
-        }
-        // Mon-Fri
-        else {
-            // start = end
-            if (this.isStartDateSameAsEndDate(startDate, endDate)) {
-                if (dayjs(startTime).get('minute') === 59) {
-                    startTimeHoursDayJs++
-                }
-                if (startTimeHoursDayJs <= 6) {
-                    return this.range(0, startTimeHoursDayJs--).concat(this.range(7, 23))
-                } else {
-                    return this.range(0, startTimeHoursDayJs--)
-                }
-            }
-            // start != end
-            else {
-                return this.range(7, 23)
-            }
-        }
-    }
-
-    static rangeDisabledMinutesOnEnd(
-        hours: number,
-        startDate: Date,
-        startTime: Date,
-        endDate: Date
-    ): number[] {
-        if (
-            this.isStartDateSameAsEndDate(startDate, endDate) &&
-            hours === dayjs(startTime).get('hour')
-        ) {
-            return this.range(0, dayjs(startTime).get('minute'))
-        } else {
-            if (
-                (this.isWeekend(startDate) && hours === 21) ||
-                (!this.isWeekend(startDate) && hours === 6)
-            ) {
-                return this.range(1, 59)
-            }
-        }
-        if (hours === undefined) return this.range(0, 59)
-        return []
-    }
-
-    private static isStartDateSameAsEndDate(startDate: Date, endDate: Date) {
-        return dayjs(startDate).isSame(endDate, 'date')
-    }
-
-    private static getAvailableEndDate(startDateDayjs: dayjs.Dayjs, current: Date): boolean {
-        return !dayjs(current).isBetween(startDateDayjs, startDateDayjs.add(1, 'd'), 'day', '[]')
-        // return startDateDayjs.add(1, 'day').isBefore(dayjs(current)) ||
-        //     !dayjs(current).add(1, 'day').isAfter(startDateDayjs, 'date')
-    }
-
-    private static getAvailableStartDate(dateOnCalendar: Date, today: Date): boolean {
-        //dayjs(now: date)
-        return dayjs(today).add(14, 'day').isAfter(dateOnCalendar, 'date')
+    static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
+        const isWeekend = this.isWeekend(startDate) && hours === 20
+        const isNormalDayAt5AM = hours === 5
+        return isWeekend ? [30] : isNormalDayAt5AM ? [30] : []
     }
 }

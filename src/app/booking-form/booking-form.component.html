@@ -78,6 +78,7 @@
                                 [nzDisabledHours]="disabledHoursOnStart"
                                 [nzDisabledMinutes]="disabledMinutesOnStart"
                                 nzFormat="HH:mm"
+                                [nzMinuteStep]="minuteStep"
                                 class="full-width date-picker"
                             ></nz-time-picker>
                             <p class="date-picker-title">From Time</p>
@@ -90,7 +91,9 @@
                                 formControlName="endDate"
                                 nzPlaceHolder=" "
                                 [nzDisabledDate]="disabledDateOnEnd"
+                                [nzOpen]="false"
                                 [nzShowToday]="false"
+                                [nzAllowClear]="false"
                                 nzFormat="yyyy/MM/dd"
                                 [nzDefaultPickerValue]="minDate"
                                 [nzInputReadOnly]="true"
@@ -106,7 +109,7 @@
                                 nzPlaceHolder=" "
                                 nzHideDisabledOptions="true"
                                 [nzDisabledHours]="disabledHoursOnEnd"
-                                [nzDisabledMinutes]="disabledMinutesOnEnd"
+                                [nzMinuteStep]="minuteStep"
                                 nzFormat="HH:mm"
                                 class="full-width date-picker"
                             ></nz-time-picker>
