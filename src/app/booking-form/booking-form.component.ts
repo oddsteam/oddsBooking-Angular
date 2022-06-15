@@ -24,14 +24,13 @@ export class BookingFormComponent implements OnInit {
     isEndTimeValid: boolean = false
     minuteStep: number = 30
 
+    disabledDateOnStart = (current: Date): boolean => {
+        return BookingService.isDisabledDateOnStart(current, dayjs().toDate())
+    }
+
     disabledHoursOnStart = () => {
         const { startDate, endDate, endTime } = this.getTimeOnForm()
         return BookingService.rangeDisabledHoursOnStart(startDate, endDate, endTime)
-    }
-
-    disabledHoursOnEnd = () => {
-        const { startTime } = this.getTimeOnForm()
-        return BookingService.rangeDisabledHoursOnEnd(startTime)
     }
 
     disabledMinutesOnStart = (hours: number) => {
@@ -39,13 +38,23 @@ export class BookingFormComponent implements OnInit {
         return BookingService.rangeDisabledMinutesOnStart(hours, startDate)
     }
 
-    disabledDateOnStart = (current: Date): boolean => {
-        return BookingService.isDisabledDateOnStart(current, dayjs().toDate())
-    }
-
     disabledDateOnEnd = (current: Date): boolean => {
         const { startDate } = this.getTimeOnForm()
         return BookingService.isDisableEndDate(startDate, current, dayjs().toDate())
+    }
+
+    disabledHoursOnEnd = () => {
+        const { startTime, startDate } = this.getTimeOnForm()
+        const dateAtStart = (startDate as Date).getDate()
+        const monthAtStart = (startDate as Date).getMonth()
+        const yearAtStart = (startDate as Date).getFullYear()
+        let nStartTime =  dayjs(startTime).date(dateAtStart).month(monthAtStart).year(yearAtStart).toDate()
+        return BookingService.rangeDisabledHoursOnEnd(nStartTime)
+    }
+    
+    disabledMinutesOnEnd = (hours: number) => {
+        const { startDate } = this.getTimeOnForm()
+        return BookingService.rangeDisabledMinutesOnEnd(hours, startDate)
     }
 
     bookingForm = new FormGroup(

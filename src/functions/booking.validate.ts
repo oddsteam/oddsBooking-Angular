@@ -56,7 +56,7 @@ export class BookingValidate {
             ) {
                 return this.getCustomTime(6, 0)
             }
-            return this.getCustomTime(23, 30)
+            return this.getCustomTime(23, 0)
         }
     }
 }

@@ -64,8 +64,8 @@ export class BookingService {
     static rangeDisabledHoursOnStart(startDate: Date, endDate?: Date, endTime?: Date): number[] {
         const futureRange = this.getFutureRange(startDate, endDate, endTime)
         if (!this.isWeekend(startDate)) {
-            if (dayjs(startDate).day() === 1) return [...this.range(0, 17), ...futureRange]
-            return [...this.range(6, 17), ...futureRange]
+            return [...this.range(0, 17), ...futureRange]
+            // return [...this.range(6, 17), ...futureRange]
         }
         let rangeDisable = [...this.range(0, 8), ...this.range(21, 23), ...futureRange]
         return [...new Set(rangeDisable)].sort((a, b) => a - b)
@@ -77,19 +77,27 @@ export class BookingService {
     }
 
     static rangeDisabledHoursOnEnd(startTime: Date): number[] {
+        // console.log(startTime)
         const startTimeHoursDayJs = dayjs(startTime).get('hour')
         const isWeekend = this.isWeekend(startTime)
+        // console.log(isWeekend)
         const defaultDisabled = this.range(0, startTimeHoursDayJs)
         const isBefore6AM = startTimeHoursDayJs < 6
 
-        if (isWeekend) return [...defaultDisabled, ...this.range(21, 23)]
+        if (isWeekend) return [...defaultDisabled, ...this.range(22, 23)]
         else if (isBefore6AM) return [...defaultDisabled, ...this.range(7, 23)]
         else return defaultDisabled
     }
 
     static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
         const isWeekend = this.isWeekend(startDate) && hours === 20
-        const isNormalDayAt5AM = hours === 5
-        return isWeekend ? [30] : isNormalDayAt5AM ? [30] : []
+        const isNormalDayAt10PM = hours === 22
+        return isWeekend ? [30] : isNormalDayAt10PM ? [30] : []
+    }
+    
+    static rangeDisabledMinutesOnEnd(hours: number, startDate: Date): number[] {
+        const isWeekend = this.isWeekend(startDate) && hours === 21
+        const isNormalDayAt11PM = hours === 23
+        return isWeekend ? [30] : isNormalDayAt11PM ? [30] : []
     }
 }
