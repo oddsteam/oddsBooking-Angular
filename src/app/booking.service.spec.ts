@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing'
 import * as dayjs from 'dayjs'
 import { of } from 'rxjs'
 import { environment } from 'src/environments/environment'
+import { BookingUtility } from 'src/functions/booking.utility'
 import { BookingDetail } from './booking'
 import { BookingService } from './booking.service'
 
@@ -94,7 +95,7 @@ describe('BookingService', () => {
         expect(result).toBeFalse()
     })
 
-    it('#rangeDisabledHoursOnStart should return [6, 7, 8, ..., 17 | 23] from startDate: 2022/06/23, endDate: 2022/06/23, endTime: 23:59 *startDate is not weekend', () => {
+    it('#rangeDisabledHoursOnStart should return [0, 1, 2, ..., 17 | 23] from startDate: 2022/06/23, endDate: 2022/06/23, endTime: 23:00 *startDate is not weekend', () => {
         //input 2022/06/23, 2022/06/23, 23:59
         //output [6, 7, 8, ..., 17 | 23]
         const startDate = dayjs('23 Jun 2022').toDate()
@@ -103,7 +104,7 @@ describe('BookingService', () => {
 
         const result = BookingService.rangeDisabledHoursOnStart(startDate, endDate, endTime)
 
-        expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 23])
+        expect(result).toEqual(BookingService.range(0, 17).concat([23]))
     })
 
     it('#rangeDisabledHoursOnStart should return [0, 1, 2, ..., 8, 21, 22, 23] from startDate: 2022/06/25, endDate: 2022/06/25, endTime: 21:00 *startDate is weekend', () => {
@@ -128,14 +129,14 @@ describe('BookingService', () => {
         expect(result).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8, 21, 22, 23])
     })
 
-    it('#rangeDisabledHoursOnStart should return [6, 7, 8, ..., 17] from startDate: 2022/06/23, endDate: null, endTime: null *startDate is not weekend', () => {
+    it('#rangeDisabledHoursOnStart should return [0, 1, 2, ..., 17] from startDate: 2022/06/23, endDate: null, endTime: null *startDate is not weekend', () => {
         //input 2022/06/23, undefined, undefined
         //output [6, 7, 8, ..., 17]
         const startDate = dayjs('23 Jun 2022').toDate()
 
         const result = BookingService.rangeDisabledHoursOnStart(startDate, undefined, undefined)
 
-        expect(result).toEqual([6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17])
+        expect(result).toEqual(BookingService.range(0, 17))
     })
 
     it('#isDisableEndDate should return false from startDate: 2022/06/24, startTime: 18:00, current: 2022/06/23, now: 2022/06/23 *startDate is not weekend', () => {
