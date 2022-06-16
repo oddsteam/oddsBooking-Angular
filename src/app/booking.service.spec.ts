@@ -170,4 +170,76 @@ describe('BookingService', () => {
 
         expect(result).toEqual([2, 3, 4, 5, 6, 7, 8, 9, 10])
     })
+
+    it('#rangeDisabledMinutesOnStart should return [30] from startDate: 2022/07/02, Hours: 20 *weekend', () => {
+        const startDate = dayjs('2 July 2022').toDate()
+        const hours = 20
+
+        const result = BookingService.rangeDisabledMinutesOnStart(hours, startDate)
+
+        expect(result).toEqual([30])
+    })
+
+    it('#rangeDisabledMinutesOnEnd should return [30] from startDate:2022/07/02 , Hours:21',() => {
+        const startDate = dayjs('2 July 2022').toDate()
+        const hours = 21
+
+        const result = BookingService.rangeDisabledMinutesOnEnd(hours, startDate)
+
+        expect(result).toEqual([30])
+    })
+
+    it('#rangeDisabledMinutesOnStart should return [30] from startDate:2022/06/30, Hours: 22 *weekday ',() => {
+        const startDate = dayjs('30 June 2022').toDate()
+        const hours = 22
+
+        const result = BookingService.rangeDisabledMinutesOnStart(hours, startDate)
+
+        expect(result).toEqual([30])
+    })
+
+    it('#rangeDisabledMinutesOnEnd should return [30] from startDate:2022/06/30, Hours: 23 *weekday ',() => {
+        const startDate = dayjs('30 June 2022').toDate()
+        const hours = 23
+
+        const result = BookingService.rangeDisabledMinutesOnEnd(hours, startDate)
+
+        expect(result).toEqual([30])
+    })
+
+    it('#rangeDisabledMinutesOnStart should return [] from startDate:2022/06/30, Hours: 19 *weekday ',() => {
+        const startDate = dayjs('30 June 2022').toDate()
+        const hours = 19
+
+        const result = BookingService.rangeDisabledMinutesOnStart(hours, startDate)
+
+        expect(result).toEqual([])
+    })
+
+    it('#rangeDisabledMinutesOnEnd should return [] from startDate:2022/06/30, Hours: 19 *weekday ',() => {
+        const startDate = dayjs('30 June 2022').toDate()
+        const hours = 19
+
+        const result = BookingService.rangeDisabledMinutesOnStart(hours, startDate)
+
+        expect(result).toEqual([])
+    })
+
+    it('#rangeDisabledMinutesOnStart should return [] from startDate:2022/07/02, Hours: 19 *weekend ',() => {
+        const startDate = dayjs('2 July 2022').toDate()
+        const hours = 19
+
+        const result = BookingService.rangeDisabledMinutesOnStart(hours, startDate)
+
+        expect(result).toEqual([])
+    })
+
+    it('#rangeDisabledMinutesOnEnd should return [] from startDate:2022/07/02, Hours: 19 *weekday ',() => {
+        const startDate = dayjs('30 June 2022').toDate()
+        const hours = 19
+
+        const result = BookingService.rangeDisabledMinutesOnEnd(hours, startDate)
+
+        expect(result).toEqual([])
+    })
 })

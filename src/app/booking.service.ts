@@ -95,8 +95,8 @@ export class BookingService {
 
     static rangeDisabledMinutesOnStart(hours: number, startDate: Date): number[] {
         const isWeekend = this.isWeekend(startDate) && hours === 20
-        const isNormalDayAt10PM = hours === 22
-        return isWeekend ? [30] : isNormalDayAt10PM ? [30] : []
+        const isWeekDayAt10PM = hours === 22
+        return isWeekend ? [30] : isWeekDayAt10PM ? [30] : []
     }
     
     static rangeDisabledMinutesOnEnd(hours: number, startDate: Date): number[] {
