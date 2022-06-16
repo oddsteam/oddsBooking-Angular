@@ -50,42 +50,41 @@ export class BookingUtility {
         return { enableHours, enableMinutes }
     }
 
-    static mergeDateTime = (date: Date, time: Date): Date => {
-        const dateDayjs = dayjs(date)
-        const timeDayjs = dayjs(time)
-        const hours = timeDayjs.hour()
-        const minutes = timeDayjs.minute()
-        const newDate = dateDayjs.hour(hours).minute(minutes).toDate()
-        return newDate
+    static mergeDateTime = (date: Date, time: string): Date => {
+        const hour = Number(time.split(":")[0])
+        const minute = Number(time.split(":")[1])
+        return dayjs(date).hour(hour).minute(minute).second(0).toDate()
     }
 
-    // static getSplitTime(time: string): string[] {
-    //     return time.split(":");
-    // }
-
-    static getTimeRange(date: Date, startHour?: number): number[] {
+    static getTimeRange(startDate: Date, startHour?: number, endDate?:Date): number[] {
         if (startHour) {
-            if (BookingService.isWeekend(date)) {
-                if(dayjs(date).day()==6){
-                    return BookingService.range(9, 20)
+            if (BookingService.isWeekend(startDate)) {
+                if(dayjs(endDate).day()==0 && !dayjs(startDate).isSame(endDate)){
+                    return BookingService.range(10, 21)
                 }
                 return BookingService.range(startHour + 1, 21)
+
             } else {
                 return BookingService.range(startHour + 1, 23)
             }
+            // if (BookingService.isWeekend(startDate)) {
+            //     return BookingService.range(startHour + 1, 21)
+
+            // } else {
+            //     return BookingService.range(startHour + 1, 23)
+            // }
         } else {
-            if (BookingService.isWeekend(date)) {
+            if (BookingService.isWeekend(startDate)) {
                 return BookingService.range(9, 20)
             }
             return BookingService.range(18, 22)
         }
-
     }
 
-    static timeOption(date: Date, time?: string): string[] {
+    static timeOption(startDate: Date, time?: string, endDate?:Date): string[] {
         const hour = Number(time?.split(":")[0])
         const minute = Number(time?.split(":")[1])
-        const timeRange = this.getTimeRange(date, hour)
+        const timeRange = this.getTimeRange(startDate, hour, endDate)
         var times: string[] = []
         timeRange.forEach((hour, index) => {
             if (index == 0 && minute == 30) {
