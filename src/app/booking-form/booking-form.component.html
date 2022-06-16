@@ -52,10 +52,16 @@
 
                     <div class="row-datetimepicker">
                         <nz-form-item class="date-box">
-                            <nz-date-picker formControlName="startDate" nzPlaceHolder=" "
-                                [nzDisabledDate]="disabledDateOnStart" [nzShowToday]="false" nzFormat="yyyy/MM/dd"
-                                [nzDefaultPickerValue]="minDateStart" [nzInputReadOnly]="true"
-                                class="full-width date-picker"></nz-date-picker>
+                            <nz-date-picker 
+                            formControlName="startDate" 
+                            nzPlaceHolder=" "
+                            [nzDisabledDate]="disabledDateOnStart" 
+                            [nzShowToday]="false" 
+                            nzFormat="yyyy/MM/dd"
+                            [nzDefaultPickerValue]="minDateStart" 
+                            [nzInputReadOnly]="true"
+                            class="full-width date-picker">
+                        </nz-date-picker>
                             <p class="date-picker-title">From</p>
                         </nz-form-item>
 
@@ -72,10 +78,15 @@
 
                     <div class="row-datetimepicker">
                         <nz-form-item class="date-box">
-                            <nz-date-picker formControlName="endDate" nzPlaceHolder=" "
-                                [nzDisabledDate]="disabledDateOnEnd" [nzShowToday]="false" nzFormat="yyyy/MM/dd"
-                                [nzDefaultPickerValue]="minDateEnd" [nzInputReadOnly]="true"
-                                class="full-width date-picker"></nz-date-picker>
+                            <nz-date-picker 
+                            formControlName="endDate" 
+                            nzPlaceHolder=" "
+                            [nzDisabledDate]="disabledDateOnEnd" 
+                            [nzShowToday]="false"
+                            nzFormat="yyyy/MM/dd" 
+                            [nzInputReadOnly]="true"
+                            class="full-width date-picker">
+                        </nz-date-picker>
                             <p class="date-picker-title">To</p>
                         </nz-form-item>
 

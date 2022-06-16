@@ -16,7 +16,7 @@ export class BookingFormComponent implements OnInit {
     //default value
     rooms: string[] = ['All Stars', 'Neon']
     minDateStart: Date = next2WeekMinDate.toDate()
-    minDateEnd : Date = next2WeekMinDate.toDate()
+    minDateEnd: Date = next2WeekMinDate.toDate()
     inputValue: string = ''
     inputReason: string = ''
     inputPhoneNumber: string = ''
@@ -76,9 +76,9 @@ export class BookingFormComponent implements OnInit {
         //startDateSelected
         this.bookingForm.get('startDate')?.valueChanges.subscribe((v) => {
             if (v) {
+                ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
                 this.startTimeOption = BookingUtility.timeOption(v)
                 this.enableFormInput('startTime', true)
-                ;['endDate','endTime'].forEach((name)=> this.onClearValue(name))
             } else {
                 ;['startTime', 'endDate', 'endTime'].forEach((name) => this.onClearValue(name))
             }
@@ -87,10 +87,10 @@ export class BookingFormComponent implements OnInit {
         //startTimeSelected
         this.bookingForm.get('startTime')?.valueChanges.subscribe((v) => {
             if (v) {
-                this.endTimeOption = BookingUtility.timeOption(this.getFormValue("startDate"),v,this.getFormValue('endDate'))
-                this.setFormValue('endDate',this.getFormValue('startDate'))
-                this.enableFormInput('endDate',true)
-                this.enableFormInput('endTime',true)
+                this.endTimeOption = BookingUtility.timeOption(this.getFormValue("startDate"), v, this.getFormValue('endDate'))
+                this.setFormValue('endDate', currentBooking?.endDate ? currentBooking.endDate : this.getFormValue('startDate'))
+                this.enableFormInput('endDate', true)
+                this.enableFormInput('endTime', true)
             } else {
                 ;['endDate', 'endTime'].forEach((name) => this.onClearValue(name))
             }
@@ -99,7 +99,7 @@ export class BookingFormComponent implements OnInit {
         //endDateSelected
         this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
             if (v) {
-                this.endTimeOption = BookingUtility.timeOption(this.getFormValue('startDate'), this.getFormValue('startTime'),v)
+                this.endTimeOption = BookingUtility.timeOption(this.getFormValue('startDate'), this.getFormValue('startTime'), v)
                 this.enableFormInput('endTime', true)
             } else {
                 this.onClearValue('endTime')
@@ -107,13 +107,11 @@ export class BookingFormComponent implements OnInit {
         })
 
         const currentBooking = this.bookingService.getCurrentBooking()
-        console.log("current")
-        console.log(currentBooking)
         if (currentBooking) {
             const startDate = dayjs(currentBooking.startDate)
             const endDate = dayjs(currentBooking.endDate)
-            const startTime = startDate.hour()+":"+(startDate.minute()==0?"00":"30")
-            const endTime = endDate.hour()+":"+(endDate.minute()==0?"00":"30")
+            const startTime = startDate.hour() + ":" + (startDate.minute() == 0 ? "00" : "30")
+            const endTime = endDate.hour() + ":" + (endDate.minute() == 0 ? "00" : "30")
 
             this.bookingForm.setValue({
                 fullName: currentBooking.fullName,
@@ -123,8 +121,8 @@ export class BookingFormComponent implements OnInit {
                 reason: currentBooking.reason,
                 startDate: startDate.toDate(),
                 endDate: endDate.toDate(),
-                startTime: startTime,
                 endTime: endTime,
+                startTime: startTime,
             })
             this.inputValue = this.textAutoFormat(currentBooking.fullName)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
@@ -180,11 +178,11 @@ export class BookingFormComponent implements OnInit {
         return this.bookingForm.get(formControlName)?.value
     }
 
-    setFormValue = (formControlName:string, value:any) => {
-        return this.bookingForm.get(formControlName)?.setValue(value,{ emitEvent: false })
+    setFormValue = (formControlName: string, value: any) => {
+        return this.bookingForm.get(formControlName)?.setValue(value, { emitEvent: false })
     }
 
-    enableFormInput = (formControlName : string, enable : boolean) =>{
+    enableFormInput = (formControlName: string, enable: boolean) => {
         return this.bookingForm.get(formControlName)?.enable({ onlySelf: enable, emitEvent: false })
     }
 
@@ -194,6 +192,10 @@ export class BookingFormComponent implements OnInit {
         const endDate = this.getFormValue('endDate')
         const endTime = this.getFormValue('endTime')
         return { startDate, startTime, endDate, endTime }
+    }
+
+    getEndDate = (startDate: Date, endDate: Date) => {
+        return startDate
     }
 
     get phoneNumber() {

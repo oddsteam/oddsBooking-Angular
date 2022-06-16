@@ -143,12 +143,11 @@ describe('BookingService', () => {
     it('#isDisableEndDate should return false from startDate: 2022/06/24, startTime: 18:00, current: 2022/06/23, now: 2022/06/23 *startDate is not weekend', () =>{
         //input 2022/06/24, 18:00, 2022/06/23, 2022/06/10
         //output true
-        const startDate = dayjs("24 Jun 2022").toDate()
-        const startTime = dayjs("24 Jun 2022").hour(18).minute(0).toDate()
+        const startDate = dayjs("24 Jun 2022").hour(18).minute(0).toDate()
         const dateOnCalendar = dayjs("23 Jun 2022").toDate()
         const today = dayjs("10 Jun 2022").toDate()
 
-        const result = BookingService.isDisableEndDate(startDate, startTime, dateOnCalendar, today)
+        const result = BookingService.isDisableEndDate(startDate, dateOnCalendar, today)
 
         expect(result).toBeTruthy()
     })
@@ -156,12 +155,11 @@ describe('BookingService', () => {
     it('#isDisableEndDate should return true from startDate: 2022/06/23, startTime: 18:00, current: 2022/06/22, now: 2022/06/23 *startDate is not weekend', () =>{
         //input 2022/06/23, 18:00, 2022/06/23, 2022/06/23
         //output false
-        const startDate = dayjs("23 Jun 2022").toDate()
-        const startTime = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
+        const startDate = dayjs("23 Jun 2022").hour(18).minute(0).toDate()
         const dateOnCalendar = dayjs("22 Jun 2022").toDate()
         const today = startDate
 
-        const result = BookingService.isDisableEndDate(startDate, startTime, dateOnCalendar, today)
+        const result = BookingService.isDisableEndDate(startDate, dateOnCalendar, today)
 
         expect(result).toBeTrue()
     })

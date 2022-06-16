@@ -56,11 +56,12 @@ export class BookingUtility {
         return dayjs(date).hour(hour).minute(minute).second(0).toDate()
     }
 
-    static getTimeRange(startDate: Date, startHour?: number, endDate?:Date): number[] {
+    
+    private static getTimeRange(startDate: Date, startHour?: number, endDate?:Date): number[] {
         if (startHour) {
             if (BookingService.isWeekend(startDate)) {
-                if(dayjs(endDate).day()==0 && !dayjs(startDate).isSame(endDate)){
-                    return BookingService.range(10, 21)
+                if(!dayjs(startDate).isSame(endDate)){
+                    return BookingService.range(9, 21)
                 }
                 return BookingService.range(startHour + 1, 21)
 
@@ -74,16 +75,19 @@ export class BookingUtility {
             return BookingService.range(18, 22)
         }
     }
-
+    
+    //เขียน test --> เช็คขอบบนขอบล่าง --> cover case? : เขียนแบบ map
+    //ปรับเวลาวันอาทิตย์ 9:30
     static timeOption(startDate: Date, time?: string, endDate?:Date): string[] {
         const hour = Number(time?.split(":")[0])
         const minute = Number(time?.split(":")[1])
         const timeRange = this.getTimeRange(startDate, hour, endDate)
-        var times: string[] = []
+        let times: string[] = []
+
         timeRange.forEach((hour, index) => {
-            if (index == 0 && minute == 30) {
+            if ((index === 0 && minute === 30) || (index===0 && !dayjs(startDate).isSame(endDate)&&dayjs(endDate).day()===0)) {
                 times.push(hour.toString() + ":30")
-            } else if (index == timeRange.length-1) {
+            } else if (index === timeRange.length-1) {
                 times.push(hour.toString() + ":00")
             } else {
                 times.push(hour.toString() + ":00")
