@@ -80,7 +80,7 @@ export class BookingService {
         return !dayjs(current).isSame(startDateDayjs, 'date')
     }
 
-    static rangeDisabledHoursOnEnd(startTime: Date): number[] {
+    static rangeDisabledHoursOnEnd(startTime: Date, endDate?: Date): number[] {
         // console.log(startTime)
         const startTimeHoursDayJs = dayjs(startTime).get('hour')
         const isWeekend = this.isWeekend(startTime)
@@ -88,7 +88,12 @@ export class BookingService {
         const defaultDisabled = this.range(0, startTimeHoursDayJs)
         const isBefore6AM = startTimeHoursDayJs < 6
 
-        if (isWeekend) return [...defaultDisabled, ...this.range(22, 23)]
+        if (isWeekend) {
+            if(!dayjs(startTime).isSame(endDate, 'date')){
+                return [...this.range(0, 8), ...this.range(22, 23)]
+            }
+            return [...defaultDisabled, ...this.range(22, 23)]
+        } 
         else if (isBefore6AM) return [...defaultDisabled, ...this.range(7, 23)]
         else return defaultDisabled
     }
@@ -100,6 +105,7 @@ export class BookingService {
     }
     
     static rangeDisabledMinutesOnEnd(hours: number, startDate: Date): number[] {
+        
         const isWeekend = this.isWeekend(startDate) && hours === 21
         const isNormalDayAt11PM = hours === 23
         return isWeekend ? [30] : isNormalDayAt11PM ? [30] : []

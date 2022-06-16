@@ -44,12 +44,12 @@ export class BookingFormComponent implements OnInit {
     }
 
     disabledHoursOnEnd = () => {
-        const { startTime, startDate } = this.getTimeOnForm()
+        const { startTime, startDate, endDate } = this.getTimeOnForm()
         const dateAtStart = (startDate as Date).getDate()
         const monthAtStart = (startDate as Date).getMonth()
         const yearAtStart = (startDate as Date).getFullYear()
         let nStartTime =  dayjs(startTime).date(dateAtStart).month(monthAtStart).year(yearAtStart).toDate()
-        return BookingService.rangeDisabledHoursOnEnd(nStartTime)
+        return BookingService.rangeDisabledHoursOnEnd(nStartTime, endDate)
     }
     
     disabledMinutesOnEnd = (hours: number) => {
