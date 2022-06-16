@@ -67,12 +67,6 @@ export class BookingUtility {
             } else {
                 return BookingService.range(startHour + 1, 23)
             }
-            // if (BookingService.isWeekend(startDate)) {
-            //     return BookingService.range(startHour + 1, 21)
-
-            // } else {
-            //     return BookingService.range(startHour + 1, 23)
-            // }
         } else {
             if (BookingService.isWeekend(startDate)) {
                 return BookingService.range(9, 20)

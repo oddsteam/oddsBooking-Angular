@@ -112,8 +112,8 @@ export class BookingFormComponent implements OnInit {
         if (currentBooking) {
             const startDate = dayjs(currentBooking.startDate)
             const endDate = dayjs(currentBooking.endDate)
-            const startTime = startDate.hour()+":"+startDate.minute()
-            const endTime = endDate.hour()+":"+endDate.minute()
+            const startTime = startDate.hour()+":"+(startDate.minute()==0?"00":"30")
+            const endTime = endDate.hour()+":"+(endDate.minute()==0?"00":"30")
 
             this.bookingForm.setValue({
                 fullName: currentBooking.fullName,
