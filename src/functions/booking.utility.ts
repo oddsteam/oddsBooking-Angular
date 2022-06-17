@@ -2,7 +2,7 @@ import * as dayjs from 'dayjs'
 import { BookingService } from 'src/app/booking.service'
 
 export class BookingUtility {
-    constructor() { }
+    constructor() {}
     static getEnableHours(startDate: Date, startTime: Date, endDate: Date): number[] {
         const rangeDisableHoursOnEnd = BookingService.rangeDisabledHoursOnEnd(
             startDate,
@@ -51,20 +51,18 @@ export class BookingUtility {
     }
 
     static mergeDateTime = (date: Date, time: string): Date => {
-        const hour = Number(time.split(":")[0])
-        const minute = Number(time.split(":")[1])
+        const hour = Number(time.split(':')[0])
+        const minute = Number(time.split(':')[1])
         return dayjs(date).hour(hour).minute(minute).second(0).toDate()
     }
 
-    
-    private static getTimeRange(startDate: Date, startHour?: number, endDate?:Date): number[] {
+    private static getTimeRange(startDate: Date, startHour?: number, endDate?: Date): number[] {
         if (startHour) {
             if (BookingService.isWeekend(startDate)) {
-                if(!dayjs(startDate).isSame(endDate)){
+                if (!dayjs(startDate).isSame(endDate)) {
                     return BookingService.range(9, 21)
                 }
                 return BookingService.range(startHour + 1, 21)
-
             } else {
                 return BookingService.range(startHour + 1, 23)
             }
@@ -75,25 +73,52 @@ export class BookingUtility {
             return BookingService.range(18, 22)
         }
     }
-    
+
     //เขียน test --> เช็คขอบบนขอบล่าง --> cover case? : เขียนแบบ map
     //ปรับเวลาวันอาทิตย์ 9:30
-    static timeOption(startDate: Date, time?: string, endDate?:Date): string[] {
-        const hour = Number(time?.split(":")[0])
-        const minute = Number(time?.split(":")[1])
+    static timeOption(
+        startDate: Date,
+        time?: string,
+        endDate?: Date
+    ): { time: string; duration: string }[] {
+        const hour = Number(time?.split(':')[0])
+        const minute = Number(time?.split(':')[1])
         const timeRange = this.getTimeRange(startDate, hour, endDate)
-        let times: string[] = []
+        let times: { time: string; duration: string }[] = []
 
         timeRange.forEach((hour, index) => {
-            if ((index === 0 && minute === 30) || (index===0 && !dayjs(startDate).isSame(endDate)&&dayjs(endDate).day()===0)) {
-                times.push(hour.toString() + ":30")
-            } else if (index === timeRange.length-1) {
-                times.push(hour.toString() + ":00")
+            if (
+                (index === 0 && minute === 30) ||
+                (index === 0 && !dayjs(startDate).isSame(endDate) && dayjs(endDate).day() === 0)
+            ) {
+                times.push({
+                    time: hour.toString() + ':30',
+                    duration: this.getDuration(30, index),
+                })
+            } else if (index === timeRange.length - 1) {
+                times.push({
+                    time: hour.toString() + ':00',
+                    duration: this.getDuration(0, index),
+                })
             } else {
-                times.push(hour.toString() + ":00")
-                times.push(hour.toString() + ":30")
+                times.push({
+                    time: hour.toString() + ':00',
+                    duration: this.getDuration(0, index),
+                })
+                times.push({
+                    time: hour.toString() + ':30',
+                    duration: this.getDuration(30, index),
+                })
             }
         })
         return times
+    }
+
+    static getDuration(minute: number, index: number): string {
+        if (index === 0) {
+            return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hr'
+        } else {
+            return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hrs'
+        }
     }
 }

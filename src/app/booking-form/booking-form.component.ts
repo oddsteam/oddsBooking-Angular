@@ -21,8 +21,8 @@ export class BookingFormComponent implements OnInit {
     inputReason: string = ''
     inputPhoneNumber: string = ''
     isEndTimeValid: boolean = false
-    startTimeOption: string[] = []
-    endTimeOption: string[] = []
+    startTimeOption: { time: string; duration: string }[] = []
+    endTimeOption: { time: string; duration: string }[] = []
 
     //disable datepicker
     disabledDateOnStart = (current: Date): boolean => {

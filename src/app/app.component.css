@@ -1,6 +1,6 @@
 * {
-    --red-color: #f00b51;
-    --purple-color: #7366ff;
+    --purple-color: #96c0ff;
+    --red-color: #ffb4a1;
     --dark-gray: #333;
     --light-green: #e6f9e4;
     --dark-red: #f44336;
@@ -11,7 +11,7 @@
     --yellow-color: #ffc107;
     --gray-color: #666;
     --white-color: #fff;
-    --purple-hover: #5f38a6;
+    --purple-hover: #3d6eb7;
 }
 
 .container {

@@ -68,8 +68,8 @@
                         <mat-form-field class="time-box" appearance="outline" >
                             <mat-label>Time</mat-label>
                             <mat-select formControlName="startTime">
-                                <mat-option *ngFor="let item of startTimeOption" [value]="item">
-                                    {{item}}
+                                <mat-option *ngFor="let item of startTimeOption" [value]="item.time">
+                                    {{item.time}}
                                 </mat-option>
                             </mat-select>
                             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
@@ -93,8 +93,8 @@
                         <mat-form-field class="time-box" appearance="outline" >
                             <mat-label>Time</mat-label>
                             <mat-select formControlName="endTime">
-                                <mat-option *ngFor="let item of endTimeOption" [value]="item">
-                                    {{item}}
+                                <mat-option *ngFor="let item of endTimeOption" [value]="item.time">
+                                    {{item.time}} ({{item.duration}})
                                 </mat-option>
                             </mat-select>
                             <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
