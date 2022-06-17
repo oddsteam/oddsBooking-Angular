@@ -93,32 +93,40 @@ export class BookingUtility {
             ) {
                 times.push({
                     time: hour.toString() + ':30',
-                    duration: this.getDuration(30, index),
+                    duration: this.getDuration(minute, 30, index),
                 })
             } else if (index === timeRange.length - 1) {
                 times.push({
                     time: hour.toString() + ':00',
-                    duration: this.getDuration(0, index),
+                    duration: this.getDuration(minute, 0, index),
                 })
             } else {
                 times.push({
                     time: hour.toString() + ':00',
-                    duration: this.getDuration(0, index),
+                    duration: this.getDuration(minute, 0, index),
                 })
                 times.push({
                     time: hour.toString() + ':30',
-                    duration: this.getDuration(30, index),
+                    duration: this.getDuration(minute, 30, index),
                 })
             }
         })
         return times
     }
 
-    static getDuration(minute: number, index: number): string {
-        if (index === 0) {
-            return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hr'
+    static getDuration(startMin: number, minute: number, index: number): string {
+        if (startMin === 0) {
+            if (index === 0) {
+                return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hr'
+            } else {
+                return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hrs'
+            }
         } else {
-            return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hrs'
+            if (index === 0) {
+                return minute === 30 ? String(index + 1) + ' hrs' : String(index + 0.5) + ' hr'
+            } else {
+                return minute === 30 ? String(index + 1) + ' hrs' : String(index + 0.5) + ' hrs'
+            }
         }
     }
 }
