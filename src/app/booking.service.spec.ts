@@ -234,7 +234,7 @@ describe('BookingService', () => {
         expect(result).toEqual([])
     })
 
-    it('#rangeDisabledMinutesOnEnd should return [] from startDate:2022/07/02, Hours: 20 *weekday ',() => {
+    it('#rangeDisabledMinutesOnEnd should return [] from startDate:2022/06/30, Hours: 20 *weekday ',() => {
         const startDate = dayjs('30 June 2022').toDate()
         const hours = 20
 
