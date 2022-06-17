@@ -101,6 +101,7 @@ export class BookingFormComponent implements OnInit {
         //endDateSelected
         this.bookingForm.get('endDate')?.valueChanges.subscribe((v) => {
             if (v) {
+                this.endTimeOption = BookingUtility.timeOption(this.getFormValue('startDate'), this.getFormValue('startTime'), v)
                 this.enableFormInput('endTime', true)
             } else {
                 this.onClearValue('endTime')

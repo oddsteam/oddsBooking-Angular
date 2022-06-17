@@ -81,51 +81,51 @@ export class BookingUtility {
         time?: string,
         endDate?: Date
     ): { time: string; duration: string }[] {
-        const hour = Number(time?.split(':')[0])
-        const minute = Number(time?.split(':')[1])
-        const timeRange = this.getTimeRange(startDate, hour, endDate)
+        const hours = Number(time?.split(':')[0])
+        const minutes = Number(time?.split(':')[1])
+        const timeRange = this.getTimeRange(startDate, hours, endDate)
         let times: { time: string; duration: string }[] = []
-
+        let addHour = (dayjs(startDate).day() === 6 && dayjs(endDate).day() === 0) ? timeRange.length - timeRange.indexOf(hours) - 2 : 0
         timeRange.forEach((hour, index) => {
             if (
-                (index === 0 && minute === 30) ||
+                (index === 0 && minutes === 30) ||
                 (index === 0 && !dayjs(startDate).isSame(endDate) && dayjs(endDate).day() === 0)
             ) {
                 times.push({
                     time: hour.toString() + ':30',
-                    duration: this.getDuration(minute, 30, index),
+                    duration: this.getDuration(addHour, minutes, 30, index),
                 })
             } else if (index === timeRange.length - 1) {
                 times.push({
                     time: hour.toString() + ':00',
-                    duration: this.getDuration(minute, 0, index),
+                    duration: this.getDuration(addHour, minutes, 0, index),
                 })
             } else {
                 times.push({
                     time: hour.toString() + ':00',
-                    duration: this.getDuration(minute, 0, index),
+                    duration: this.getDuration(addHour, minutes, 0, index),
                 })
                 times.push({
                     time: hour.toString() + ':30',
-                    duration: this.getDuration(minute, 30, index),
+                    duration: this.getDuration(addHour, minutes, 30, index),
                 })
             }
         })
         return times
     }
 
-    static getDuration(startMin: number, minute: number, index: number): string {
+    static getDuration(addHour: number, startMin: number, minute: number, index: number): string {
         if (startMin === 0) {
             if (index === 0) {
-                return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hr'
+                return minute === 30 ? String(index + 1.5 + addHour) + ' hrs' : String(index + 1  + addHour) + ' hr'
             } else {
-                return minute === 30 ? String(index + 1.5) + ' hrs' : String(index + 1) + ' hrs'
+                return minute === 30 ? String(index + 1.5  + addHour) + ' hrs' : String(index + 1  + addHour) + ' hrs'
             }
         } else {
             if (index === 0) {
-                return minute === 30 ? String(index + 1) + ' hrs' : String(index + 0.5) + ' hr'
+                return minute === 30 ? String(index + 1  + addHour) + ' hrs' : String(index + 0.5  + addHour) + ' hr'
             } else {
-                return minute === 30 ? String(index + 1) + ' hrs' : String(index + 0.5) + ' hrs'
+                return minute === 30 ? String(index + 1  + addHour) + ' hrs' : String(index + 0.5  + addHour) + ' hrs'
             }
         }
     }
