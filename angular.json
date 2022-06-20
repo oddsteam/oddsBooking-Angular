@@ -52,7 +52,7 @@
                             ],
                             "outputHashing": "all"
                         },
-                        "dev": {
+                        "dev-dropdown": {
                             "budgets": [
                                 {
                                     "type": "initial",
