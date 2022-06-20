@@ -86,6 +86,7 @@ export class BookingUtility {
         const timeRange = this.getTimeRange(startDate, hours, endDate)
         let times: { time: string; duration: string }[] = []
         let addHour = (dayjs(startDate).day() === 6 && dayjs(endDate).day() === 0) ? timeRange.length - timeRange.indexOf(hours) - 2 : 0
+        
         timeRange.forEach((hour, index) => {
             if (
                 (index === 0 && minutes === 30) ||
@@ -117,16 +118,32 @@ export class BookingUtility {
     static getDuration(addHour: number, startMin: number, minute: number, index: number): string {
         if (startMin === 0) {
             if (index === 0) {
-                return minute === 30 ? String(index + 1.5 + addHour) + ' hrs' : String(index + 1  + addHour) + ' hr'
+                return minute === 30
+                    ? this.getTimeUnit(index + 1.5 + addHour)
+                    : this.getTimeUnit(index + 1 + addHour)
             } else {
-                return minute === 30 ? String(index + 1.5  + addHour) + ' hrs' : String(index + 1  + addHour) + ' hrs'
+                return minute === 30
+                    ? this.getTimeUnit(index + 1.5 + addHour)
+                    : this.getTimeUnit(index + 1 + addHour)
             }
         } else {
             if (index === 0) {
-                return minute === 30 ? String(index + 1  + addHour) + ' hrs' : String(index + 0.5  + addHour) + ' hr'
+                return minute === 30
+                    ? this.getTimeUnit(index + 1 + addHour)
+                    : this.getTimeUnit(index + 0.5 + addHour)
             } else {
-                return minute === 30 ? String(index + 1  + addHour) + ' hrs' : String(index + 0.5  + addHour) + ' hrs'
+                return minute === 30
+                    ? this.getTimeUnit(index + 1 + addHour)
+                    : this.getTimeUnit(index + 0.5 + addHour)
             }
+        }
+    }
+
+    static getTimeUnit(duration: number): string {
+        if (duration > 1.0) {
+            return String(duration) + ' hrs'
+        } else {
+            return String(duration) + ' hr'
         }
     }
 }
