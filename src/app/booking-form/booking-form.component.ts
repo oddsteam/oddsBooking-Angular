@@ -128,6 +128,7 @@ export class BookingFormComponent implements OnInit {
             })
             this.inputValue = this.textAutoFormat(currentBooking.fullName)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
+            this.endTimeOption = BookingUtility.timeOption(new Date(`${startDate.year}-${startDate.month}-${startDate.date}`), startTime, new Date(`${endDate.year}-${endDate.month}-${endDate.date}`))
         }
     }
 
