@@ -110,10 +110,12 @@ export class BookingFormComponent implements OnInit {
 
         const currentBooking = this.bookingService.getCurrentBooking()
         if (currentBooking) {
-            const startDate = dayjs(currentBooking.startDate)
-            const endDate = dayjs(currentBooking.endDate)
-            const startTime = startDate.hour() + ":" + (startDate.minute() == 0 ? "00" : "30")
-            const endTime = endDate.hour() + ":" + (endDate.minute() == 0 ? "00" : "30")
+            let startDate = dayjs(currentBooking.startDate)
+            let endDate = dayjs(currentBooking.endDate)
+            const startTime = startDate.format('H:mm')
+            const endTime = endDate.format('H:mm')
+            startDate = startDate.hour(0).minute(0).second(0)
+            endDate = endDate.hour(0).minute(0).second(0)
 
             this.bookingForm.setValue({
                 fullName: currentBooking.fullName,
@@ -128,7 +130,7 @@ export class BookingFormComponent implements OnInit {
             })
             this.inputValue = this.textAutoFormat(currentBooking.fullName)
             this.inputPhoneNumber = this.textAutoFormat(currentBooking.phoneNumber)
-            this.endTimeOption = BookingUtility.timeOption(new Date(`${startDate.year}-${startDate.month}-${startDate.date}`), startTime, new Date(`${endDate.year}-${endDate.month}-${endDate.date}`))
+            this.endTimeOption = BookingUtility.timeOption(startDate.toDate(), startTime, endDate.toDate())
         }
     }
 
