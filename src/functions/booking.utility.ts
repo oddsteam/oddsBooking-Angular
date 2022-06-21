@@ -1,6 +1,7 @@
 import * as dayjs from 'dayjs'
 import { BookingService } from 'src/app/booking.service'
 
+type TimeOptionResponse = { time: string; duration: string }[]
 export class BookingUtility {
     constructor() {}
     static getEnableHours(startDate: Date, startTime: Date, endDate: Date): number[] {
@@ -59,91 +60,50 @@ export class BookingUtility {
     private static getTimeRange(startDate: Date, startHour?: number, endDate?: Date): number[] {
         if (startHour) {
             if (BookingService.isWeekend(startDate)) {
-                if (!dayjs(startDate).isSame(endDate)) {
-                    return BookingService.range(9, 21)
-                }
+                if (!dayjs(startDate).isSame(endDate)) return BookingService.range(9, 21)
                 return BookingService.range(startHour + 1, 21)
-            } else {
-                return BookingService.range(startHour + 1, 23)
             }
+            return BookingService.range(startHour + 1, 23)
         } else {
-            if (BookingService.isWeekend(startDate)) {
-                return BookingService.range(9, 20)
-            }
+            if (BookingService.isWeekend(startDate)) return BookingService.range(9, 20)
             return BookingService.range(18, 22)
         }
     }
 
     //เขียน test --> เช็คขอบบนขอบล่าง --> cover case? : เขียนแบบ map
     //ปรับเวลาวันอาทิตย์ 9:30
-    static timeOption(
-        startDate: Date,
-        time?: string,
-        endDate?: Date
-    ): { time: string; duration: string }[] {
+
+    static timeOption(startDate: Date, time?: string, endDate?: Date): TimeOptionResponse {
         const hours = Number(time?.split(':')[0])
-        const minutes = Number(time?.split(':')[1])
+        let minutes = time ? Number(time?.split(':')[1]) : 0
         const timeRange = this.getTimeRange(startDate, hours, endDate)
-        let times: { time: string; duration: string }[] = []
-        let addHour = (dayjs(startDate).day() === 6 && dayjs(endDate).day() === 0) ? timeRange.length - timeRange.indexOf(hours) - 2 : 0
-        
+        const times: TimeOptionResponse = []
+        let endDateTime = dayjs(endDate).hour(hours).minute(minutes)
+        const isSameDay = dayjs(startDate).isSame(endDate, 'day')
         timeRange.forEach((hour, index) => {
-            if (
-                (index === 0 && minutes === 30) ||
-                (index === 0 && !dayjs(startDate).isSame(endDate) && dayjs(endDate).day() === 0)
-            ) {
+            // loop push 0 and 30 minutes with condition
+            ;[0, 30].forEach((minute) => {
+                let dateTime = dayjs(startDate).hour(hour).minute(minute)
+                // if select startDate have 30 minute then don't show push index 0 and 0 minute of timeRange
+                if (index === 0 && minutes === 30 && minute === 0) return
+                // if isSunday then don't show push index 0 and 0 minute of timeRange
+                if (!isSameDay && endDateTime.day() === 0 && minute === 0 && index === 0) return
+                // don't show the last index of timeRange
+                if (index === timeRange.length - 1 && minute === 30) return
                 times.push({
-                    time: hour.toString() + ':30',
-                    duration: this.getDuration(addHour, minutes, 30, index),
+                    time: dateTime.format('H:mm'),
+                    duration: this.getDuration(dateTime, endDateTime),
                 })
-            } else if (index === timeRange.length - 1) {
-                times.push({
-                    time: hour.toString() + ':00',
-                    duration: this.getDuration(addHour, minutes, 0, index),
-                })
-            } else {
-                times.push({
-                    time: hour.toString() + ':00',
-                    duration: this.getDuration(addHour, minutes, 0, index),
-                })
-                times.push({
-                    time: hour.toString() + ':30',
-                    duration: this.getDuration(addHour, minutes, 30, index),
-                })
-            }
+            })
         })
         return times
     }
 
-    static getDuration(addHour: number, startMin: number, minute: number, index: number): string {
-        if (startMin === 0) {
-            if (index === 0) {
-                return minute === 30
-                    ? this.getTimeUnit(index + 1.5 + addHour)
-                    : this.getTimeUnit(index + 1 + addHour)
-            } else {
-                return minute === 30
-                    ? this.getTimeUnit(index + 1.5 + addHour)
-                    : this.getTimeUnit(index + 1 + addHour)
-            }
-        } else {
-            if (index === 0) {
-                return minute === 30
-                    ? this.getTimeUnit(index + 1 + addHour)
-                    : this.getTimeUnit(index + 0.5 + addHour)
-            } else {
-                return minute === 30
-                    ? this.getTimeUnit(index + 1 + addHour)
-                    : this.getTimeUnit(index + 0.5 + addHour)
-            }
-        }
-    }
-
-    static getTimeUnit(duration: number): string {
-        if (duration > 1.0) {
-            return String(duration) + ' hrs'
-        } else {
-            return String(duration) + ' hr'
-        }
+    static getDuration(dateTime: dayjs.Dayjs, endDate: dayjs.Dayjs): string {
+        const isSameDay = dayjs(dateTime).isSame(endDate, 'day')
+        const different = dateTime.add(isSameDay ? 0 : 1, 'day').diff(endDate, 'minute', true) / 60
+        let duration = isSameDay ? different : different + 12
+        duration = isNaN(duration) ? 0 : duration
+        return `${duration} ${duration > 1.0 ? 'hrs' : 'hr'}`
     }
 }
