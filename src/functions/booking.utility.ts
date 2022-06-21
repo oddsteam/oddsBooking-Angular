@@ -104,6 +104,6 @@ export class BookingUtility {
         const different = dateTime.add(isSameDay ? 0 : 1, 'day').diff(endDate, 'minute', true) / 60
         let duration = isSameDay ? different : different + 12
         duration = isNaN(duration) ? 0 : duration
-        return `${duration} ${duration > 1.0 ? 'hrs' : 'hr'}`
+        return `${Math.round(duration * 10) / 10} ${duration > 1.0 ? 'hrs' : 'hr'}`
     }
 }
