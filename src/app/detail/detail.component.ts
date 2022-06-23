@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
-import { BookingDetailRes } from '../booking'
+import { BookingRes } from '../booking'
 import { DetailService } from '../detail.service'
 import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.component'
@@ -13,7 +13,7 @@ import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.compone
 })
 export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี
-    bookingDetailRes?: BookingDetailRes
+    bookingDetailRes?: BookingRes
 
     constructor(
         private detailService: DetailService,
@@ -37,7 +37,7 @@ export class DetailComponent implements OnInit {
     }
 
     async onConfirm() {
-        this.bookingDetailRes!.status = true
+        this.bookingDetailRes!.data.status = true
         this.dialog.open(DialogSpinnerComponent, {
             disableClose: true,
             data: { msg: 'Please Wait...' },

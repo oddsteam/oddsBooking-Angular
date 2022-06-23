@@ -10,43 +10,43 @@
                 <form>
                     <mat-form-field class="full-width" appearance="outline" floatLabel="never">
                         <mat-label>Name</mat-label>
-                        <input matInput value="{{ bookingDetailRes.fullName }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.fullName }}" disabled />
                         <mat-icon matSuffix>face</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline" floatLabel="never">
                         <mat-label>Email</mat-label>
-                        <input matInput value="{{ bookingDetailRes.email }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.email }}" disabled />
                         <mat-icon matSuffix>email</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline" floatLabel="never">
                         <mat-label>Phone Number</mat-label>
-                        <input matInput value="{{ bookingDetailRes.phoneNumber }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.phoneNumber }}" disabled />
                         <mat-icon matSuffix>phone_iphone</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Select Room</mat-label>
                         <mat-icon matSuffix>room</mat-icon>
-                        <input matInput value="{{ bookingDetailRes.room }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.room }}" disabled />
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>Reason</mat-label>
-                        <textarea matInput value="{{ bookingDetailRes.reason }}" disabled></textarea>
+                        <textarea matInput value="{{ bookingDetailRes.data.reason }}" disabled></textarea>
                         <mat-icon matSuffix>textsms</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>From..</mat-label>
-                        <input matInput value="{{ bookingDetailRes.startDate }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.startDate }}" disabled />
                         <mat-icon matSuffix>calendar_today</mat-icon>
                     </mat-form-field>
 
                     <mat-form-field class="full-width" appearance="outline">
                         <mat-label>To..</mat-label>
-                        <input matInput value="{{ bookingDetailRes.endDate }}" disabled />
+                        <input matInput value="{{ bookingDetailRes.data.endDate }}" disabled />
                         <mat-icon matSuffix>calendar_today</mat-icon>
                     </mat-form-field>
 

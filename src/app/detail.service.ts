@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
-import { BookingDetail, BookingDetailRes } from './booking'
+import { BookingDetail, BookingDetailRes, BookingRes } from './booking'
 
 @Injectable({
     providedIn: 'root',
@@ -15,12 +15,12 @@ export class DetailService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
     }
 
-    getBooking(id: String): Observable<BookingDetailRes> {
+    getBooking(id: String): Observable<BookingRes> {
         
-        return this.httpClient.get<BookingDetailRes>(this.bookingUrl + '/' + id, this.httpOption)
+        return this.httpClient.get<BookingRes>(this.bookingUrl + '/' + id, this.httpOption)
     }
 
-    confirmBooking(bookingDetailRes: BookingDetailRes): Observable<BookingDetailRes> {
-        return this.httpClient.put<BookingDetailRes>(this.bookingUrl + '/' + bookingDetailRes.id, bookingDetailRes, this.httpOption)
+    confirmBooking(bookingDetailRes: BookingRes): Observable<BookingRes> {
+        return this.httpClient.put<BookingRes>(this.bookingUrl + '/' + bookingDetailRes.data.id, bookingDetailRes, this.httpOption)
     }
 }
