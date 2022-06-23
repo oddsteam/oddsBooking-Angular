@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import { BookingDetail } from './booking'
+import { BookingDetail, BookingRes } from './booking'
 
 import { map } from 'rxjs/operators'
 
@@ -26,8 +26,8 @@ export class BookingService {
     addBooking(booking: BookingDetail): Observable<string> {
         booking.status = false
         return this.httpClient
-            .post<BookingDetail>(this.bookingUrl, booking)
-            .pipe(map((data) => data.id))
+            .post<BookingRes>(this.bookingUrl, booking)
+            .pipe(map((res) => res.data.id))
     }
 
     saveBooking(booking: BookingDetail) {

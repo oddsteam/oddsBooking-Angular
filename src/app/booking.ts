@@ -24,4 +24,9 @@ export interface BookingDetailRes {
     updatedAt: Date
 }
 
+export interface BookingRes{
+    status : number
+    data : BookingDetailRes
+}
+
 
