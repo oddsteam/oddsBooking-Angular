@@ -17,8 +17,8 @@ export interface BookingDetailRes {
     phoneNumber: string
     reason: string
     room: string
-    startDate: Date
-    endDate: Date
+    startDate: string
+    endDate: string
     status: boolean
     createdAt: Date
     updatedAt: Date

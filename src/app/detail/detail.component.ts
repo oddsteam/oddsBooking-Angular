@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
+import * as dayjs from 'dayjs'
 import { BookingRes } from '../booking'
 import { DetailService } from '../detail.service'
 import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
@@ -30,7 +31,18 @@ export class DetailComponent implements OnInit {
         try {
             const id = this.route.snapshot.paramMap.get('id')
             this.detailService.getBooking(id!).subscribe(
-                (res) => (this.bookingDetailRes = res),
+                (res) => {
+                    const startDate = dayjs(res.data.startDate).format(
+                        'YYYY-MM-DDTHH:mm'
+                    )
+                    const endDate = dayjs(res.data.endDate).format(
+                        'YYYY-MM-DDTHH:mm'
+                    )
+                    res.data.startDate = startDate
+                    res.data.endDate = endDate
+                    this.bookingDetailRes = res
+                    console.log(res)
+                },
                 (err) => this.router.navigateByUrl('expired')
             )
         } catch (error) {}
