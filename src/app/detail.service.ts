@@ -23,8 +23,8 @@ export class DetailService {
 
     confirmBooking(bookingDetailRes: BookingRes): Observable<BookingRes> {
         
-        console.log(bookingDetailRes)
+        console.log(bookingDetailRes.data)
         
-        return this.httpClient.put<BookingRes>(this.bookingUrl + '/' + bookingDetailRes.data.id, bookingDetailRes, this.httpOption)
+        return this.httpClient.put<BookingRes>(this.bookingUrl + '/' + bookingDetailRes.data.id, bookingDetailRes.data, this.httpOption)
     }
 }
