@@ -25,18 +25,21 @@ export class PreviewComponent implements OnInit {
         private location: Location,
         private router: Router,
         public dialog: MatDialog
-    ) {}
+    ) { }
 
     ngOnInit(): void {
         this.onLoading()
     }
 
     onLoading() {
-        const serviceData = this.bookingService.getCurrentBooking()
-        if (!serviceData) this.router.navigateByUrl('')
         this.bookingDetail = this.bookingService.getCurrentBooking()!
-        this.start_date = dayjs(this.bookingDetail.startDate).format('YYYY-MM-DD HH:mm')
-        this.end_date = dayjs(this.bookingDetail.endDate).format('YYYY-MM-DD HH:mm')
+        if (!this.bookingDetail) {
+            this.router.navigateByUrl('')
+        }
+        else {
+            this.start_date = dayjs(this.bookingDetail.startDate).format('YYYY-MM-DD HH:mm')
+            this.end_date = dayjs(this.bookingDetail.endDate).format('YYYY-MM-DD HH:mm')
+        }
     }
 
     onReturn() {
@@ -47,7 +50,7 @@ export class PreviewComponent implements OnInit {
     }
 
     async onConfirm() {
-        this.dialog.open(DialogSpinnerComponent, { disableClose: true , data: {msg : "Sending Email..."}})
+        this.dialog.open(DialogSpinnerComponent, { disableClose: true, data: { msg: "Sending Email..." } })
         await this.bookingService.addBooking(this.bookingDetail).subscribe((data) => {
             this.dialog.closeAll()
             this.isConfirm = true
