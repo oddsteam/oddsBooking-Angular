@@ -15,6 +15,8 @@ import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.compone
 export class DetailComponent implements OnInit {
     // ** ?  บอกว่าเป็น optional ว่าค่าอาจจะมีหรือไม่มี
     bookingDetailRes?: BookingRes
+    start_date: string = ""
+    end_date: string = ""
 
     constructor(
         private detailService: DetailService,
@@ -42,6 +44,8 @@ export class DetailComponent implements OnInit {
                     res.data.endDate = endDate
                     this.bookingDetailRes = res
                     console.log(res)
+                    this.start_date = dayjs(res.data.startDate).format('YYYY-MM-DD HH:mm')
+                    this.end_date = dayjs(res.data.endDate).format('YYYY-MM-DD HH:mm')
                 },
                 (err) => this.router.navigateByUrl('expired')
             )

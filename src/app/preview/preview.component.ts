@@ -6,6 +6,7 @@ import { BookingService } from '../booking.service'
 
 import { MatDialog } from '@angular/material/dialog';
 import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.component'
+import * as dayjs from 'dayjs'
 
 
 @Component({
@@ -16,6 +17,8 @@ import { DialogSpinnerComponent } from '../dialog-spinner/dialog-spinner.compone
 export class PreviewComponent implements OnInit {
     bookingDetail!: BookingDetail
     isConfirm: boolean = false
+    start_date: string = ""
+    end_date: string = ""
 
     constructor(
         private bookingService: BookingService,
@@ -32,6 +35,8 @@ export class PreviewComponent implements OnInit {
         const serviceData = this.bookingService.getCurrentBooking()
         if (!serviceData) this.router.navigateByUrl('')
         this.bookingDetail = this.bookingService.getCurrentBooking()!
+        this.start_date = dayjs(this.bookingDetail.startDate).format('YYYY-MM-DD HH:mm')
+        this.end_date = dayjs(this.bookingDetail.endDate).format('YYYY-MM-DD HH:mm')
     }
 
     onReturn() {
