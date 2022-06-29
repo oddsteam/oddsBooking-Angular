@@ -24,49 +24,49 @@ describe('BookingService', () => {
         expect(service).toBeTruthy()
     })
 
-    // it('#addBooking should have been called from url, booking', () => {
-    //     const booking : BookingDetail =
-    //     {
-    //         id:'1',  
-    //         fullName: 'Piyapong Visitsin', 
-    //         email: 'beam@gmail.com',
-    //         phoneNumber: '0123456789',
-    //         reason: 'event',
-    //         room: 'Allstars',
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         status: false
-    //     }
-    //     //act
-    //     spyOn(httpClientSpy, "post").and.returnValue(of())
-    //     service.addBooking(booking).subscribe()
+    it('#addBooking should have been called from url, booking', () => {
+        const booking : BookingDetail =
+        {
+            id:'1',  
+            fullName: 'Piyapong Visitsin', 
+            email: 'beam@gmail.com',
+            phoneNumber: '0123456789',
+            reason: 'event',
+            room: 'Allstars',
+            startDate: new Date(),
+            endDate: new Date(),
+            status: false
+        }
+        //act
+        spyOn(httpClientSpy, "post").and.returnValue(of())
+        service.addBooking(booking).subscribe()
 
-    //     expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
+        expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
         
-    // })
+    })
 
-    // it('#addBooking should return id:2 from url, booking', () => {
-    //     const booking : BookingDetail =
-    //     {
-    //         id:'1',  
-    //         fullName: 'Piyapong Visitsin', 
-    //         email: 'beam@gmail.com',
-    //         phoneNumber: '0123456789',
-    //         reason: 'event',
-    //         room: 'Allstars',
-    //         startDate: new Date(),
-    //         endDate: new Date(),
-    //         status: false
-    //     }
-    //     //act
-    //     spyOn(httpClientSpy, "post").and.returnValue(of({id : '2'}))
-    //     service.addBooking(booking).subscribe(res => {
-    //         expect(res).toEqual('2')
-    //     })
+    it('#addBooking should return id:2 from url, booking', () => {
+        const booking : BookingDetail =
+        {
+            id:'1',  
+            fullName: 'Piyapong Visitsin', 
+            email: 'beam@gmail.com',
+            phoneNumber: '0123456789',
+            reason: 'event',
+            room: 'Allstars',
+            startDate: new Date(),
+            endDate: new Date(),
+            status: false
+        }
+        //act
+        spyOn(httpClientSpy, "post").and.returnValue(of({id : '2'}))
+        service.addBooking(booking).subscribe(res => {
+            expect(res).toEqual('2')
+        })
 
-    //     expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
+        expect(httpClientSpy.post).toHaveBeenCalledWith(`${environment.apiUrl}/v1/booking`, booking)
         
-    // })
+    })
 
     it('#isWeekend should return true from weekend date', () => {
         const result = BookingService.isWeekend(dayjs().day(6).toDate())
