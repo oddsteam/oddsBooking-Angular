@@ -27,7 +27,7 @@ export class BookingService {
         booking.status = false
         return this.httpClient
             .post<BookingRes>(this.bookingUrl, booking)
-            .pipe(map((res) => res.data.id))
+            .pipe(map((res) => {return res.data.id }))
     }
 
     saveBooking(booking: BookingDetail) {

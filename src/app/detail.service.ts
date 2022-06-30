@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import * as dayjs from 'dayjs'
 import { Observable } from 'rxjs'
 import { environment } from 'src/environments/environment'
 import { BookingDetail, BookingDetailRes, BookingRes } from './booking'
@@ -18,7 +17,7 @@ export class DetailService {
 
     getBooking(id: String): Observable<BookingRes> {
         
-        return this.httpClient.get<BookingRes>(this.bookingUrl + '/' + id, this.httpOption)
+        return this.httpClient.get<BookingRes>(this.bookingUrl + '/' + id)
     }
 
     confirmBooking(bookingDetailRes: BookingRes): Observable<BookingRes> {
